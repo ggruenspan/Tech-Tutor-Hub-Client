@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'client';
+  title = 'Tech Tutor Hub';
+  isScrolled = false;
+  
+  // @HostListener('window:scroll', [])
+  // onWindowScroll() {
+  //   // This function will be called when the user scrolls
+  //   if (window.pageYOffset >= 600) {
+  //     this.isScrolled = true;
+  //   } else {
+  //     this.isScrolled = false;
+  //   }
+  // }
 }
