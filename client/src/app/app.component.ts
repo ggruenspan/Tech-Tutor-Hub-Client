@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,15 +7,44 @@ import { Component, HostListener } from '@angular/core';
 })
 export class AppComponent {
   title = 'Tech Tutor Hub';
-  isScrolled = false;
+  isOpened = false;
+
+  constructor(private renderer: Renderer2) { }
+
+  toggleMenu() {
+    if (this.isOpened) {
+      setTimeout(() => {
+        this.isOpened = false;
+      }, 350);
+    } else {
+      this.isOpened = true;
+    }
+  }
   
-  // @HostListener('window:scroll', [])
-  // onWindowScroll() {
-  //   // This function will be called when the user scrolls
-  //   if (window.pageYOffset >= 600) {
-  //     this.isScrolled = true;
-  //   } else {
-  //     this.isScrolled = false;
-  //   }
-  // }
+  isScrolled = false;
+  scrollThreshold: number = 100;
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const scrollPosition = window.scrollY;
+
+    if (scrollPosition > this.scrollThreshold) {
+      this.isScrolled = true;
+    } else {
+      this.isScrolled = false;
+    }
+  }
+
+  isScreenLess = false;
+
+  @HostListener('window:resize', ['$event'])
+  onWindowResize(event: Event) {
+    if (window.innerWidth >= 992 && this.isOpened) {
+      this.isOpened = false;
+      const element = document.getElementById('navbarNav');
+      this.renderer.removeClass(element, 'show');
+    } else {
+        this.isScreenLess = window.innerWidth <= 750;
+    }
+  }
 }

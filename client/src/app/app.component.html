@@ -1,36 +1,56 @@
-<header class="d-flex flex-row align-items-center justify-content-between p-3 px-4 mb-3" [ngClass]="{'scrolled': isScrolled, 'fixed-top': isScrolled}">
-  <div class="d-flex align-items-center">
-      <nav class="m-2">
-          <a class="navbar-brand" href="">
-              <img src="../assets/TechTutorHubLogoText.png" width="200" height="30" alt="Tech Tutor Hub">
-          </a>
-          <span class="m-1 text-dark">|</span>
-          <a class="m-3 text-dark text-decoration-none" href="/find-your-tutor">Find Your Tutor</a>
-          <a class="m-3 text-dark text-decoration-none" href="/become-a-tutor">Become A Tutor</a>
-          <a class="m-3 text-dark text-decoration-none" href="/help">Help</a>
-      </nav>
-  </div>
+<header class="navbar navbar-expand-lg p-3 px-4 mb-3" [ngClass]="{'scrolled': isScrolled, 'fixed-top': isScrolled}">
+    <div class="d-flex align-items-center container-fluid">
+        <a class="m-1 navbar-brand" href="">
+            <img src="../assets/TechTutorHubLogoText.png" width="200" height="30" alt="Tech Tutor Hub">
+        </a>
+        <div class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" (click)="toggleMenu()" [class.opened]="isOpened">
+            <svg width="50" height="50" viewBox="0 0 100 100">
+                <path class="line line1" d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" strokeLinecap="round" />
+                <path class="line line2" d="M 20,50 H 80" strokeLinecap="round"/>
+                <path class="line line3" d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" strokeLinecap="round" />
+            </svg>
+        </div>
 
-  <nav class="m-2">
-      <a class="m-3 text-dark text-decoration-none" href="/sign-in">Sign In</a>
-      <a class="m-3 text-dark text-decoration-none" href="/sign-up">Sign Up</a>    
-  </nav>
+        <div class="collapse navbar-collapse" id="navbarNav" [class.custom-navbar-collapse]="isOpened">
+            <span class="m-2 text-dark" *ngIf="!isOpened">|</span>
+            <ul class="navbar-nav">
+                <li class="nav-item" style="padding: 20px 0px 20px 0px;">
+                    <a class="m-3 text-dark text-decoration-none" href="/find-your-tutor">Find Your Tutor</a>
+                </li>
+                <li class="nav-item" style="padding: 20px 0px 20px 0px;">
+                    <a class="m-3 text-dark text-decoration-none" href="/become-a-tutor">Become A Tutor</a>
+                </li>
+                <li class="nav-item" style="padding: 20px 0px 20px 0px;">
+                    <a class="m-3 text-dark text-decoration-none" href="/help">Help</a>
+                </li>
+                <div [class.hidden]="!isOpened">
+                    <a class="m-3 text-dark text-decoration-none" href="/sign-in">Sign In</a>
+                    <a class="m-3 text-dark text-decoration-none" href="/sign-up">Sign Up</a>    
+                </div>
+            </ul>
+        </div>
+
+        <div class="sign-in-up-out" [class.hidden]="isOpened" [style.visibility]="isScreenLess ? 'hidden' : 'none'">
+            <a class="m-3 text-dark text-decoration-none" href="/sign-in">Sign In</a>
+            <a class="m-3 text-dark text-decoration-none" href="/sign-up">Sign Up</a>    
+        </div>
+    </div>  
 </header>
 
 <router-outlet></router-outlet>
 
-<div class="container">
-  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top">
-      <p class="col-md-4 mb-0 text-muted">© 2023 Tech Tutor Hub</p>
+<!-- <div class="container">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top">
+        <p class="col-md-4 mb-0 text-muted">© 2023 Tech Tutor Hub</p>
 
-      <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-          <img src="../assets/TechTutorHubLogoImage.png" width="50" height="60" alt="Tech Tutor Hub">
-      </a>
+        <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+            <img src="../assets/TechTutorHubLogoImage.png" width="50" height="60" alt="Tech Tutor Hub">
+        </a>
 
-      <ul class="nav col-md-4 justify-content-end">
-          <li class="nav-item"><a href="/find-your-tutor" class="nav-link px-2 text-muted">Find Your Tutor</a></li>
-          <li class="nav-item"><a href="/become-a-tutor" class="nav-link px-2 text-muted">Become A Tutor</a></li>
-          <li class="nav-item"><a href="/help" class="nav-link px-2 text-muted">Help</a></li>
-      </ul>
-  </footer>
-</div>
+        <ul class="nav col-md-4 justify-content-end">
+            <li class="nav-item"><a href="/find-your-tutor" class="nav-link px-2 text-muted">Find Your Tutor</a></li>
+            <li class="nav-item"><a href="/become-a-tutor" class="nav-link px-2 text-muted">Become A Tutor</a></li>
+            <li class="nav-item"><a href="/help" class="nav-link px-2 text-muted">Help</a></li>
+        </ul>
+    </footer>
+</div> -->
