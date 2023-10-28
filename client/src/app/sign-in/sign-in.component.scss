@@ -1,0 +1,96 @@
+.sign-in-container {
+    background-color: whitesmoke;
+    width: 530px; 
+    height: 725px;
+    margin-bottom: 18px;
+}
+
+.logo-text {
+    padding: 0px 150px 0px 150px;
+}
+
+img {
+    margin-top: 30px;
+}
+
+.form-group {
+    padding-top: 10px;
+}
+
+.btn {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    width: 165px;
+    height: 40px;
+    border: none;
+}
+
+.submit {
+    background-color: var(--site-color);
+    margin: 20px;
+}
+
+hr {
+    overflow: visible;
+    opacity: 100%;
+    font-weight: bold;
+}
+
+hr:after {
+    background: whitesmoke;
+    content: 'OR';
+    padding: 0 4px;
+    position: relative;
+    top: -13px;
+}
+
+.external-login {
+    margin: 10px
+}
+
+.google {
+    background-color: #4285F4;
+    margin-bottom: 20px;
+}
+
+.facebook {
+    background-color: #4267B2;
+    
+}
+
+.account {
+    padding: 0px 20px 0px 20px;
+}
+
+.account a {
+    color: var(--site-color);
+    font-weight: bold;
+}
+
+input:focus {
+    border-color: var(--site-color);
+    outline: none;
+    box-shadow: 0 0 5px var(--site-color);
+}
+
+.togglePasswordVisibility {
+    border: none;
+    background-color: transparent;
+    position: absolute;
+    margin: -31px 0px 0px 85px;
+}
+
+.forgotPasswordContainer {
+    // margin: -1% 0% 10% 0%;
+    text-align: right;
+}
+
+.forgotPasswordContainer a {
+    transition: color 0.3s ease;
+    color: black
+}
+
+.forgotPasswordContainer a:hover {
+    color: var(--site-color);
+}

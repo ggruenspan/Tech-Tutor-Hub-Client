@@ -1,1 +1,44 @@
-<p>sign-up works!</p>
+<div class="sign-up-container container text-center rounded">
+    <div class="logo-text">
+        <img src="../assets/TechTutorHubLogoImage.png" width="110" height="120" alt="Tech Tutor Hub">
+        <h3>Welcome To Tech Tutor Hub</h3>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form (ngSubmit)="signUpSubmit()">
+                <div class="form-group">
+                    <label class="d-flex justify-content-left" for="fullName">Full Name</label>
+                    <input type="text" class="form-control" id="fullName" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <label class="d-flex justify-content-left" for="email">Email</label>
+                    <input class="form-control" id="email" name="email" type="email" placeholder="Email Address" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" title="Invalid email address" required/>
+                </div>
+                <div class="form-group">
+                    <label class="d-flex justify-content-left" for="password">Password</label>
+                    <input class="form-control" id="password" name="password" type="{{ passwordVisible ? 'text' : 'password' }}"
+                        placeholder="Password"
+                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+                        title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters"
+                        required>
+                    <button class="togglePasswordVisibility" type="button" (click)="togglePasswordVisibility()">
+                        <i class="fa {{ showPasswordIcon }}"></i>
+                    </button>
+                </div>
+                <button type="submit" class="btn submit rounded">Sign Up</button>
+            </form>
+            <div class="external-login">
+                <hr/>
+                <button class="btn google text-center rounded"><i class="fa fa-brands fa-google"></i></button>
+                <button class="btn facebook text-center rounded"><i class="fa fa-brands fa-facebook"></i></button>
+            </div>
+            <div class="account">
+                <span>
+                    Already have an account?
+                    <a class="text-decoration-none" href="/sign-in">Sign In</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
