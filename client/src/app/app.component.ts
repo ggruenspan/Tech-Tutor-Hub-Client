@@ -8,6 +8,9 @@ import { Component, HostListener, Renderer2 } from '@angular/core';
 export class AppComponent {
   title = 'Tech Tutor Hub';
   isOpened = false;
+  isScrolled = false;
+  scrollThreshold: number = 100;
+  isScreenLess = false;
 
   constructor(private renderer: Renderer2) { }
 
@@ -20,9 +23,6 @@ export class AppComponent {
       this.isOpened = true;
     }
   }
-  
-  isScrolled = false;
-  scrollThreshold: number = 100;
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -34,8 +34,6 @@ export class AppComponent {
       this.isScrolled = false;
     }
   }
-
-  isScreenLess = false;
 
   @HostListener('window:resize', ['$event'])
   onWindowResize(event: Event) {
