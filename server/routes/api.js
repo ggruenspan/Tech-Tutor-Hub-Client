@@ -5,14 +5,14 @@ const userController = require('./controllers/userControllers.js');
 const router = express.Router();
 
 
-router.post('/signup', function(req,res) {
-    console.log('signup');
-    userController.signup(req, res);
+router.post('/sign-up', function(req,res) {
+    // console.log('sign-up');
+    userController.signUp(req, res);
 });
 
-router.post('/signIn', function(req,res) {
-    console.log('signIn');
-    // userController.signIn(req, res);
+router.post('/sign-in', function(req,res) {
+    // console.log('sign-in');
+    userController.signIn(req, res);
 });
 
 module.exports = router;
