@@ -41,10 +41,16 @@ export class AppComponent {
   onWindowResize(event: Event) {
     if (window.innerWidth >= 992 && this.isOpened) {
       this.isOpened = false;
+      this.isScreenLess = false;
       const element = document.getElementById('navbarNav');
       this.renderer.removeClass(element, 'show');
-    } else {
-        this.isScreenLess = window.innerWidth <= 750;
     }
+
+    if(window.innerWidth <= 750) {
+      this.isScreenLess = true;
+    } else {
+      this.isScreenLess = false;
+    }
+    // this.isScreenLess = window.innerWidth <= 750;
   }
 }
