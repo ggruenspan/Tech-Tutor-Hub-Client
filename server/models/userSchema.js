@@ -1,7 +1,7 @@
 // models/userSchema.js
 const mongoose = require('mongoose');
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     userName: String,
     password: String,
     accountSetting: {
