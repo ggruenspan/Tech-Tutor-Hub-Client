@@ -5,10 +5,15 @@ const jwt = require('jsonwebtoken');
 // User model (Mongoose schema)
 const User = require('../../models/userSchema.js');
 
-function signup(req, res) {
-    console.log('signup', req.body);
+function signUp(req, res) {
+    console.log('signUp', req.body);
+};
+
+function signIn(req, res) {
+    console.log('signIn', req.body);
 };
 
 module.exports = {
-    signup,
+    signUp,
+    signIn
 }
