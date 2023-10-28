@@ -94,3 +94,25 @@ input:focus {
 .forgotPasswordContainer a:hover {
     color: var(--site-color);
 }
+
+@media (max-width: 575px) {
+    .sign-in-container {
+        width: 445px; 
+    }
+
+    .logo-text {
+        padding: 0px 120px 0px 120px;
+    }
+    
+    .form-group {
+        padding: 10px 90px 0px 90px;
+    }
+
+    .external-login {
+        padding: 0px 90px 10px 90px;
+    }
+
+    .account {
+        padding: 0px 110px 0px 110px;
+    }
+}

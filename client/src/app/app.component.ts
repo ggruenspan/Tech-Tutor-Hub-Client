@@ -15,19 +15,21 @@ export class AppComponent implements OnInit {
   constructor(private renderer: Renderer2) { }
 
   ngOnInit() {
-    this.handleWindowResize();
+    this.handleWindowResize(); // Initialize window resize handling
   }
 
+  // Toggle the menu open or closed
   toggleMenu() {
     if (this.isOpened) {
       setTimeout(() => {
         this.isOpened = false;
-      }, 350);
+      }, 350); // Delay to close the menu with animation
     } else {
       this.isOpened = true;
     }
   }
 
+  // Listens to window scroll event to determine if the page is scrolled
   @HostListener('window:scroll', [])
   onWindowScroll() {
     const scrollPosition = window.scrollY;
@@ -39,17 +41,19 @@ export class AppComponent implements OnInit {
     }
   }
 
+  // Listens to window resize event to handle changes in screen width
   @HostListener('window:resize', ['$event'])
   onWindowResize(event: Event) {
     this.handleWindowResize();
   }
 
+  // Handles changes in window size, and close the menu if it's open on larger screens
   private handleWindowResize() {
     if (window.innerWidth >= 992 && this.isOpened) {
       this.isOpened = false;
       this.isScreenLess = false;
       const element = document.getElementById('navbarNav');
-      this.renderer.removeClass(element, 'show');
+      this.renderer.removeClass(element, 'show'); // Remove 'show' class to hide the menu
     }
 
     if (window.innerWidth <= 750) {
@@ -58,5 +62,4 @@ export class AppComponent implements OnInit {
       this.isScreenLess = false;
     }
   }
-
 }
