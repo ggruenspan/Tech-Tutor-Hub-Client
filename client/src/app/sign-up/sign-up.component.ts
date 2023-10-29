@@ -32,7 +32,7 @@ export class SignUpComponent {
   // Initialize the sign-up form with form controls and validators
   initializeForm(){
     this.signUpForm = new FormGroup({
-      fullName: new FormControl('', Validators.required),
+      fullName: new FormControl('', [Validators.required, Validators.pattern(/^(\w\w+)\s(\w+)$/)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/)])
     })
@@ -43,9 +43,14 @@ export class SignUpComponent {
     if (this.signUpForm.invalid) {
       // Handle validation errors
       if (this.signUpForm.get('fullName')?.errors) {
-        this.toastr.error('Full Name is required');
+        if (this.signUpForm.get('fullName')?.errors?.['required']) {
+          this.toastr.error('Full Name is required');
+        }
+        if (this.signUpForm.get('fullName')?.errors?.['pattern']) {
+          this.toastr.warning('Full Name must include first name followed by last name. i.e John Smith');
+        }
       }
-  
+
       if (this.signUpForm.get('email')?.errors) {
         if (this.signUpForm.get('email')?.errors?.['required']) {
           this.toastr.error('Email is required');
