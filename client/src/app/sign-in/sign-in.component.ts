@@ -1,20 +1,19 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss'],
-  providers: [MessageService],
+  styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent {
   passwordVisible: boolean = false;
   showPasswordIcon: string = 'fa-eye-slash';
   signInForm: FormGroup = new FormGroup({})
 
-  constructor(private messageService: MessageService, private accountService: AccountService) { }
+  constructor(private toastr: ToastrService, private accountService: AccountService) { }
 
   ngOnInit(): void {
     this.initializeForm(); // Initialize the sign-up form
@@ -42,22 +41,22 @@ export class SignInComponent {
       // Handle validation errors
       if (this.signInForm.get('email')?.errors) {
         if (this.signInForm.get('email')?.errors?.['required']) {
-          this.messageService.add({severity: 'warn', detail: 'Email is required.' });
+          this.toastr.error('Email is required');
         }
         if (this.signInForm.get('email')?.errors?.['email']) {
-          this.messageService.add({severity: 'warn', detail: 'Invalid email address.' });
+          this.toastr.warning('Invalid email address');
         }
       }
   
       if (this.signInForm.get('password')?.errors) {
         if (this.signInForm.get('password')?.errors?.['required']) {
-          this.messageService.add({severity: 'warn', detail: 'Password is required.' });
+          this.toastr.error('Password is required');
         }
         if (this.signInForm.get('password')?.hasError('minlength')) {
-          this.messageService.add({severity: 'warn', detail: 'Password must be at least 6 characters long.' });
+          this.toastr.warning('Password must be at least 6 characters long');
         }
         if (this.signInForm.get('password')?.errors?.['pattern']) {
-          this.messageService.add({severity: 'warn', detail: 'Password must include at least one digit, one lowercase letter, and one uppercase letter.' });
+          this.toastr.warning('Password must include at least one digit, one lowercase letter, and one uppercase letter');
         }
       }
     } else {

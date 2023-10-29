@@ -1,20 +1,19 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss'],
-  providers: [MessageService],
+  styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent {
   passwordVisible = false;
   showPasswordIcon = 'fa-eye-slash';
   signUpForm: FormGroup = new FormGroup({})
 
-  constructor(private messageService: MessageService, private accountService: AccountService) { }
+  constructor(private toastr: ToastrService, private accountService: AccountService) { }
 
   ngOnInit(): void {
     this.initializeForm(); // Initialize the sign-up form
@@ -44,27 +43,27 @@ export class SignUpComponent {
     if (this.signUpForm.invalid) {
       // Handle validation errors
       if (this.signUpForm.get('fullName')?.errors) {
-        this.messageService.add({severity: 'warn', detail: 'Full Name is required.' });
+        this.toastr.error('Full Name is required');
       }
   
       if (this.signUpForm.get('email')?.errors) {
         if (this.signUpForm.get('email')?.errors?.['required']) {
-          this.messageService.add({severity: 'warn', detail: 'Email is required.' });
+          this.toastr.error('Email is required');
         }
         if (this.signUpForm.get('email')?.errors?.['email']) {
-          this.messageService.add({severity: 'warn', detail: 'Invalid email address.' });
+          this.toastr.warning('Invalid email address');
         }
       }
   
       if (this.signUpForm.get('password')?.errors) {
         if (this.signUpForm.get('password')?.errors?.['required']) {
-          this.messageService.add({severity: 'warn', detail: 'Password is required.' });
+          this.toastr.error('Password is required');
         }
         if (this.signUpForm.get('password')?.hasError('minlength')) {
-          this.messageService.add({severity: 'warn', detail: 'Password must be at least 6 characters long.' });
+          this.toastr.warning('Password must be at least 6 characters long');
         }
         if (this.signUpForm.get('password')?.errors?.['pattern']) {
-          this.messageService.add({severity: 'warn', detail: 'Password must include at least one digit, one lowercase letter, and one uppercase letter.' });
+          this.toastr.warning('Password must include at least one digit, one lowercase letter, and one uppercase letter');
         }
       }
     } else {
