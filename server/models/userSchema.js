@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
     accountSetting: {
         personalInfo: {
             firstName: String,
+            middleInitial: String,
             lastName: String,
             email: {
                 type: String,
@@ -16,14 +17,14 @@ const userSchema = new mongoose.Schema({
             // dof: String,
             // address: String
         },
-        // loginHistory: [{
-        //     _id: false,
-        //     dateTime: Date,
-        //     userAgent: String
-        // }],
+        loginHistory: [{
+            _id: false,
+            dateTime: Date,
+            userAgent: String
+        }],
         // resetToken: String,
         // resetTokenExpiration: Date,
     }
 });
 
-module.exports = mongoose.model('userSchema', userSchema);
+module.exports = mongoose.model('users', userSchema);

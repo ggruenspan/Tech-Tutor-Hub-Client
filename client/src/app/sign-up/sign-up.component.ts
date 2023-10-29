@@ -74,10 +74,14 @@ export class SignUpComponent {
     } else {
       // Form is valid, submit the sign-up data to the server
       this.accountService.signUp(this.signUpForm.value).subscribe((response) => {
-          console.log('User signed up successfully', response);
-          window.location.replace('/sign-in');
+          // console.log('User signed up successfully', response);
+          this.toastr.success(response.message);
+          setTimeout(() => {
+            window.location.replace('/sign-in');
+          }, 3000);
         }, (error) => {
-          console.error('Signup error', error);
+          // console.error('Signup error', error);
+          this.toastr.error(error.error.message);
         }
       );
     }
