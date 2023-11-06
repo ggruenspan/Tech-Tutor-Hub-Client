@@ -1,10 +1,12 @@
 // models/userSchema.js
+
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
     userName: String,
     password: String,
     accountSetting: {
+        role: { type: String, default: 'User' },
         personalInfo: {
             firstName: String,
             middleInitial: String,

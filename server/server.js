@@ -1,11 +1,13 @@
 // server.js
 
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const session = require('express-session');
-require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -24,19 +26,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Initialize Express Session
-app.use(
-    session({
-        secret: 'your-secret-key',
-        saveUninitialized:true,
-        cookie: { maxAge: 1000 * 60 * 60 * 24 },
-        resave: false
-    })
-);
-
 // API routes
-const apiRoutes = require('./routes/api');
-app.use('/api', apiRoutes);
+app.use('/api',  require('./routes/api'));
 
 // Start the server
 app.listen(port, () => {

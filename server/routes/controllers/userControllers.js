@@ -1,5 +1,6 @@
+// routes/controllers/userControllers.js
+
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 // User model (Mongoose schema)
 const User = require('../../models/userSchema.js');
@@ -57,13 +58,14 @@ function signUp(req, res) {
 
 function signIn(req, res) {
     // console.log('signIn', req.body);
+
     try {
         const { email, password } = req.body;
 
         User.findOne({ "accountSetting.personalInfo.email": email })
         .then((user) => {
             if (!user) {
-                return res.status(400).json({ message: 'Unable to find user with email: ' + email });
+                return res.status(404).json({ message: 'Unable to find user with email: ' + email });
             }
 
             // Check if password is correct
@@ -73,12 +75,7 @@ function signIn(req, res) {
                     user.accountSetting.loginHistory.push({dateTime: new Date(), userAgent: req.get('User-Agent')});
                     User.updateOne({ $set: { "accountSetting.loginHistory": user.accountSetting.loginHistory}})
                     .then(() => {
-                        // Generate a JWT for the user
-                        const token = jwt.sign({ username: user.username, userId: user._id }, "secretKey", {
-                            expiresIn: '1h', // Token expires in 1 hour
-                        });
-                        // res.status(201).json({ message: 'User created', token, userId: newUser._id });
-                        res.status(201).json({ message: 'User signed in successfully', token });
+                        res.status(201).json({ message: 'User signed in successfully' });
                     })
                     .catch((err) => {
                         // console.error(err);
@@ -86,7 +83,7 @@ function signIn(req, res) {
                     })
                 } else {
                     // console.error(err);
-                    return res.status(400).json({ message: 'Invalid username or password: ' + email });
+                    return res.status(400).json({ message: 'Invalid username or password' });
                 }
             })
             .catch((err) => {
@@ -107,5 +104,5 @@ function signIn(req, res) {
 
 module.exports = {
     signUp,
-    signIn
+    signIn,
 }
