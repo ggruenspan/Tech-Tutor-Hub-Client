@@ -11,21 +11,30 @@ const userSchema = new mongoose.Schema({
             firstName: String,
             middleInitial: String,
             lastName: String,
+            phone: String,
+            dof: String,
+            address: String,
             email: {
                 type: String,
                 unique: true
             },
-            // phone: String,
-            // dof: String,
-            // address: String
+            email_is_verified: { 
+                type: Boolean, 
+                default: false 
+            },
         },
         loginHistory: [{
             _id: false,
             dateTime: Date,
             userAgent: String
         }],
-        // resetToken: String,
-        // resetTokenExpiration: Date,
+    },
+    referral_code: {
+        type: String,
+    },
+    referred_by: {
+        type: String,
+        default: null,
     }
 });
 

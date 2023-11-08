@@ -1,7 +1,7 @@
-// routes/api.js
+// routes/userAPI.js
 
 const express = require('express');
-const userController = require('./controllers/userControllers.js');
+const userController = require('../controllers/userControllers.js');
 const router = express.Router();
 
 router.post('/sign-up', (req,res) => {

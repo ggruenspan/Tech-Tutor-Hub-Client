@@ -1,9 +1,9 @@
-// routes/controllers/userControllers.js
+// controllers/userControllers.js
 
 const bcrypt = require('bcrypt');
 
 // User model (Mongoose schema)
-const User = require('../../models/userSchema.js');
+const User = require('../models/userSchema.js');
 
 function signUp(req, res) {
     // console.log('signUp', req.body);
