@@ -10,9 +10,15 @@ router.post('/sign-up', (req,res) => {
     userController.signUp(req, res);
 });
 
-router.post('/sign-in', (req, res, next) => {
+router.post('/sign-in', (req, res) => {
     // console.log('sign-in');
     userController.signIn(req, res);
+});
+
+router.get('/sign-out', (req, res) => {
+    // console.log('signOut');
+    res.clearCookie('token');
+    res.status(200).json({ message: 'Sign out successfully' });
 });
 
 router.get('/authenticate', (req, res, next) => {
