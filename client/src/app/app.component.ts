@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.handleWindowResize(); // Initialize window resize handling
-    this.handleUserData();
+    this.handleUserData(); // Initialize user data handling
   }
 
   // Toggle the menu open or closed
@@ -36,6 +36,7 @@ export class AppComponent implements OnInit {
     }
   }
 
+  // Handle user sign out
   handleSignOut() {
     this.accountService.signOut().subscribe((response) => {
         // console.log('User signed in successfully', response);
@@ -84,6 +85,7 @@ export class AppComponent implements OnInit {
     }
   }
 
+  // Handles user data from JWT token stored in local storage
   private handleUserData() {
     try {
         const token = this.LocalStorageService.get('jwtToken');

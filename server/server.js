@@ -7,15 +7,18 @@ const passport = require('passport')
 const session = require('express-session')
 const app = express();
 
-// MongoDB
+// MongoDB connection setup
 require('./bin/mongo-connection.js')
 
+// Express session setup
 app.use(session({
     secret: 'tech-tutor-hub',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: true }
 }))
+
+// Passport initialization and session setup
 app.use(passport.initialize())
 app.use(passport.session())
 require('./config/passportConfig.js');

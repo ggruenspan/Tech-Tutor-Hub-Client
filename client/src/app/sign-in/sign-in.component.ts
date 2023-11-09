@@ -17,9 +17,10 @@ export class SignInComponent {
   constructor(private toastr: ToastrService, private accountService: AccountService, private LocalStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
-    this.initializeForm(); // Initialize the sign-up form
+    this.initializeForm(); // Initialize the sign-in form
   }
 
+  // Toggle visibility of the password input
   togglePasswordVisibility() {
     this.passwordVisible = !this.passwordVisible;
     this.showPasswordIcon = this.passwordVisible ? 'fa-eye' : 'fa-eye-slash';
@@ -29,7 +30,7 @@ export class SignInComponent {
     }
   }
 
-  // Initialize the sign-up form with form controls and validators
+  // Initialize the sign-in form with form controls and validators
   initializeForm(){
     this.signInForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -37,6 +38,7 @@ export class SignInComponent {
     })
   }
 
+  // Handle sign-in form submission
   signInSubmit() {
     if (this.signInForm.invalid) {
       // Handle validation errors
@@ -61,7 +63,7 @@ export class SignInComponent {
         }
       }
     } else {
-      // Form is valid, submit the sign-up data to the server
+      // Form is valid, submit the sign-in data to the server
       this.accountService.signIn(this.signInForm.value).subscribe((response) => {
           // console.log('User signed in successfully', response);
           this.toastr.success(response.message);

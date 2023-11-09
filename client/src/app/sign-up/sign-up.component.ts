@@ -19,7 +19,7 @@ export class SignUpComponent {
     this.initializeForm(); // Initialize the sign-up form
   }
 
-  // Toggle password visibility
+  // Toggle visibility of the password input
   togglePasswordVisibility() {
     this.passwordVisible = !this.passwordVisible;
     this.showPasswordIcon = this.passwordVisible ? 'fa-eye' : 'fa-eye-slash';

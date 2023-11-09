@@ -8,8 +8,10 @@ export class HttpInterceptorService implements HttpInterceptor {
 
 constructor(private LocalStorageService: LocalStorageService) { }
 
+// Intercept method to handle HTTP requests and add authorization token
 intercept(req: HttpRequest<any>, next: HttpHandler) {
     const token = this.LocalStorageService.get('jwtToken');
+    // Clone the request and add the Authorization header with the JWT token
     req = req.clone({
         url:  req.url,
         setHeaders: {

@@ -7,12 +7,13 @@ const User = require('../models/userSchema.js');
 
 const { jwtSign } = require('../config/jwtConfig.js');
 
-
+// Controller function for user sign-up
 function signUp(req, res) {
     // console.log('signUp', req.body);
     try {
         const { fullName, email, password } = req.body;
 
+        // Check if a user with the given email already exists
         User.findOne({ "accountSetting.personalInfo.email": email })
         .then((user) => {
             if (user) {
@@ -59,11 +60,13 @@ function signUp(req, res) {
     }
 };
 
+// Controller function for user sign-in
 function signIn(req, res) {
     // console.log('signIn', req.body);
     try {
         const { email, password } = req.body;
 
+        // Find the user with the given email
         User.findOne({ "accountSetting.personalInfo.email": email })
         .then((user) => {
             if (!user) {
@@ -81,6 +84,7 @@ function signIn(req, res) {
                         email: user.accountSetting.personalInfo.email,
                     }
 
+                    // Update user's login history and generate JWT token
                     user.accountSetting.loginHistory.push({dateTime: new Date(), userAgent: req.get('User-Agent')});
                     User.updateOne({ $set: { "accountSetting.loginHistory": user.accountSetting.loginHistory}})
                     .then(() => {
@@ -118,6 +122,7 @@ function signIn(req, res) {
     }
 };
 
+// Export the controller functions
 module.exports = {
     signUp,
     signIn,

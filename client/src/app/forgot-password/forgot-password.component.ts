@@ -14,10 +14,10 @@ export class ForgotPasswordComponent {
   constructor(private toastr: ToastrService, private accountService: AccountService,) { }
 
   ngOnInit(): void {
-    this.initializeForm(); // Initialize the sign-up form
+    this.initializeForm(); // Initialize the forgot-password form
   }
   
-  // Initialize the sign-up form with form controls and validators
+  // Initialize the forgot-password form with form controls and validators
   initializeForm(){
     this.forgotPasswordForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -36,7 +36,7 @@ export class ForgotPasswordComponent {
         }
       }
     } else {
-      // Form is valid, submit the sign-up data to the server
+      // Form is valid, submit the forgot-password data to the server
       this.accountService.forgotPassword(this.forgotPasswordForm.value).subscribe((response) => {
           console.log('User signed in successfully', response);
           // this.toastr.success(response.message);
