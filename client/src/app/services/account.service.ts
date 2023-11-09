@@ -21,6 +21,11 @@ export class AccountService {
     return this.http.post<any>(`${this.baseUrl}/sign-in`, data);
   }
 
+  // Method for sending a sign-out request to the API
+  signOut(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/sign-out`);
+  }
+
   // Method for getting the authenticate request from the API
   authenticate() {
     return this.http.get(`${this.baseUrl}/authenticate`);

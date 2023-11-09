@@ -67,6 +67,11 @@ header {
     visibility: hidden;
 }
 
+button {
+    all: unset;
+    cursor: pointer;
+}
+
 @media (min-width: 992px) and (max-width: 1059px) {
     a {
         font-size: 15px;
@@ -74,7 +79,7 @@ header {
 }
 
 @media (max-width: 991px) {
-    .sign-in-up-out {
+    .menuOpt {
         margin-right: 100px;
     } 
 }

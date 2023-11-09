@@ -1,5 +1,7 @@
 import { Component, HostListener, Renderer2, OnInit } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ToastrService } from 'ngx-toastr';
+import { AccountService } from './services/account.service';
 import { LocalStorageService } from './services/localStorage.service';
 
 @Component({
@@ -13,8 +15,10 @@ export class AppComponent implements OnInit {
   isScrolled = false;
   scrollThreshold: number = 100;
   isScreenLess = false;
+  session: any = null;
+  userName = '';
 
-  constructor(private renderer: Renderer2, private LocalStorageService: LocalStorageService) { }
+  constructor(private toastr: ToastrService, private renderer: Renderer2, private accountService: AccountService, private LocalStorageService: LocalStorageService) { }
 
   ngOnInit() {
     this.handleWindowResize(); // Initialize window resize handling
@@ -30,6 +34,20 @@ export class AppComponent implements OnInit {
     } else {
       this.isOpened = true;
     }
+  }
+
+  handleSignOut() {
+    this.accountService.signOut().subscribe((response) => {
+        // console.log('User signed in successfully', response);
+        this.toastr.success(response.message);
+        this.LocalStorageService.remove('jwtToken');
+        this.session = false;
+        this.userName = '';
+      }, (error) => {
+        // console.error('SignOut error', error);
+        this.toastr.error(error.error.message);
+      }
+    );
   }
 
   // Listens to window scroll event to determine if the page is scrolled
@@ -73,19 +91,15 @@ export class AppComponent implements OnInit {
         if (token) {
           const decodedToken = helper.decodeToken(token)
             if (decodedToken.exp * 1000 > (Date.now()+ (60 * 60 * 1000))) {
-              // console.log("alive");
-              this.LocalStorageService.set('userName', decodedToken.userName);
-              this.LocalStorageService.set('session', 'true');
+              // this.LocalStorageService.set('userName', decodedToken.userName);
+              this.session = true;
+              this.userName = decodedToken.userName;
             } else {
-                // console.log("dead");
-                this.LocalStorageService.remove('jwtToken');
-                this.LocalStorageService.remove('userName');
-                this.LocalStorageService.remove('session');
-                this.router.navigate(['/']);
+              this.handleSignOut();
             }
         }
     } catch (error) {
         console.error('Error decoding token:', error);
     }
-};
+  };
 }
