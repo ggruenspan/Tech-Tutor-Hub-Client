@@ -1,7 +1,6 @@
 import { Component, HostListener, Renderer2, OnInit } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LocalStorageService } from './services/localStorage.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +14,7 @@ export class AppComponent implements OnInit {
   scrollThreshold: number = 100;
   isScreenLess = false;
 
-  constructor(private renderer: Renderer2, private LocalStorageService: LocalStorageService, private router: Router) { }
+  constructor(private renderer: Renderer2, private LocalStorageService: LocalStorageService) { }
 
   ngOnInit() {
     this.handleWindowResize(); // Initialize window resize handling
