@@ -90,30 +90,30 @@ function signIn(req, res) {
                             res.status(200).json({ message: 'User signed in successfully', token: token});
                         })
                         .catch((err) => {
-                            console.error(err);
+                            // console.error(err);
                             return res.status(500).json('An error occurred while signing in. Please try again');
                         })
                     })
                     .catch((err) => {
-                        console.error(err);
+                        // console.error(err);
                         return res.status(500).json({ message: 'An error occurred while signing in. Please try again' });
                     })
                 } else {
-                    console.error(err);
+                    // console.error(err);
                     return res.status(400).json({ message: 'Invalid username or password' });
                 }
             })
             .catch((err) => {
-                console.error(err);
+                // console.error(err);
                 return res.status(500).json({ message: 'An error occurred while signing in. Please try again' });
             })
         })
         .catch((err) => {
-            console.error(err);
+            // console.error(err);
             return res.status(500).json({ message: 'An error occurred while signing in. Please try again' });
         })
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         res.status(500).json({ message: 'Internal server error. Please try again' });
     }
 };
