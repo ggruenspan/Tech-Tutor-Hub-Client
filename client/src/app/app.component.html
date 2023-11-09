@@ -27,21 +27,12 @@
                     <a class="m-3 text-dark text-decoration-none" href="/sign-in">Sign In</a>
                     <a class="m-3 text-dark text-decoration-none" href="/sign-up">Sign Up</a>    
                 </div>
-                <div [class.hidden]="!isOpened" [hidden]="!session">
-                    <a class="m-3 text-dark text-decoration-none" href=""><i class="fa fa-user" style="margin: 0px 10px -2px 0px;"></i>{{ userName }}</a>
-                    <button class="m-3 text-dark text-decoration-none" (click)="handleSignOut()">Sign Out</button>    
-                </div>
             </ul>
         </div>
 
         <div class="menuOpt" [hidden]="session" [class.hidden]="isOpened" [style.visibility]="isScreenLess ? 'hidden' : ''">
             <a class="m-3 text-dark text-decoration-none" href="/sign-in">Sign In</a>
             <a class="m-3 text-dark text-decoration-none" href="/sign-up">Sign Up</a>    
-        </div>
-
-        <div class="menuOpt" [hidden]="!session" [class.hidden]="isOpened" [style.visibility]="isScreenLess ? 'hidden' : ''">
-            <a class="m-3 text-dark text-decoration-none" href=""><i class="fa fa-user" style="margin: 0px 10px -2px 0px;"></i>{{ userName }}</a>
-            <button class="m-3 text-dark text-decoration-none" (click)="handleSignOut()">Sign Out</button>    
         </div>
     </div>  
 </header>
