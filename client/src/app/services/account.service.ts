@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 
 export class AccountService {
-  baseUrl = "http://localhost:8080/api";
+  baseUrl = "http://localhost:8080/userAPI";
 
   constructor(private http: HttpClient) {}
 
@@ -20,4 +20,10 @@ export class AccountService {
   signIn(data: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/sign-in`, data);
   }
+
+  // Method for getting the authenticate request from the API
+  authenticate() {
+    return this.http.get(`${this.baseUrl}/authenticate`);
+  }
+
 }

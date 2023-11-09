@@ -1,4 +1,7 @@
 import { Component, HostListener, Renderer2, OnInit } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { LocalStorageService } from './services/localStorage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,10 +15,11 @@ export class AppComponent implements OnInit {
   scrollThreshold: number = 100;
   isScreenLess = false;
 
-  constructor(private renderer: Renderer2) { }
+  constructor(private renderer: Renderer2, private LocalStorageService: LocalStorageService, private router: Router) { }
 
   ngOnInit() {
     this.handleWindowResize(); // Initialize window resize handling
+    this.handleUserData();
   }
 
   // Toggle the menu open or closed
@@ -62,4 +66,27 @@ export class AppComponent implements OnInit {
       this.isScreenLess = false;
     }
   }
+
+  private handleUserData() {
+    try {
+        const token = this.LocalStorageService.get('jwtToken');
+        const helper = new JwtHelperService();
+        if (token) {
+          const decodedToken = helper.decodeToken(token)
+            if (decodedToken.exp * 1000 > (Date.now()+ (60 * 60 * 1000))) {
+              // console.log("alive");
+              this.LocalStorageService.set('userName', decodedToken.userName);
+              this.LocalStorageService.set('session', 'true');
+            } else {
+                // console.log("dead");
+                this.LocalStorageService.remove('jwtToken');
+                this.LocalStorageService.remove('userName');
+                this.LocalStorageService.remove('session');
+                this.router.navigate(['/']);
+            }
+        }
+    } catch (error) {
+        console.error('Error decoding token:', error);
+    }
+};
 }

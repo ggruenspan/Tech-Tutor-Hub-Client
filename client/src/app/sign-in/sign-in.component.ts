@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../services/account.service';
+import { LocalStorageService } from '../services/localStorage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
@@ -13,7 +15,7 @@ export class SignInComponent {
   showPasswordIcon: string = 'fa-eye-slash';
   signInForm: FormGroup = new FormGroup({})
 
-  constructor(private toastr: ToastrService, private accountService: AccountService) { }
+  constructor(private toastr: ToastrService, private accountService: AccountService, private LocalStorageService: LocalStorageService, private router: Router) { }
 
   ngOnInit(): void {
     this.initializeForm(); // Initialize the sign-up form
@@ -64,8 +66,9 @@ export class SignInComponent {
       this.accountService.signIn(this.signInForm.value).subscribe((response) => {
           // console.log('User signed in successfully', response);
           this.toastr.success(response.message);
+          this.LocalStorageService.set('jwtToken', response.token);
           setTimeout(() => {
-            window.location.replace('/');
+            this.router.navigate(['/']);
           }, 3000);
         }, (error) => {
           // console.error('Signup error', error);
