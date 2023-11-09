@@ -26,6 +26,11 @@ export class AccountService {
     return this.http.get(`${this.baseUrl}/sign-out`);
   }
 
+  // Method for sending a forgot-password request to the API
+  forgotPassword(data: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/forgot-password`, data);
+  }
+
   // Method for getting the authenticate request from the API
   authenticate() {
     return this.http.get(`${this.baseUrl}/authenticate`);
