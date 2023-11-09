@@ -3,11 +3,22 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-require('dotenv').config();
+const passport = require('passport')
+const session = require('express-session')
 const app = express();
 
 // MongoDB
 require('./bin/mongo-connection.js')
+
+app.use(session({
+    secret: 'tech-tutor-hub',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+require('./config/passportConfig.js');
 
 // Middlewares
 app.use(cors());
@@ -18,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/userAPI',  require('./routes/userAPI'));
 
 // Start the server
-const port = process.env.PORT || 8080;
+const port = 8080;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
