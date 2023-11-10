@@ -2,7 +2,6 @@
 
 const express = require('express');
 const userController = require('../controllers/userControllers.js');
-const passport = require('passport')
 const router = express.Router();
 
 // Route for user sign-up
@@ -24,13 +23,10 @@ router.get('/sign-out', (req, res) => {
     res.status(200).json({ message: 'Sign out successfully' });
 });
 
-// Route for user authentication using JWT
-router.get('/authenticate', (req, res, next) => {
-    passport.authenticate('jwt', { message: 'Custom message' }, (err, user, info) => {
-        if (err) { return res.status(500).json({ message: info.message }); }
-        if (!user) { return res.status(401).json({ message: info.message }); }
-        return res.status(200).json({ message: info.message});
-    })(req, res, next);
+// Route for user forgot-password
+router.post('/forgot-password', function(req,res) {
+    // console.log('forgot-password');
+    userController.forgotPassword(req, res);
 });
 
 module.exports = router;
