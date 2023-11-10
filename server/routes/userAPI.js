@@ -29,4 +29,10 @@ router.post('/forgot-password', function(req,res) {
     userController.forgotPassword(req, res);
 });
 
+// Route for user reset-password
+router.post('/reset-password/:token', function(req,res) {
+    // console.log('reset-password');
+    userController.resetPassword(req, res);
+});
+
 module.exports = router;

@@ -35,7 +35,9 @@ const userSchema = new mongoose.Schema({
     referred_by: {
         type: String,
         default: null,
-    }
+    },
+    resetToken: String,
+    resetTokenExpiration: Date,
 });
 
 module.exports = mongoose.model('users', userSchema);
