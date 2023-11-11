@@ -12,7 +12,15 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
+import { HomeComponent } from './home/home.component';
+import { FindYourTutorComponent } from './find-your-tutor/find-your-tutor.component';
+import { BecomeATutorComponent } from './become-a-tutor/become-a-tutor.component';
+import { HelpComponent } from './help/help.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
+
 import { HttpInterceptorService } from './http-interceptors/auth.interceptor';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +28,13 @@ import { HttpInterceptorService } from './http-interceptors/auth.interceptor';
     SignInComponent,
     SignUpComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    HomeComponent,
+    FindYourTutorComponent,
+    BecomeATutorComponent,
+    HelpComponent,
+    AccountSettingsComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,

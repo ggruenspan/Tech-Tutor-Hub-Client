@@ -1,0 +1,15 @@
+.page-not-found-container {
+    font-weight: 500;    
+    font-size: 18px;
+    flex-direction: column;
+    min-height: 79vh;
+}
+
+.btn {
+    font-weight: 500;  
+    color: white;
+    width: 165px;
+    height: 40px;
+    background-color: var(--site-color);
+    margin-bottom: 10px;
+}
