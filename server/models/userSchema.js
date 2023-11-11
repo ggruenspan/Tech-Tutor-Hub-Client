@@ -18,10 +18,6 @@ const userSchema = new mongoose.Schema({
                 type: String,
                 unique: true
             },
-            email_is_verified: { 
-                type: Boolean, 
-                default: false 
-            },
         },
         loginHistory: [{
             _id: false,

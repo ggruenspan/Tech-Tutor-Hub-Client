@@ -135,7 +135,7 @@ function forgotPassword(req, res) {
         User.findOne({ "accountSetting.personalInfo.email": email })
         .then((user) => {
             if (!user) {
-                return res.status(400).json({ message: 'Unable to find user with email: ' + req.body.email });
+                return res.status(400).json({ message: 'Unable to find user with email: ' + email });
             }
 
             // Generate a unique reset token
@@ -151,37 +151,18 @@ function forgotPassword(req, res) {
 
             user.save()
             .then(() => {
-                const transporter = nodemailer.createTransport({
-                    service: 'Gmail',
-                    auth: {
-                        user: "solodevinnovations@gmail.com",
-                        pass: "yqoy xlma rhxi bung",
-                    },
-                });
-
-                const mailOptions = {
-                    from: 'Tech Tutor Hub <solodevinnovations@gmail.com>',
-                    to: user.accountSetting.personalInfo.email,
-                    subject: 'Password Reset',
-                    html: `
-                        <p>You are receiving this because you (or someone else) has requested the reset of the password for your account.</p>
-                        <p>Please click on the following link, or paste this into your browser to complete the process:</p>
-                        <p><a href="https://localhost:4200/reset-password/${resetToken}">Reset Password Link</a></p>
-                        <p>This link is valid for 30 minutes. If you do not reset your password within this time, you will need to request another reset link.</p>
-                        <p>If you did not request this, please ignore this email, and your password will remain unchanged.</p>
-                    `,
-                };
-
-                transporter.sendMail(mailOptions, (error, info) => {
-                    if (error) {
-                        console.error(error);
-                        return res.status(500).json({ message: 'An error occurred while sending the password reset email' });
-                    }
-                    return res.status(200).json({ message: 'Password reset email sent' });
-                });
+                subject = 'Password Reset';
+                message = `
+                    <p>You are receiving this because you (or someone else) has requested the reset of the password for your account.</p>
+                    <p>Please click on the following link, or paste this into your browser to complete the process:</p>
+                    <p><a href="https://localhost:4200/reset-password/${resetToken}">Reset Password Link</a></p>
+                    <p>This link is valid for 30 minutes. If you do not reset your password within this time, you will need to request another reset link.</p>
+                    <p>If you did not request this, please ignore this email, and your password will remain unchanged.</p>
+                `
+                sendEmail(res, email, subject, message, 'Password reset email sent');
             })
             .catch(err => {
-                // console.error(err);
+                console.error(err);
                 return res.status(500).json({ message: 'An error occurred while saving the reset token' });  
             });
         })
@@ -248,6 +229,33 @@ function resetPassword(req, res) {
         // console.error(error);
         res.status(500).json({ message: 'Internal server error. Please try again' });
     }
+}
+
+// Function to send a verification email
+function sendEmail(res, email, subject, message, resMessage) {
+    const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: "solodevinnovations@gmail.com",
+            pass: "yqoy xlma rhxi bung",
+        },
+    });
+
+    const mailOptions = {
+        from: 'Tech Tutor Hub <solodevinnovations@gmail.com>',
+        to: email,
+        subject: subject,
+        html: message,
+    };
+
+    
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            // console.error(error);
+            return res.status(500).json({ message: 'An error occurred while sending the email' });
+        }
+        return res.status(200).json({ message: resMessage });
+    });
 }
 
 // Export the controller functions
