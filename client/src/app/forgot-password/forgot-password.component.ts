@@ -41,7 +41,7 @@ export class ForgotPasswordComponent {
           // console.log('User signed in successfully', response);
           this.toastr.success(response.message);
           setTimeout(() => {
-            window.location.replace('/');
+            window.location.replace('/sign-in');
           }, 3000);
         }, (error) => {
           // console.error('Signup error', error);

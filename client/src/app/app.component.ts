@@ -97,7 +97,9 @@ export class AppComponent implements OnInit {
               this.session = true;
               this.userName = decodedToken.userName;
             } else {
-              this.handleSignOut();
+              this.LocalStorageService.remove('jwtToken');
+              this.session = false;
+              this.userName = '';
             }
         }
     } catch (error) {
