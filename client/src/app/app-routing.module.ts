@@ -13,6 +13,8 @@ import { HelpComponent } from './help/help.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AuthGuardService as AuthGuard } from '../app/services/auth-guard.service';
+
 
 const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
@@ -23,7 +25,7 @@ const routes: Routes = [
   { path: 'find-your-tutor', component: FindYourTutorComponent },
   { path: 'become-a-tutor', component: BecomeATutorComponent },
   { path: 'help', component: HelpComponent },
-  { path: 'account-settings', component: AccountSettingsComponent},
+  { path: 'account-settings', component: AccountSettingsComponent, canActivate: [AuthGuard]},
 
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent }, 
 ];

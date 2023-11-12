@@ -29,8 +29,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // API routes
-app.use('/userAPI',  require('./routes/userAPI'));
-app.use('/authAPI',  require('./routes/authAPI'));
+app.use('/',  require('./routes/userAPI'));
+app.use('/',  require('./routes/authAPI'));
 
 // Start the server
 const port = 8080;

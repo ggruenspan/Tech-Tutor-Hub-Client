@@ -42,8 +42,12 @@ export class AppComponent implements OnInit {
         // console.log('User signed in successfully', response);
         this.toastr.success(response.message);
         this.LocalStorageService.remove('jwtToken');
+        // this.LocalStorageService.set('isAuthenticated', 'false');
         this.session = false;
         this.userName = '';
+        setTimeout(() => {
+          window.location.replace('/');
+        }, 1000);
       }, (error) => {
         // console.error('SignOut error', error);
         this.toastr.error(error.error.message);

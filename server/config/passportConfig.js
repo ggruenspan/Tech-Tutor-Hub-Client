@@ -16,8 +16,3 @@ User.findOne({ _id: jwtPayload.id })
     })
     .catch((err) => { return done(err); });
 }));
-
-// Serialize the user object to store in the session
-passport.serializeUser((user, done) => {
-    done(null, user.userName);
-});

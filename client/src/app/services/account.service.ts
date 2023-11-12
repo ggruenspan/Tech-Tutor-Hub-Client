@@ -5,9 +5,8 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-
 export class AccountService {
-  baseUrl = "http://localhost:8080/userAPI";
+  baseUrl = "http://localhost:8080";
 
   constructor(private http: HttpClient) {}
 
@@ -37,8 +36,8 @@ export class AccountService {
   }
 
   // Method for getting the authenticate request from the API
-  accountSettings() {
-    return this.http.get(`${this.baseUrl}/accountSettings`);
+  authenticate() {
+    return this.http.get(`${this.baseUrl}/authenticate`);
   }
 
 }
