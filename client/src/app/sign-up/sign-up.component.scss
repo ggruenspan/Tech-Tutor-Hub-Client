@@ -81,6 +81,14 @@ input:focus {
     margin: -31px 0px 0px 85px;
 }
 
+.submit:hover {
+    background-color: var(--site-color2);
+}
+
+.account a:hover {
+    color: var(--site-color2);
+}
+
 @media (max-width: 575px) {
     .sign-up-container {
         width: 445px; 

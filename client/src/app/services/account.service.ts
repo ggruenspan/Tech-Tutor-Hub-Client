@@ -36,10 +36,9 @@ export class AccountService {
     return this.http.post<any>(`${this.baseUrl}/reset-password/${token}`, data);
   }
 
-
   // Method for getting the authenticate request from the API
-  authenticate() {
-    return this.http.get(`${this.baseUrl}/authenticate`);
+  accountSettings() {
+    return this.http.get(`${this.baseUrl}/accountSettings`);
   }
 
 }
