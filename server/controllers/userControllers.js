@@ -26,7 +26,7 @@ function signUp(req, res) {
             bcrypt.hash(password, 10)
             .then((hash) => {
                 let newUser = new User({
-                    userName: (fullName.split(" ")[0].charAt(0).toUpperCase() + fullName.split(" ")[0].slice(1)) + "." + fullName.split(" ")[0].charAt(0).toUpperCase(),
+                    userName: (fullName.split(" ")[0].charAt(0).toUpperCase() + fullName.split(" ")[0].slice(1)) + "." + fullName.split(" ")[1].charAt(0).toUpperCase(),
                     password: hash,
                     accountSetting: {
                         personalInfo: {
