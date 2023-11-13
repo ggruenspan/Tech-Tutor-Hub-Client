@@ -16,7 +16,7 @@ function signUp(req, res) {
         const { fullName, email, password } = req.body;
 
         // Check if a user with the given email already exists
-        User.findOne({ "accountSetting.personalInfo.email": email })
+        User.findOne({ email: email })
         .then((user) => {
             if (user) {
                 return res.status(400).json({ message: 'There is already a user with that email: ' + email });
@@ -28,13 +28,11 @@ function signUp(req, res) {
                 let newUser = new User({
                     userName: (fullName.split(" ")[0].charAt(0).toUpperCase() + fullName.split(" ")[0].slice(1)) + "." + fullName.split(" ")[1].charAt(0).toUpperCase(),
                     password: hash,
-                    accountSetting: {
-                        personalInfo: {
-                            firstName: fullName.split(" ")[0],
-                            lastName: fullName.split(" ")[1],
-                            email: email,
-                        },
-                    },
+                    email: email,
+                    profile: {
+                        firstName: fullName.split(" ")[0],
+                        lastName: fullName.split(" ")[1],
+                    }
                 });
 
                 // Create a new user
@@ -69,7 +67,7 @@ function signIn(req, res) {
         const { email, password } = req.body;
 
         // Find the user with the given email
-        User.findOne({ "accountSetting.personalInfo.email": email })
+        User.findOne({ email: email, })
         .then((user) => {
             if (!user) {
                 return res.status(404).json({ message: 'Unable to find user with email: ' + email });
@@ -83,12 +81,12 @@ function signIn(req, res) {
                         id: user.id,
                         userName: user.userName,
                         password: user.password,
-                        email: user.accountSetting.personalInfo.email,
+                        email: user.email,
                     }
 
                     // Update user's login history and generate JWT token
-                    user.accountSetting.loginHistory.push({dateTime: new Date(), userAgent: req.get('User-Agent')});
-                    User.updateOne({ $set: { "accountSetting.loginHistory": user.accountSetting.loginHistory}})
+                    user.loginHistory.push({dateTime: new Date(), userAgent: req.get('User-Agent')});
+                    User.updateOne({ $set: { loginHistory: user.loginHistory}})
                     .then(() => {
                         jwtSign(payload)
                         .then((token) => {
@@ -132,7 +130,7 @@ function forgotPassword(req, res) {
         const { email } = req.body;
 
         // Check if the email is in the database
-        User.findOne({ "accountSetting.personalInfo.email": email })
+        User.findOne({ email: email })
         .then((user) => {
             if (!user) {
                 return res.status(400).json({ message: 'Unable to find user with email: ' + email });
@@ -186,7 +184,7 @@ function resetPassword(req, res) {
         const { password } = req.body;
 
         // Find the user by the reset token and check if it's still valid
-        User.findOne({ "resetToken": token })
+        User.findOne({ resetToken: token })
         .then((user) => {
             if(user.resetTokenExpiration.toLocaleTimeString() < new Date().toLocaleTimeString()) {
                 return res.status(400).json({ message: 'Invalid or expired token' });

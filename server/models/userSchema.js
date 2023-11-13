@@ -1,32 +1,36 @@
 // models/userSchema.js
 
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
+    role: { type: [String], default: ['User'] },
     userName: String,
     password: String,
-    accountSetting: {
-        role: { type: [String], default: ['User'] },
-        personalInfo: {
-            firstName: String,
-            middleInitial: String,
-            lastName: String,
-            phone: String,
-            dof: String,
-            address: String,
-            email: {
-                type: String,
-                unique: true
-            },
-        },
-        loginHistory: [{
-            _id: false,
-            dateTime: Date,
-            userAgent: String
-        }],
+    email: String,
+    profile: {
+        firstName: String,
+        lastName: String,
+        avatar: String,
+        bio: String,
+        phone: String,
+        dof: String,
+        address: {
+            street1: String,
+            street2: String,
+            city: String,
+            state: String,
+            country: String,
+            areaCode: String,
+        }
     },
+    loginHistory: [{
+        _id: false,
+        dateTime: Date,
+        userAgent: String
+    }],
     resetToken: String,
     resetTokenExpiration: Date,
 });
 
-module.exports = mongoose.model('users', userSchema);
+module.exports = mongoose.model('Users', userSchema);
