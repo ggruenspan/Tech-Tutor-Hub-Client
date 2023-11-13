@@ -10,7 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { FindYourTutorComponent } from './find-your-tutor/find-your-tutor.component';
 import { BecomeATutorComponent } from './become-a-tutor/become-a-tutor.component';
 import { HelpComponent } from './help/help.component';
-import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuardService as AuthGuard } from '../app/services/auth-guard.service';
@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: 'find-your-tutor', component: FindYourTutorComponent },
   { path: 'become-a-tutor', component: BecomeATutorComponent },
   { path: 'help', component: HelpComponent },
-  { path: 'account-settings', component: AccountSettingsComponent, canActivate: [AuthGuard]},
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
 
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent }, 
 ];

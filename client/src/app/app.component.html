@@ -28,7 +28,7 @@
                     <a class="m-3 text-decoration-none" href="/sign-up">Sign Up</a>    
                 </div>
                 <div [class.hidden]="!isOpened" [hidden]="!session">
-                    <i class="fa fa-user"></i><a class="m-3 text-decoration-none" href="/account-settings">{{ userName }}</a>
+                    <i class="fa fa-user"></i><a class="m-3 text-decoration-none" href="/dashboard">{{ userName }}</a>
                     <button class="m-3 text-decoration-none" (click)="handleSignOut()">Sign Out</button>    
                 </div>
             </ul>
@@ -40,7 +40,7 @@
         </div>
 
         <div class="menuOpt" [hidden]="!session" [class.hidden]="isOpened" [style.visibility]="isScreenLess ? 'hidden' : ''">
-            <i class="fa fa-user"></i><a class="m-3 text-decoration-none" href="/account-settings">{{ userName }}</a>
+            <i class="fa fa-user"></i><a class="m-3 text-decoration-none" href="/dashboard">{{ userName }}</a>
             <button class="m-3 text-decoration-none" (click)="handleSignOut()">Sign Out</button>    
         </div>
     </div>  

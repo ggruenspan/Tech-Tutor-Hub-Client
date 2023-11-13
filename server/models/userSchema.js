@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
     userName: String,
     password: String,
     accountSetting: {
-        role: { type: String, default: 'User' },
+        role: { type: [String], default: ['User'] },
         personalInfo: {
             firstName: String,
             middleInitial: String,
@@ -24,13 +24,6 @@ const userSchema = new mongoose.Schema({
             dateTime: Date,
             userAgent: String
         }],
-    },
-    referral_code: {
-        type: String,
-    },
-    referred_by: {
-        type: String,
-        default: null,
     },
     resetToken: String,
     resetTokenExpiration: Date,
