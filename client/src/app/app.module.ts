@@ -18,7 +18,7 @@ import { FindYourTutorComponent } from './find-your-tutor/find-your-tutor.compon
 import { BecomeATutorComponent } from './become-a-tutor/become-a-tutor.component';
 import { HelpComponent } from './help/help.component';
 
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { ProfileComponent } from './profile/profile.component';
 
 import { HttpInterceptorService } from './http-interceptors/auth.interceptor';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -35,7 +35,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     FindYourTutorComponent,
     BecomeATutorComponent,
     HelpComponent,
-    DashboardComponent,
+    ProfileComponent,
     PageNotFoundComponent,
   ],
   imports: [
