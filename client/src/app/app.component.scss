@@ -72,6 +72,14 @@ button {
     cursor: pointer;
 }
 
+a {
+    color: black;
+}
+
+a:hover, button:hover {
+    color: var(--site-color)
+}
+
 @media (min-width: 992px) and (max-width: 1059px) {
     a {
         font-size: 15px;
