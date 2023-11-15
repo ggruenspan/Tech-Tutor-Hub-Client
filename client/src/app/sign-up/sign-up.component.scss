@@ -1,5 +1,5 @@
 .sign-up-container {
-    background-color: whitesmoke;
+    background-color: var(--site-color3);;
     width: 530px; 
     height: 725px;
     margin-bottom: 18px;
@@ -38,7 +38,7 @@ hr {
 }
 
 hr:after {
-    background: whitesmoke;
+    background: var(--site-color3);;
     content: 'OR';
     padding: 0 4px;
     position: relative;
