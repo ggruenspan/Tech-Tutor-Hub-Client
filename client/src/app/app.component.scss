@@ -6,10 +6,10 @@ header {
 }
 
 .scrolled {
-    background-color: whitesmoke;
+    background-color: var(--site-color3);
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    top: --107px;
+    top: -107px;
     transform: translateY(100%);
 }
 
@@ -29,6 +29,7 @@ header {
     transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
     stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .line1 {
     stroke-dasharray: 60 207;
     stroke-width: 8;
@@ -37,29 +38,31 @@ header {
     stroke-dasharray: 60 60;
     stroke-width: 8;
 }
+
 .line3 {
     stroke-dasharray: 60 207;
     stroke-width: 8;
 }
+
 .opened .line1 {
     stroke-dasharray: 90 207;
     stroke-dashoffset: -134;
     stroke-width: 8;
 }
+
 .opened .line2 {
     stroke-dasharray: 1 60;
     stroke-dashoffset: -30;
     stroke-width: 8;
 }
+
 .opened .line3 {
     stroke-dasharray: 90 207;
     stroke-dashoffset: -134;
     stroke-width: 8;
 }
 
-.custom-navbar-collapse { 
-    text-align-last: center;
-    margin-top: 145px;
+.custom-navbar-collapse {
     font-size: 25px;
 }
 
@@ -67,27 +70,151 @@ header {
     visibility: hidden;
 }
 
-button {
-    all: unset;
-    cursor: pointer;
+.navbar-collapse a {
+    color: black
 }
 
-a {
-    color: black;
-}
-
-a:hover, button:hover {
+.navbar-collapse a:hover {
     color: var(--site-color)
 }
 
-@media (min-width: 992px) and (max-width: 1059px) {
-    a {
-        font-size: 15px;
-    }
+.nav-item {
+    padding: 20px 0px 20px 0px;
 }
 
-@media (max-width: 991px) {
-    .menuOpt {
+.menu-user-opt {
+    margin-top: 145px;
+}
+
+.menu-user-pic {
+    font-size: 45px;
+    position: relative;
+    top: 20px;
+    right: 14px;
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    line-height: 65px;
+    text-align: center;
+    border-radius: 50%;
+    color: var(--site-color3);
+    background-color: var(--site-color);
+}
+
+.menu-user {  
+    font-size: 20px;  
+    position: relative;
+    top: 95px;
+    left: 65px;
+}
+
+.menu-profile {
+    font-size: 15px;  
+    position: relative;
+    top: 165px;
+    left: 65px;
+}
+
+.menu-profile .icon {
+    margin-left: 10px;
+}
+
+
+.menu-opt a {
+    color: var(--site-color3);
+    background-color: var(--site-color);
+    padding: 6px 10px 6px 10px;
+    border-radius: 15px;
+}
+
+.menu-opt a:hover {
+    background-color: var(--site-color2);
+    color: var(--site-color);
+}
+
+hr {
+    border-width: 2px; 
+    width: 230px;
+    margin-left: 0; 
+    margin-right: auto;
+}
+
+.user-opt {
+    position: relative;
+    top: -1px;
+    height: 40px;
+    width: 70px;
+    border-radius: 25px;
+    background-color: var(--site-color);
+}
+
+.user-pic {
+    position: relative;
+    top: -11px;
+    left: 18px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    color: var(--site-color);
+    background-color: var(--site-color3);
+}
+
+.user-opt .icon {
+    position: absolute;
+    top: 11px;
+    left: 11px;
+    color: var(--site-color3);;
+}
+
+.openedPositionUserOpt {
+    position: absolute;
+    top: 21px;
+    right: 36px;
+}
+
+.openedPositionMenuOpt {
+    position: absolute;
+    top: 28px;
+    right: 36px;
+}
+
+.user-menu {
+    font-size: 12px;
+    position: absolute;
+    top: 75px;
+    right: 36px;
+    border-radius: 25px;
+    background-color: var(--site-color);
+    z-index: 1;
+}
+
+.menu-item {
+    display: block;
+    background-color: var(--site-color3);;
+    padding: 8px 12px;
+    border-radius: 25px;
+    color: var(--site-color);
+    text-align: center;
+}
+
+.user-menu a:hover {
+    background-color: var(--site-color2);
+    color: var(--site-color3);
+}
+
+@media (min-width: 751px) and (max-width: 991px) {
+    .custom-navbar-collapse {
+        margin-top: 145px;
+    }
+    
+    .menu-opt, .user-opt {
         margin-right: 100px;
     } 
+
+    .user-menu {
+        right: 119px;
+    }
 }

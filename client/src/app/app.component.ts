@@ -17,8 +17,22 @@ export class AppComponent implements OnInit {
   isScreenLess = false;
   session: any = null;
   userName = '';
+  menuVisible = false;
+  menuBtnClick = false;
+  menuIcon: string = 'fa-caret-right';
 
-  constructor(private toastr: ToastrService, private renderer: Renderer2, private accountService: AccountService, private LocalStorageService: LocalStorageService) { }
+
+  constructor(private toastr: ToastrService, private renderer: Renderer2, private accountService: AccountService, 
+              private LocalStorageService: LocalStorageService) {
+
+                // Event listener to close the user menu when clicking outside
+                this.renderer.listen('window', 'click', (e: Event) => {
+                  if (!this.menuBtnClick) {
+                    this.menuVisible = false;
+                  }
+                  this.menuBtnClick = false;
+                });
+              }
 
   ngOnInit() {
     this.handleWindowResize(); // Initialize window resize handling
@@ -34,17 +48,19 @@ export class AppComponent implements OnInit {
     } else {
       this.isOpened = true;
     }
+
+    if (this.menuVisible && this.isOpened) {
+      this.toggleUserOpt();
+    }
   }
 
   // Handle user sign out
   handleSignOut() {
     this.accountService.signOut().subscribe((response) => {
-        // console.log('User signed in successfully', response);
+        // console.log('User signed out successfully', response);
         this.toastr.success(response.message);
+        this.toggleMenu();
         this.LocalStorageService.remove('jwtToken');
-        // this.LocalStorageService.set('isAuthenticated', 'false');
-        this.session = false;
-        this.userName = '';
         setTimeout(() => {
           window.location.replace('/');
         }, 1000);
@@ -53,6 +69,23 @@ export class AppComponent implements OnInit {
         this.toastr.error(error.error.message);
       }
     );
+  }
+
+  // Toggle visibility of the user menu
+  toggleUserOpt() {
+    this.menuVisible = !this.menuVisible;
+    this.menuIcon = this.menuVisible ? 'fa-caret-down' : 'fa-caret-right';
+
+    if (this.menuVisible && this.isOpened) {
+      this.isOpened = false;
+      const element = document.getElementById('navbarNav');
+      this.renderer.removeClass(element, 'show'); // Remove 'show' class to hide the menu
+    }
+  }
+
+  // Function to prevent closing the user menu when clicking on it
+  preventCloseOnClick() {
+    this.menuBtnClick = true;
   }
 
   // Listens to window scroll event to determine if the page is scrolled
@@ -71,13 +104,15 @@ export class AppComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onWindowResize(event: Event) {
     this.handleWindowResize();
+    if (this.menuVisible) {
+      this.toggleUserOpt();
+    }
   }
 
   // Handles changes in window size, and close the menu if it's open on larger screens
   private handleWindowResize() {
     if (window.innerWidth >= 992 && this.isOpened) {
       this.isOpened = false;
-      this.isScreenLess = false;
       const element = document.getElementById('navbarNav');
       this.renderer.removeClass(element, 'show'); // Remove 'show' class to hide the menu
     }
@@ -86,6 +121,9 @@ export class AppComponent implements OnInit {
       this.isScreenLess = true;
     } else {
       this.isScreenLess = false;
+      this.isOpened = false;
+      const element = document.getElementById('navbarNav');
+      this.renderer.removeClass(element, 'show');
     }
   }
 
@@ -97,11 +135,12 @@ export class AppComponent implements OnInit {
         if (token) {
           const decodedToken = helper.decodeToken(token)
             if (decodedToken.exp * 1000 > (Date.now()+ (60 * 60 * 1000))) {
-              // this.LocalStorageService.set('userName', decodedToken.userName);
+              this.LocalStorageService.set('userName', decodedToken.userName);
               this.session = true;
               this.userName = decodedToken.userName;
             } else {
               this.LocalStorageService.remove('jwtToken');
+              this.LocalStorageService.remove('userName');
               this.session = false;
               this.userName = '';
             }

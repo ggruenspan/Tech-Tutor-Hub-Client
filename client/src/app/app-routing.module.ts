@@ -13,19 +13,21 @@ import { HelpComponent } from './help/help.component';
 import { ProfileComponent } from './profile/profile.component';
 
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+
 import { AuthGuardService as AuthGuard } from '../app/services/auth-guard.service';
+import { SignGuardService as SignGuard } from '../app/services/sign-guard.service';
 
 
 const routes: Routes = [
-  { path: 'sign-in', component: SignInComponent },
-  { path: 'sign-up', component: SignUpComponent },
+  { path: 'sign-in', component: SignInComponent, canActivate: [SignGuard] },
+  { path: 'sign-up', component: SignUpComponent, canActivate: [SignGuard] },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
   { path: '', component: HomeComponent }, 
   { path: 'find-your-tutor', component: FindYourTutorComponent },
   { path: 'become-a-tutor', component: BecomeATutorComponent },
   { path: 'help', component: HelpComponent },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+  { path: 'settings/profile', component: ProfileComponent, canActivate: [AuthGuard]},
 
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent }, 
 ];

@@ -11,42 +11,54 @@
             </svg>
         </div>
 
-        <div class="collapse navbar-collapse" id="navbarNav" [class.custom-navbar-collapse]="isOpened">
-            <span class="m-2" *ngIf="!isOpened">|</span>
-            <ul class="navbar-nav">
-                <li class="nav-item" style="padding: 20px 0px 20px 0px;">
-                    <a class="m-3 text-decoration-none" href="/find-your-tutor">Find Your Tutor</a>
-                </li>
-                <li class="nav-item" style="padding: 20px 0px 20px 0px;">
-                    <a class="m-3 text-decoration-none" href="/become-a-tutor">Become A Tutor</a>
-                </li>
-                <li class="nav-item" style="padding: 20px 0px 20px 0px;">
-                    <a class="m-3 text-decoration-none" href="/help">Help</a>
-                </li>
-                <div [class.hidden]="!isOpened" [hidden]="session">
+        <div class="collapse navbar-collapse text-start" id="navbarNav" [class.custom-navbar-collapse]="isOpened">
+            <span class="m-2" [hidden]="isOpened">|</span>
+            <div [hidden]="!isScreenLess">
+                <div class="menu-user-opt" [hidden]="session">
                     <a class="m-3 text-decoration-none" href="/sign-in">Sign In</a>
                     <a class="m-3 text-decoration-none" href="/sign-up">Sign Up</a>    
                 </div>
-                <div [class.hidden]="!isOpened" [hidden]="!session">
-                    <i class="fa fa-user"></i><a class="m-3 text-decoration-none" href="/dashboard">{{ userName }}</a>
-                    <button class="m-3 text-decoration-none" (click)="handleSignOut()">Sign Out</button>    
+                <div [hidden]="!session">
+                    <a class="m-3 text-decoration-none menu-profile" href="/settings/profile">My Profile<i class="fa fa-arrow-right-long icon"></i></a>
+                    <p class="m-3 menu-user">{{ userName }}</p>
+                    <p class="m-3 menu-user-pic">{{ userName.split(" ")[0].charAt(0).toUpperCase() }}</p>
                 </div>
+            </div>
+            <hr *ngIf="isOpened" [hidden]="!isScreenLess">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="m-3 text-decoration-none" href="/find-your-tutor">Find Your Tutor</a>
+                </li>
+                <li class="nav-item">
+                    <a class="m-3 text-decoration-none" href="/become-a-tutor">Become A Tutor</a>
+                </li>
+                <li class="nav-item" [hidden]="!isOpened" [style.visibility]="!isScreenLess ? 'hidden' : ''">
+                    <div [hidden]="!session">
+                        <a class="m-3 text-decoration-none" (click)="handleSignOut()" href="">Sign Out</a>    
+                    </div>
+                </li>
             </ul>
         </div>
 
-        <div class="menuOpt" [hidden]="session" [class.hidden]="isOpened" [style.visibility]="isScreenLess ? 'hidden' : ''">
+        <div class="menu-opt" [hidden]="session" [style.visibility]="isScreenLess ? 'hidden' : ''" [class.openedPositionMenuOpt]="isOpened">
             <a class="m-3 text-decoration-none" href="/sign-in">Sign In</a>
             <a class="m-3 text-decoration-none" href="/sign-up">Sign Up</a>    
         </div>
 
-        <div class="menuOpt" [hidden]="!session" [class.hidden]="isOpened" [style.visibility]="isScreenLess ? 'hidden' : ''">
-            <i class="fa fa-user"></i><a class="m-3 text-decoration-none" href="/dashboard">{{ userName }}</a>
-            <button class="m-3 text-decoration-none" (click)="handleSignOut()">Sign Out</button>    
+        <div class="user-opt" [hidden]="!session" [style.visibility]="isScreenLess ? 'hidden' : ''" [class.openedPositionUserOpt]="isOpened">
+            <div type="button" (click)="toggleUserOpt(); preventCloseOnClick()"><i class="fa {{ menuIcon }} icon"></i></div>
+            <p class="m-3 user-pic">{{ userName.split(" ")[0].charAt(0).toUpperCase() }}</p>
+        </div>
+
+        <div class="user-menu" [hidden]="!menuVisible" (click)="preventCloseOnClick()">
+            <a class="m-3 text-decoration-none menu-item" href="">Messages</a>
+            <a class="m-3 text-decoration-none menu-item" href="/settings/profile">Profile</a>
+            <a class="m-3 text-decoration-none menu-item" (click)="handleSignOut()" href="">Sign Out</a>  
         </div>
     </div>  
 </header>
 
-<div *ngIf="!isOpened">
+<div [hidden]="isOpened">
     <router-outlet></router-outlet>
 </div>
 
