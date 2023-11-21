@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { AccountService } from './account.service';
+import { AccountService } from '../services/account.service';
 import { ToastrService } from 'ngx-toastr';
 import { map, catchError  } from 'rxjs/operators';
 import { of } from 'rxjs';

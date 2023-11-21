@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { SignInComponent } from './sign-in/sign-in.component';
-import { SignUpComponent } from './sign-up/sign-up.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { SignInComponent } from './components/sign-in/sign-in.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
-import { HomeComponent } from './home/home.component';
-import { FindYourTutorComponent } from './find-your-tutor/find-your-tutor.component';
-import { BecomeATutorComponent } from './become-a-tutor/become-a-tutor.component';
-import { HelpComponent } from './help/help.component';
-import { ProfileComponent } from './profile/profile.component';
+import { HomeComponent } from './components/home/home.component';
+import { FindYourTutorComponent } from './components/find-your-tutor/find-your-tutor.component';
+import { BecomeATutorComponent } from './components/become-a-tutor/become-a-tutor.component';
+import { HelpComponent } from './components/help/help.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
-import { AuthGuardService as AuthGuard } from '../app/services/auth-guard.service';
-import { SignGuardService as SignGuard } from '../app/services/sign-guard.service';
+import { AuthGuardService as AuthGuard } from './guards/auth.guard.';
+import { SignGuardService as SignGuard } from './guards/sign.guard.';
 
 
 const routes: Routes = [

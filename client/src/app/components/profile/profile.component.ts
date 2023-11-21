@@ -10,4 +10,5 @@ export class ProfileComponent {
   constructor() { }
 
   ngOnInit() {}
+  
 }

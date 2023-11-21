@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { AccountService } from '../services/account.service';
+import { AccountService } from '../../services/account.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

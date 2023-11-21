@@ -8,20 +8,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { SignInComponent } from './sign-in/sign-in.component';
-import { SignUpComponent } from './sign-up/sign-up.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { SignInComponent } from './components/sign-in/sign-in.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
-import { HomeComponent } from './home/home.component';
-import { FindYourTutorComponent } from './find-your-tutor/find-your-tutor.component';
-import { BecomeATutorComponent } from './become-a-tutor/become-a-tutor.component';
-import { HelpComponent } from './help/help.component';
+import { HomeComponent } from './components/home/home.component';
+import { FindYourTutorComponent } from './components/find-your-tutor/find-your-tutor.component';
+import { BecomeATutorComponent } from './components/become-a-tutor/become-a-tutor.component';
+import { HelpComponent } from './components/help/help.component';
 
-import { ProfileComponent } from './profile/profile.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
-import { HttpInterceptorService } from './http-interceptors/auth.interceptor';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { HttpInterceptorService } from './interceptors/auth.interceptor';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 
 @NgModule({
