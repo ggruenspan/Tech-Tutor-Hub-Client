@@ -22,6 +22,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 
 import { HttpInterceptorService } from './interceptors/auth.interceptor';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     HelpComponent,
     ProfileComponent,
     PageNotFoundComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,

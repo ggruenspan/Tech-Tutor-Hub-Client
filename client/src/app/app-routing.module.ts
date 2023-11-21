@@ -10,6 +10,8 @@ import { HomeComponent } from './components/home/home.component';
 import { FindYourTutorComponent } from './components/find-your-tutor/find-your-tutor.component';
 import { BecomeATutorComponent } from './components/become-a-tutor/become-a-tutor.component';
 import { HelpComponent } from './components/help/help.component';
+
+import { SettingsComponent } from './components/settings/settings.component';
 import { ProfileComponent } from './components/profile/profile.component';
 
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
@@ -27,7 +29,11 @@ const routes: Routes = [
   { path: 'find-your-tutor', component: FindYourTutorComponent },
   { path: 'become-a-tutor', component: BecomeATutorComponent },
   { path: 'help', component: HelpComponent },
-  { path: 'settings/profile', component: ProfileComponent, canActivate: [AuthGuard]},
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard],
+    children: [
+      { path: 'profile', component: ProfileComponent},
+    ]
+  },
 
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent }, 
 ];
