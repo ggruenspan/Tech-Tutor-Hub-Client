@@ -19,7 +19,7 @@
                     <a class="m-3 text-decoration-none" href="/sign-up">Sign Up</a>    
                 </div>
                 <div [hidden]="!session">
-                    <a class="m-3 text-decoration-none menu-profile" href="/settings/profile">My Profile<i class="fa fa-arrow-right-long icon"></i></a>
+                    <!-- <a class="m-3 text-decoration-none menu-profile" href="/profile">My Profile<i class="fa fa-arrow-right-long icon"></i></a> -->
                     <p class="m-3 menu-user">{{ userName }}</p>
                     <p class="m-3 menu-user-pic">{{ userName.split(" ")[0].charAt(0).toUpperCase() }}</p>
                 </div>
@@ -32,9 +32,17 @@
                 <li class="nav-item">
                     <a class="m-3 text-decoration-none" href="/become-a-tutor">Become A Tutor</a>
                 </li>
+                <li class="nav-item">
+                    <a class="m-3 text-decoration-none" href="/help">Help</a>
+                </li>
                 <li class="nav-item" [hidden]="!isOpened" [style.visibility]="!isScreenLess ? 'hidden' : ''">
                     <div [hidden]="!session">
-                        <a class="m-3 text-decoration-none" (click)="handleSignOut()" href="">Sign Out</a>    
+                        <a class="m-3 text-decoration-none" href="/settings/account">Settings</a> 
+                    </div>
+                </li>
+                <li class="nav-item" [hidden]="!isOpened" [style.visibility]="!isScreenLess ? 'hidden' : ''">
+                    <div [hidden]="!session">
+                        <a class="m-3 text-decoration-none" (click)="handleSignOut()" href="">Sign Out</a>       
                     </div>
                 </li>
             </ul>
@@ -51,8 +59,9 @@
         </div>
 
         <div class="user-menu" [hidden]="!menuVisible" (click)="preventCloseOnClick()">
+            <!-- <a class="m-3 text-decoration-none menu-item" href="/profile">Profile</a> -->
             <a class="m-3 text-decoration-none menu-item" href="">Messages</a>
-            <a class="m-3 text-decoration-none menu-item" href="/settings/profile">Profile</a>
+            <a class="m-3 text-decoration-none menu-item" href="/settings/account">Account Settings</a>
             <a class="m-3 text-decoration-none menu-item" (click)="handleSignOut()" href="">Sign Out</a>  
         </div>
     </div>  

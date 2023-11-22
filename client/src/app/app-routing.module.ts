@@ -12,7 +12,7 @@ import { BecomeATutorComponent } from './components/become-a-tutor/become-a-tuto
 import { HelpComponent } from './components/help/help.component';
 
 import { SettingsComponent } from './components/settings/settings.component';
-import { ProfileComponent } from './components/profile/profile.component';
+import { AccountComponent } from './components/account/account.component';
 
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
@@ -31,7 +31,7 @@ const routes: Routes = [
   { path: 'help', component: HelpComponent },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard],
     children: [
-      { path: 'profile', component: ProfileComponent},
+      { path: 'account', component: AccountComponent},
     ]
   },
 

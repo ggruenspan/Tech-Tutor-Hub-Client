@@ -12,18 +12,14 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-
 import { HomeComponent } from './components/home/home.component';
 import { FindYourTutorComponent } from './components/find-your-tutor/find-your-tutor.component';
 import { BecomeATutorComponent } from './components/become-a-tutor/become-a-tutor.component';
 import { HelpComponent } from './components/help/help.component';
-
-import { ProfileComponent } from './components/profile/profile.component';
-
+import { AccountComponent } from './components/account/account.component';
 import { HttpInterceptorService } from './interceptors/auth.interceptor';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { SettingsComponent } from './components/settings/settings.component';
-
 
 @NgModule({
   declarations: [
@@ -36,9 +32,9 @@ import { SettingsComponent } from './components/settings/settings.component';
     FindYourTutorComponent,
     BecomeATutorComponent,
     HelpComponent,
-    ProfileComponent,
     PageNotFoundComponent,
     SettingsComponent,
+    AccountComponent,
   ],
   imports: [
     BrowserModule,
