@@ -12,7 +12,7 @@ require('./bin/mongo-connection.js')
 
 // Express session setup
 app.use(session({
-    secret: 'tech-tutor-hub',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: true }
@@ -33,7 +33,6 @@ app.use('/',  require('./routes/userAPI'));
 app.use('/',  require('./routes/authAPI'));
 
 // Start the server
-const port = 8080;
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+app.listen(process.env.PORT, () => {
+    console.log(`Server is running on port ${process.env.PORT}`);
 });

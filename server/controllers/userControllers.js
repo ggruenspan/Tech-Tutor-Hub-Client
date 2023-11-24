@@ -234,8 +234,8 @@ function sendEmail(res, email, subject, message, resMessage) {
     const transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
-            user: "solodevinnovations@gmail.com",
-            pass: "yqoy xlma rhxi bung",
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASSWORD,
         },
     });
 

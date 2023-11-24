@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 
 // MongoDB connection setup
-mongoose.connect("mongodb+srv://ggruenspan:8Cro67a3dKaushWu@cluster0.zeimtb8.mongodb.net/?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_CONN_STR, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));

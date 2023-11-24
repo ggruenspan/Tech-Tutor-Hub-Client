@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "devStart": "nodemon server.js"
+    "start": "node --env-file=.env server.js",
+    "devStart": "nodemon --env-file=.env server.js"
   },
   "author": "Gerred Gruenspan",
   "license": "ISC",
