@@ -1,7 +1,7 @@
 import { Component, HostListener, Renderer2, OnInit } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
-import { AccountService } from './services/account.service';
+import { APIRoutesService } from './services/apiRoutes.service';
 import { LocalStorageService } from './services/localStorage.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   menuIcon: string = 'fa-caret-right';
 
 
-  constructor(private toastr: ToastrService, private renderer: Renderer2, private accountService: AccountService, 
+  constructor(private toastr: ToastrService, private renderer: Renderer2, private accountService: APIRoutesService, 
               private LocalStorageService: LocalStorageService) {
 
                 // Event listener to close the user menu when clicking outside

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { AccountService } from '../../services/account.service';
+import { APIRoutesService } from '../../services/apiRoutes.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -11,7 +11,7 @@ import { AccountService } from '../../services/account.service';
 export class ForgotPasswordComponent {
   forgotPasswordForm: FormGroup = new FormGroup({})
 
-  constructor(private toastr: ToastrService, private accountService: AccountService) { }
+  constructor(private toastr: ToastrService, private accountService: APIRoutesService) { }
 
   ngOnInit(): void {
     this.initializeForm(); // Initialize the forgot-password form

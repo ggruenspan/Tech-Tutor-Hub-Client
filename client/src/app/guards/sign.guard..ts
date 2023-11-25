@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { AccountService } from '../services/account.service';
+import { APIRoutesService } from '../services/apiRoutes.service';
 import { ToastrService } from 'ngx-toastr';
 import { map, catchError  } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -11,7 +11,7 @@ import { of } from 'rxjs';
 
 export class SignGuardService implements CanActivate {
     
-    constructor(private accountService: AccountService, private route : Router, private toastr: ToastrService) { }
+    constructor(private accountService: APIRoutesService, private route : Router, private toastr: ToastrService) { }
 
     canActivate() {
         // If the user is authenticated, redirect them to the home page

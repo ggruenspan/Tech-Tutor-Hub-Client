@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { AccountService } from '../services/account.service';
+import { APIRoutesService } from '../services/apiRoutes.service';
 import { map, catchError  } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 
 export class AuthGuardService implements CanActivate {
     
-    constructor(private accountService: AccountService, private route : Router, private toastr: ToastrService) { }
+    constructor(private accountService: APIRoutesService, private route : Router, private toastr: ToastrService) { }
 
     canActivate() {
         return this.accountService.authenticate().pipe(

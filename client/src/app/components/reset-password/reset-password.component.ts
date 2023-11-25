@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { AccountService } from '../../services/account.service';
+import { APIRoutesService } from '../../services/apiRoutes.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -15,7 +15,7 @@ export class ResetPasswordComponent {
   resetPasswordForm: FormGroup = new FormGroup({})
   token: any;
 
-  constructor(private toastr: ToastrService, private accountService: AccountService, private route: ActivatedRoute) { }
+  constructor(private toastr: ToastrService, private accountService: APIRoutesService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.initializeForm(); // Initialize the reset-password form

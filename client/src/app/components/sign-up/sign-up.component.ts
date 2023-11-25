@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { AccountService } from '../../services/account.service';
+import { APIRoutesService } from '../../services/apiRoutes.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -13,7 +13,7 @@ export class SignUpComponent {
   showPasswordIcon = 'fa-eye-slash';
   signUpForm: FormGroup = new FormGroup({})
 
-  constructor(private toastr: ToastrService, private accountService: AccountService) { }
+  constructor(private toastr: ToastrService, private accountService: APIRoutesService) { }
 
   ngOnInit(): void {
     this.initializeForm(); // Initialize the sign-up form

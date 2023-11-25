@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { AccountService } from '../../services/account.service';
+import { APIRoutesService } from '../../services/apiRoutes.service';
 import { LocalStorageService } from '../../services/localStorage.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class SignInComponent {
   showPasswordIcon: string = 'fa-eye-slash';
   signInForm: FormGroup = new FormGroup({})
 
-  constructor(private toastr: ToastrService, private accountService: AccountService, private LocalStorageService: LocalStorageService) { }
+  constructor(private toastr: ToastrService, private accountService: APIRoutesService, private LocalStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
     this.initializeForm(); // Initialize the sign-in form
