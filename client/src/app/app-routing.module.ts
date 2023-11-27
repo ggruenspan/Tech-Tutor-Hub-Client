@@ -13,6 +13,8 @@ import { HelpComponent } from './components/help/help.component';
 
 import { SettingsComponent } from './components/settings/settings.component';
 import { AccountComponent } from './components/account/account.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
+import { PaymentsComponent } from './components/payments/payments.component';
 
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
@@ -32,6 +34,8 @@ const routes: Routes = [
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard],
     children: [
       { path: 'account', component: AccountComponent},
+      { path: 'notifications', component: NotificationsComponent},
+      { path: 'payments', component: PaymentsComponent},
     ]
   },
 

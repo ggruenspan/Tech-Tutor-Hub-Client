@@ -79,6 +79,7 @@ function signIn(req, res) {
                 if (result === true) {
                     const payload = {
                         id: user.id,
+                        role: user.role,
                         userName: user.userName,
                         password: user.password,
                         email: user.email,

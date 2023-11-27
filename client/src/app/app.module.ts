@@ -20,6 +20,8 @@ import { AccountComponent } from './components/account/account.component';
 import { HttpInterceptorService } from './interceptors/auth.interceptor';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
+import { PaymentsComponent } from './components/payments/payments.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { SettingsComponent } from './components/settings/settings.component';
     PageNotFoundComponent,
     SettingsComponent,
     AccountComponent,
+    NotificationsComponent,
+    PaymentsComponent,
   ],
   imports: [
     BrowserModule,

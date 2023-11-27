@@ -1,3 +1,62 @@
-<p>settings works!</p>
+<div class="container" [class.sidebar-open]="sidebarVisible">
+    <div class="settings-page">
+        <div class="settings-sidebar navbar-expand-lg rounded">
+            <div class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#settings-menu" (click)="toggleSettingMenu()">
+                <i class="fa {{ sidebarIcon }}"></i>
+            </div>
+            
+            <div class="settings-sidebar-top" [hidden]="isScreenLess">
+                <div class="logo">
+                    <img src="../assets/TechTutorHubLogoImage.png" width="90" height="100" alt="Tech Tutor Hub">
+                </div>
+    
+                <div class="nameBar">
+                    <p class="m-3 users-profession">{{ profession }}</p>
+                    <p class="m-3 user-name">{{ userName }}</p>
+                    <p class="m-3 user-pic">{{ userName.split(" ")[0].charAt(0).toUpperCase() }}</p>
+                </div>
 
-<router-outlet></router-outlet>
+                <hr [hidden]="isScreenLess">
+            </div>
+
+            <div class="settings-sidebar-title">Settings</div>
+
+            <div class="collapse navbar-collapse text-start" id="settings-menu"  [class.custom-navbar-collapse]="isScreenLess">
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="m-3 text-decoration-none" href="/settings/account">
+                            <i class="far fa-user-circle" style="margin-right: 20px;"></i>
+                            Account
+                            <i class="fa fa-chevron-right icon"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item" [hidden]="!isTutor">
+                        <a class="m-3 text-decoration-none" href="#">
+                            <i class="far fa-address-card" style="margin-right: 18px;"></i>
+                            Tutor Dashboard
+                            <i class="fa fa-chevron-right icon"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="m-3 text-decoration-none" href="/settings/notifications">
+                            <i class="far fa-bell" style="margin-right: 22px;"></i>
+                            Notifications
+                            <i class="fa fa-chevron-right icon"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="m-3 text-decoration-none" href="/settings/payments">
+                            <i class="far fa-credit-card" style="margin-right: 18px;"></i>
+                            Payments
+                            <i class="fa fa-chevron-right icon"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="settings-content rounded">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
