@@ -59,7 +59,6 @@ export class AppComponent implements OnInit {
     this.accountService.signOut().subscribe((response) => {
         // console.log('User signed out successfully', response);
         this.toastr.success(response.message);
-        this.toggleMenu();
         this.LocalStorageService.remove('jwtToken');
         setTimeout(() => {
           window.location.replace('/');

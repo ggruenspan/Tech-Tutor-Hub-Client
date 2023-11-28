@@ -74,7 +74,7 @@ header {
     color: black
 }
 
-.navbar-collapse a:hover {
+.custom-navbar-collapse a:hover {
     color: var(--site-color)
 }
 
@@ -85,6 +85,25 @@ header {
 .menu-user-opt {
     margin-top: 145px;
 }
+
+.menu-profile {
+    font-size: 15px;  
+    position: relative;
+    top: 165px;
+    left: 65px;
+}
+
+.menu-profile .icon {
+    margin-left: 10px;
+}
+
+.menu-user {  
+    font-size: 20px;  
+    position: relative;
+    top: 95px;
+    left: 65px;
+}
+
 
 .menu-user-pic {
     font-size: 45px;
@@ -101,25 +120,6 @@ header {
     background-color: var(--site-color);
 }
 
-.menu-user {  
-    font-size: 20px;  
-    position: relative;
-    top: 95px;
-    left: 65px;
-}
-
-.menu-profile {
-    font-size: 15px;  
-    position: relative;
-    top: 165px;
-    left: 65px;
-}
-
-.menu-profile .icon {
-    margin-left: 10px;
-}
-
-
 .menu-opt a {
     color: var(--site-color3);
     background-color: var(--site-color);
@@ -135,8 +135,7 @@ header {
 hr {
     border-width: 2px; 
     width: 230px;
-    margin-left: 0; 
-    margin-right: auto;
+    margin: 25px auto 0px 0px;
 }
 
 .user-opt {
