@@ -3,6 +3,7 @@
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const { v4: uuidv4 } = require('uuid');
 
 // User model (Mongoose schema)
 const User = require('../models/userSchema.js');
@@ -16,7 +17,7 @@ function signUp(req, res) {
         const { fullName, email, password } = req.body;
 
         // Check if a user with the given email already exists
-        User.findOne({ email: email })
+        User.findOne({ "email.address" : email })
         .then((user) => {
             if (user) {
                 return res.status(400).json({ message: 'There is already a user with that email: ' + email });
@@ -26,9 +27,12 @@ function signUp(req, res) {
             bcrypt.hash(password, 10)
             .then((hash) => {
                 let newUser = new User({
+                    _id: uuidv4(),
                     userName: (fullName.split(" ")[0].charAt(0).toUpperCase() + fullName.split(" ")[0].slice(1)) + "." + fullName.split(" ")[1].charAt(0).toUpperCase(),
                     password: hash,
-                    email: email,
+                    email: {
+                        address: email
+                    },
                     profile: {
                         firstName: fullName.split(" ")[0],
                         lastName: fullName.split(" ")[1],
@@ -41,21 +45,21 @@ function signUp(req, res) {
                     res.status(201).json({ message: 'User signed up successfully' });
                 })
                 .catch((err) => {
-                    // console.error(err);
+                    console.error(err);
                     return res.status(500).json({ message: 'An error occurred while signing up. Please try again' });
                 });
             })
             .catch((hashErr) => {
-                // console.error(hashErr);
+                console.error(hashErr);
                 return res.status(500).json({ message: 'An error occurred while signing up. Please try again' });
             })
         })
         .catch((err) => {
-            // console.error(err);
+            console.error(err);
             return res.status(500).json({ message: 'An error occurred while signing up. Please try again' });
         })
     } catch (error) {
-        // console.error(error);
+        console.error(error);
         res.status(500).json({ message: 'Internal server error. Please try again' });
     }
 };
@@ -67,7 +71,7 @@ function signIn(req, res) {
         const { email, password } = req.body;
 
         // Find the user with the given email
-        User.findOne({ email: email, })
+        User.findOne({ "email.address" : email, })
         .then((user) => {
             if (!user) {
                 return res.status(404).json({ message: 'Unable to find user with email: ' + email });
@@ -82,13 +86,14 @@ function signIn(req, res) {
                         role: user.role,
                         userName: user.userName,
                         password: user.password,
-                        email: user.email,
+                        email: user.email.address,
+                        fullName: user.profile.firstName + ' ' + user.profile.lastName
                     }
 
-                    // Update user's login history and generate JWT token
-                    user.loginHistory.push({dateTime: new Date(), userAgent: req.get('User-Agent')});
-                    User.updateOne({ $set: { loginHistory: user.loginHistory}})
-                    .then(() => {
+                    // // Update user's login history and generate JWT token
+                    // user.loginHistory.push({dateTime: new Date(), userAgent: req.get('User-Agent')});
+                    // User.updateOne({ $set: { loginHistory: user.loginHistory}})
+                    // .then(() => {
                         jwtSign(payload)
                         .then((token) => {
                             // res.setHeader('Authorization', `bearer ${token}`);
@@ -98,11 +103,11 @@ function signIn(req, res) {
                             // console.error(err);
                             return res.status(500).json('An error occurred while signing in. Please try again');
                         })
-                    })
-                    .catch((err) => {
-                        // console.error(err);
-                        return res.status(500).json({ message: 'An error occurred while signing in. Please try again' });
-                    })
+                    // })
+                    // .catch((err) => {
+                    //     // console.error(err);
+                    //     return res.status(500).json({ message: 'An error occurred while signing in. Please try again' });
+                    // })
                 } else {
                     // console.error(err);
                     return res.status(400).json({ message: 'Invalid username or password' });
@@ -131,7 +136,7 @@ function forgotPassword(req, res) {
         const { email } = req.body;
 
         // Check if the email is in the database
-        User.findOne({ email: email })
+        User.findOne({  "email.address" : email })
         .then((user) => {
             if (!user) {
                 return res.status(400).json({ message: 'Unable to find user with email: ' + email });
