@@ -135,7 +135,7 @@ export class AppComponent implements OnInit {
           const decodedToken = helper.decodeToken(token)
             if (decodedToken.exp * 1000 > (Date.now()+ (60 * 60 * 1000))) {
               this.LocalStorageService.set('userName', decodedToken.userName);
-              this.LocalStorageService.set('profession', decodedToken.role[0]);
+              // this.LocalStorageService.set('profession', decodedToken.role[0]);
               this.session = true;
               this.userName = decodedToken.userName;
             } else {

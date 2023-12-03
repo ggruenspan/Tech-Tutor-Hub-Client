@@ -56,12 +56,12 @@ export class SettingsComponent implements OnInit {
 
   // Handles user data from local storage
   private handleUserData() {
-  // Retrieve the from local storage
-  const storedUserName = this.LocalStorageService.get('userName');
-  const storedProfession = this.LocalStorageService.get('profession');
+    // Retrieve the from local storage
+    const storedUserName = this.LocalStorageService.get('userName');
+    const storedProfession = this.LocalStorageService.get('profession');
 
-  this.userName = storedUserName !== null ? storedUserName : '';
-  this.profession = storedProfession !== null ? storedProfession : '';
-  if (storedProfession === 'Tutor') {  this.isTutor = true; } else { this.isTutor = false; }
+    this.userName = storedUserName !== null ? storedUserName : '';
+    this.profession = storedProfession !== null ? storedProfession : '';
+    if (storedProfession === 'Tutor') {  this.isTutor = true; } else { this.isTutor = false; }
   };
 }

@@ -12,16 +12,22 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+
 import { HomeComponent } from './components/home/home.component';
 import { FindYourTutorComponent } from './components/find-your-tutor/find-your-tutor.component';
 import { BecomeATutorComponent } from './components/become-a-tutor/become-a-tutor.component';
 import { HelpComponent } from './components/help/help.component';
-import { AccountComponent } from './components/account/account.component';
-import { HttpInterceptorService } from './interceptors/auth.interceptor';
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+
 import { SettingsComponent } from './components/settings/settings.component';
+import { AccountComponent } from './components/account/account.component';
+import { SecurityAndAccessComponent } from './components/security-and-access/security-and-access.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { PaymentsComponent } from './components/payments/payments.component';
+
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+
+import { HttpInterceptorService } from './interceptors/auth.interceptor';
+
 
 @NgModule({
   declarations: [
@@ -39,6 +45,7 @@ import { PaymentsComponent } from './components/payments/payments.component';
     AccountComponent,
     NotificationsComponent,
     PaymentsComponent,
+    SecurityAndAccessComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,8 +62,7 @@ import { PaymentsComponent } from './components/payments/payments.component';
   providers: [
     { 
       provide: HTTP_INTERCEPTORS, 
-      useClass: 
-      HttpInterceptorService, 
+      useClass: HttpInterceptorService, 
       multi: true 
     },
   ],
