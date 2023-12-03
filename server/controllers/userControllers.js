@@ -90,10 +90,12 @@ function signIn(req, res) {
                         fullName: user.profile.firstName + ' ' + user.profile.lastName
                     }
 
-                    // // Update user's login history and generate JWT token
-                    // user.loginHistory.push({dateTime: new Date(), userAgent: req.get('User-Agent')});
-                    // User.updateOne({ $set: { loginHistory: user.loginHistory}})
-                    // .then(() => {
+                    // Update user's login history and generate JWT token
+                    user.loginHistory.push({dateTime: new Date(), userAgent: req.get('User-Agent')});
+                    user.updateOne({ $set: { loginHistory: user.loginHistory}})
+
+                    // console.log(user);
+                    .then(() => {
                         jwtSign(payload)
                         .then((token) => {
                             // res.setHeader('Authorization', `bearer ${token}`);
@@ -103,11 +105,11 @@ function signIn(req, res) {
                             // console.error(err);
                             return res.status(500).json('An error occurred while signing in. Please try again');
                         })
-                    // })
-                    // .catch((err) => {
-                    //     // console.error(err);
-                    //     return res.status(500).json({ message: 'An error occurred while signing in. Please try again' });
-                    // })
+                    })
+                    .catch((err) => {
+                        // console.error(err);
+                        return res.status(500).json({ message: 'An error occurred while signing in. Please try again' });
+                    })
                 } else {
                     // console.error(err);
                     return res.status(400).json({ message: 'Invalid username or password' });
