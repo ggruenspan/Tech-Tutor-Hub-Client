@@ -20,6 +20,7 @@
     display: inline-block;
     padding: 8px 28px;
     width: 300px;
+    border: 1px solid #ccc;
     background-color: var(--site-color3);
 }
 
@@ -59,6 +60,7 @@
     border-radius: 50%;
     color: var(--site-color3);
     background-color: var(--site-color);
+    border: 1px solid #ccc;
 }
 
 hr {
@@ -73,32 +75,50 @@ hr {
     font-weight: 500;
 }
 
+.navbar-nav {
+    list-style-type: none;
+    padding: 0;
+}
+
 .nav-item {
-    padding: 20px 0px 20px 0px;
+    margin-bottom: 10px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+}
+
+.nav-item {
     width: 245px;
     list-style: none;
-}
-.nav-item a {
-    color: black;
+    display: flex;
     align-items: center;
 }
 
-.icon {
-    margin-left: 18px;
+.nav-item a {
+    display: flex;
+    align-items: center;
+    color: black;
 }
 
-.nav-item:hover .icon {
+.icon {
+    font-size: 20px;
+    width: 16px;
+    height: 16px;
+    margin-right: 25px;
+}
+
+.nav-item:hover .icon-arrow {
     transform: translateX(25px);
     transition: transform 0.3s ease;
 }
 
-.nav-item:not(:hover) .icon {
+.nav-item:not(:hover) .icon-arrow {
     transform: translateX(0);
     transition: transform 0.3s ease;
-}
-
-.custom-navbar-collapse {
-    background-color: var(--site-color3);
 }
 
 .settings-content {
@@ -106,13 +126,9 @@ hr {
     width: calc(100% - 315px);
     flex: 1;
     margin-left: 30px;
-    padding: 8px 28px;
-    background-color: var(--site-color3);
-}
-
-.container.sidebar-open .settings-content {
-    margin-top: 275px;
-    transition: margin-top 0.2s ease-in-out; /* Add a smooth transition effect */
+    padding: 0px 12px;
+    transition: margin-left 0.2s ease-in-out;
+    // background-color: var(--site-color3);
 }
 
 @media (max-width: 991px) {
@@ -121,10 +137,19 @@ hr {
         width: 100%;
     }
 
+    .custom-navbar-collapse {
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        background-color: var(--site-color3);
+    }
+
     .settings-content {
+        margin-top: 30px;
         margin-left: 0;
         height: 688px;
         margin-top: 30px;
+        &.menu-open { margin-top: 286px; }
+        &.tutor { margin-top: 352px; }
     }
 }
 

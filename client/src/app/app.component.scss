@@ -118,6 +118,7 @@ header {
     border-radius: 50%;
     color: var(--site-color3);
     background-color: var(--site-color);
+    border: 1px solid #ccc;
 }
 
 .menu-opt a {
@@ -154,11 +155,12 @@ hr {
     display: inline-block;
     width: 30px;
     height: 30px;
-    line-height: 30px;
+    line-height: 29px;
     text-align: center;
     border-radius: 50%;
     color: var(--site-color);
     background-color: var(--site-color3);
+    border: 1px solid #ccc;
 }
 
 .user-opt .icon {

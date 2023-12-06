@@ -34,6 +34,7 @@ const routes: Routes = [
   { path: 'help', component: HelpComponent },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard],
     children: [
+      { path: '', redirectTo: 'account', pathMatch: 'full' },
       { path: 'account', component: AccountComponent},
       { path: 'security&access', component: SecurityAndAccessComponent},
       { path: 'notifications', component: NotificationsComponent},

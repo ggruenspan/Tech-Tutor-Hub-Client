@@ -25,13 +25,24 @@ export class SettingsComponent implements OnInit {
   // Toggle the menu open or closed
   toggleSettingMenu() {
     if (this.sidebarVisible) {
-      setTimeout(() => {
-        this.sidebarVisible = false;
-        this.sidebarIcon = this.sidebarVisible ? 'fa-chevron-down' : 'fa-chevron-right';
-      }, 250); // Delay to close the menu with animation
+        setTimeout(() => {
+            this.sidebarVisible = false;
+            this.sidebarIcon = this.sidebarVisible ? 'fa-chevron-down' : 'fa-chevron-right';
+            this.toggleContentClasses(); // Add this line to toggle classes when the menu is closed
+        }, 250); // Delay to close the menu with animation
     } else {
-      this.sidebarVisible = true;
-      this.sidebarIcon = this.sidebarVisible ? 'fa-chevron-down' : 'fa-chevron-right';
+        this.sidebarVisible = true;
+        this.sidebarIcon = this.sidebarVisible ? 'fa-chevron-down' : 'fa-chevron-right';
+        this.toggleContentClasses(); // Add this line to toggle classes when the menu is open
+    }
+  }
+
+  // Toggle classes for the content based on menu state
+  toggleContentClasses() {
+    const settingsContent = document.querySelector('.settings-content');
+    if (settingsContent) {
+        settingsContent.classList.toggle('menu-open', this.sidebarVisible);
+        settingsContent.classList.toggle('tutor', this.isTutor);
     }
   }
 
@@ -39,6 +50,7 @@ export class SettingsComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onWindowResize(event: Event) {
     this.handleWindowResize();
+    this.toggleContentClasses();
   }
 
   // Handles changes in window size

@@ -37,7 +37,7 @@
                 </li>
                 <li class="nav-item" [hidden]="!isOpened" [style.visibility]="!isScreenLess ? 'hidden' : ''">
                     <div [hidden]="!session">
-                        <a class="m-3 text-decoration-none" href="/settings/account">Settings</a> 
+                        <a class="m-3 text-decoration-none" href="/settings">Settings</a> 
                     </div>
                 </li>
                 <li class="nav-item" [hidden]="!isOpened" [style.visibility]="!isScreenLess ? 'hidden' : ''">
@@ -61,7 +61,7 @@
         <div class="user-menu" [hidden]="!menuVisible" (click)="preventCloseOnClick()">
             <a class="m-3 text-decoration-none menu-item" href="/profile/{{ userName }}">Profile</a>
             <a class="m-3 text-decoration-none menu-item" href="">Messages</a>
-            <a class="m-3 text-decoration-none menu-item" href="/settings/account">Settings</a>
+            <a class="m-3 text-decoration-none menu-item" href="/settings">Settings</a>
             <a class="m-3 text-decoration-none menu-item" (click)="handleSignOut()" href="">Sign Out</a>  
         </div>
     </div>  
