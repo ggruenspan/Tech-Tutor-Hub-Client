@@ -14,7 +14,7 @@ export class SignInComponent {
   showPasswordIcon: string = 'fa-eye-slash';
   signInForm: FormGroup = new FormGroup({})
 
-  constructor(private toastr: ToastrService, private accountService: APIRoutesService, private LocalStorageService: LocalStorageService) { }
+  constructor(private toastr: ToastrService, private accountService: APIRoutesService, private storageService: LocalStorageService) { }
 
   ngOnInit(): void {
     this.initializeForm(); // Initialize the sign-in form
@@ -67,10 +67,10 @@ export class SignInComponent {
       this.accountService.signIn(this.signInForm.value).subscribe((response) => {
           // console.log('User signed in successfully', response);
           this.toastr.success(response.message);
-          this.LocalStorageService.set('jwtToken', response.token);
+          this.storageService.set('jwtToken', response.token);
           setTimeout(() => {
             window.location.replace('/');
-          }, 3000);
+          }, 1000);
         }, (error) => {
           // console.error('Signup error', error);
           this.toastr.error(error.error.message);

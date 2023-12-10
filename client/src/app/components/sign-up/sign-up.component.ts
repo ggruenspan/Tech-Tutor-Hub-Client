@@ -78,7 +78,7 @@ export class SignUpComponent {
           this.toastr.success(response.message);
           setTimeout(() => {
             window.location.replace('/sign-in');
-          }, 3000);
+          }, 1500);
         }, (error) => {
           // console.error('Signup error', error);
           this.toastr.error(error.error.message);

@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
+import { IconsModule  } from './modules/icons.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -57,7 +58,8 @@ import { HttpInterceptorService } from './interceptors/auth.interceptor';
     ToastrModule.forRoot({
       positionClass: 'toast-top-center',
       preventDuplicates: true,
-    })
+    }),
+    IconsModule
   ],
   providers: [
     { 

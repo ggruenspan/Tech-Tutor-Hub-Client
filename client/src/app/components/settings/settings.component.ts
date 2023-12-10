@@ -15,7 +15,7 @@ export class SettingsComponent implements OnInit {
   sidebarBtnClick = false;
   sidebarIcon: string = 'fa-chevron-right';
 
-  constructor(private renderer: Renderer2, private LocalStorageService: LocalStorageService) {}
+  constructor(private renderer: Renderer2, private storageService: LocalStorageService) {}
 
   ngOnInit() {
     this.handleWindowResize(); // Initialize window resize handling
@@ -28,21 +28,21 @@ export class SettingsComponent implements OnInit {
         setTimeout(() => {
             this.sidebarVisible = false;
             this.sidebarIcon = this.sidebarVisible ? 'fa-chevron-down' : 'fa-chevron-right';
-            this.toggleContentClasses(); // Add this line to toggle classes when the menu is closed
+            this.toggleContentClasses();
         }, 250); // Delay to close the menu with animation
     } else {
         this.sidebarVisible = true;
         this.sidebarIcon = this.sidebarVisible ? 'fa-chevron-down' : 'fa-chevron-right';
-        this.toggleContentClasses(); // Add this line to toggle classes when the menu is open
+        this.toggleContentClasses();
     }
   }
 
   // Toggle classes for the content based on menu state
   toggleContentClasses() {
     const settingsContent = document.querySelector('.settings-content');
-    if (settingsContent) {
-        settingsContent.classList.toggle('menu-open', this.sidebarVisible);
-        settingsContent.classList.toggle('tutor', this.isTutor);
+    if (settingsContent) { 
+      if (this.isTutor) { settingsContent.classList.toggle('tutor'); }
+      else { settingsContent.classList.toggle('menu-open'); }
     }
   }
 
@@ -50,7 +50,6 @@ export class SettingsComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onWindowResize(event: Event) {
     this.handleWindowResize();
-    this.toggleContentClasses();
   }
 
   // Handles changes in window size
@@ -63,17 +62,20 @@ export class SettingsComponent implements OnInit {
       this.sidebarIcon = this.sidebarVisible ? 'fa-chevron-down' : 'fa-chevron-right';
       const element = document.getElementById('settings-menu');
       this.renderer.removeClass(element, 'show');
+      this.toggleContentClasses();
     }
   }
 
   // Handles user data from local storage
   private handleUserData() {
     // Retrieve the from local storage
-    const storedUserName = this.LocalStorageService.get('userName');
-    const storedProfession = this.LocalStorageService.get('profession');
+    const storedUserName = this.storageService.get('userName');
+    const storedProfession = this.storageService.get('profession');
+    const storedTutor = this.storageService.get('isTutor');
+
 
     this.userName = storedUserName !== null ? storedUserName : '';
-    this.profession = storedProfession !== null ? storedProfession : '';
-    if (storedProfession === 'Tutor') {  this.isTutor = true; } else { this.isTutor = false; }
+    this.profession = storedProfession !== null ? storedProfession : 'User';
+    if (storedTutor === 'true') {  this.isTutor = true; } else { this.isTutor = false; }
   };
 }

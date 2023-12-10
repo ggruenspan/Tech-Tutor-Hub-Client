@@ -1,8 +1,8 @@
 import { Component, HostListener, Renderer2, OnInit } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
-import { APIRoutesService } from './services/apiRoutes.service';
 import { LocalStorageService } from './services/localStorage.service';
+import { APIRoutesService } from './services/apiRoutes.service';
+import { HandleDataService } from './services/handleData.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   isScrolled = false;
   scrollThreshold: number = 100;
   isScreenLess = false;
-  session: any = null;
+  session = '';
   userName = '';
   menuVisible = false;
   menuBtnClick = false;
@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
 
 
   constructor(private toastr: ToastrService, private renderer: Renderer2, private accountService: APIRoutesService, 
-              private LocalStorageService: LocalStorageService) {
+              private storageService: LocalStorageService, private dataService: HandleDataService) {
 
                 // Event listener to close the user menu when clicking outside
                 this.renderer.listen('window', 'click', (e: Event) => {
@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
     this.accountService.signOut().subscribe((response) => {
         // console.log('User signed out successfully', response);
         this.toastr.success(response.message);
-        this.LocalStorageService.remove('jwtToken');
+        this.dataService.removeData();
         setTimeout(() => {
           window.location.replace('/');
         }, 1000);
@@ -128,25 +128,11 @@ export class AppComponent implements OnInit {
 
   // Handles user data from JWT token stored in local storage
   private handleUserData() {
-    try {
-        const token = this.LocalStorageService.get('jwtToken');
-        const helper = new JwtHelperService();
-        if (token) {
-          const decodedToken = helper.decodeToken(token)
-            if (decodedToken.exp * 1000 > (Date.now()+ (60 * 60 * 1000))) {
-              this.LocalStorageService.set('userName', decodedToken.userName);
-              // this.LocalStorageService.set('profession', decodedToken.role[0]);
-              this.session = true;
-              this.userName = decodedToken.userName;
-            } else {
-              this.LocalStorageService.remove('jwtToken');
-              this.LocalStorageService.remove('userName');
-              this.session = false;
-              this.userName = '';
-            }
-        }
-    } catch (error) {
-        console.error('Error decoding token:', error);
-    }
+    this.dataService.setData();
+    const storedUserName = this.storageService.get('userName');
+    const storedSession= this.storageService.get('session');
+
+    this.userName = storedUserName !== null ? storedUserName : '';
+    this.session = storedSession !== null ? storedSession : '';
   };
 }
