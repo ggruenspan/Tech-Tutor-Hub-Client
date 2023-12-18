@@ -87,7 +87,10 @@ function signIn(req, res) {
                         userName: user.userName,
                         password: user.password,
                         email: user.email.address,
-                        fullName: user.profile.firstName + ' ' + user.profile.lastName
+                        firstName: user.profile.firstName,
+                        lastName: user.profile.lastName,
+                        phone: user.profile.phone,
+                        dof: user.profile.dof,
                     }
 
                     // Update user's login history and generate JWT token
