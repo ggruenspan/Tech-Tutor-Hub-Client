@@ -62,7 +62,11 @@ export class SettingsComponent implements OnInit {
       this.sidebarIcon = this.sidebarVisible ? 'fa-chevron-down' : 'fa-chevron-right';
       const element = document.getElementById('settings-menu');
       this.renderer.removeClass(element, 'show');
-      this.toggleContentClasses();
+      const settingsContent = document.querySelector('.settings-content');
+      if (settingsContent) { 
+        if (this.isTutor) { settingsContent.classList.remove('tutor'); }
+        else { settingsContent.classList.remove('menu-open'); }
+      }
     }
   }
 

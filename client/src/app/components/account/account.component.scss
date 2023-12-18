@@ -1,0 +1,203 @@
+.row>* {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.row {
+    padding: 8px 28px;
+    border: 1px solid #ccc;
+    background-color: var(--site-color3);
+}
+
+.account-container {
+    margin-bottom: 20px;
+}
+
+.account-top {
+    margin-bottom: 15px;
+}
+
+.account-top-title {
+    font-size: 20px;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.account-top-title .icon {
+    margin: 7px 5px 0px 0px;
+    font-size: 20px;
+    width: 16px;
+    height: 16px;
+    color: black;
+}
+
+hr {
+    border-width: 2px;
+    margin-top: 10px;
+}
+
+.account-top-middle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    width: 145px;
+    height: 40px;
+    border: none;
+    background-color: var(--site-color);
+}
+
+.btn:hover {
+    background-color: var(--site-color2);
+    color: var(--site-color);
+}
+
+.nameBar {
+    margin-top: -125px;
+    margin-bottom: 25px;
+}
+
+.users-profession {
+    font-size: 15px;  
+    position: relative;
+    top: 165px;
+    left: 65px;
+}
+
+.user-name {  
+    font-size: 20px;  
+    position: relative;
+    top: 95px;
+    left: 65px;
+}
+
+.user-pic {
+    font-size: 45px;
+    position: relative;
+    top: 20px;
+    right: 14px;
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    line-height: 65px;
+    text-align: center;
+    border-radius: 50%;
+    color: var(--site-color3);
+    background-color: var(--site-color);
+    border: 1px solid #ccc;
+}
+
+.account-content-title {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.userInfoForm .row {
+    border: 0px solid #ccc;
+}
+
+.userInfoForm .row div {
+    // padding: 18px 62px 18px 0px;
+}
+
+input:focus {
+    border-color: var(--site-color);
+    outline: none;
+    box-shadow: 0 0 5px var(--site-color);
+}
+
+.access-content-title {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.navbar-nav {
+    list-style-type: none;
+    padding: 0;
+}
+
+.nav-item {
+    margin-bottom: 10px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+}
+
+.nav-item {
+    width: 100%;
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.nav-item a {
+    display: flex;
+    align-items: center;
+    color: black;
+}
+
+.access-container .icon {
+    font-size: 20px;
+    width: 25px;
+    height: 25px;
+    margin: 0px 25px 8px 0px;
+}
+
+.nav-item:hover .icon-arrow {
+    transform: translateX(25px);
+    transition: transform 0.3s ease;
+}
+
+.nav-item:not(:hover) .icon-arrow {
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+}
+
+@media (max-width: 991px) {
+}
+
+@media (max-width: 650px) {
+    .btn {
+        font-size: 15px;
+        width: 115px;
+    }
+}
+
+@media (max-width: 430px) {
+    .user-pic {
+        width: 65px;
+        height: 65px;
+        line-height: 60px;
+    }
+
+    .user-name{
+        left: 55px;
+    }
+
+    .users-profession {
+        top: 160px;
+        left: 55px;
+    }
+}
+
+
+@media (max-width: 400px) {
+    .account-top-middle {
+        display: block;
+    }
+
+    .btn {
+        margin: 0px 58px;
+    }
+}
