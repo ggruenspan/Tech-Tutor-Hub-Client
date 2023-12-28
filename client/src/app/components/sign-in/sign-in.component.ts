@@ -72,7 +72,7 @@ export class SignInComponent {
             window.location.replace('/');
           }, 1000);
         }, (error) => {
-          // console.error('Signup error', error);
+          // console.error('error', error);
           this.toastr.error(error.error.message);
         }
       );

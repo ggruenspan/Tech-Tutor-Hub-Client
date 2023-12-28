@@ -80,7 +80,7 @@ export class SignUpComponent {
             window.location.replace('/sign-in');
           }, 1500);
         }, (error) => {
-          // console.error('Signup error', error);
+          // console.error('error', error);
           this.toastr.error(error.error.message);
         }
       );

@@ -29,6 +29,7 @@ export class AppComponent implements OnInit {
                 this.renderer.listen('window', 'click', (e: Event) => {
                   if (!this.menuBtnClick) {
                     this.menuVisible = false;
+                    this.menuIcon = this.menuVisible ? 'fa-caret-down' : 'fa-caret-right';
                   }
                   this.menuBtnClick = false;
                 });

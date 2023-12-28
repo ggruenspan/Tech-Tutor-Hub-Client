@@ -17,7 +17,7 @@ export class SignGuardService implements CanActivate {
         // If the user is authenticated, redirect them to the home page
         return this.accountService.authenticate().pipe(
             map((response) => { 
-                this.toastr.error("You are already Signed in");
+                this.toastr.error("You are already signed in");
                 this.route.navigate(['/']);
                 return false; 
             }),
