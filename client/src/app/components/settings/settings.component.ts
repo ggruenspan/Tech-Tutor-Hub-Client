@@ -9,7 +9,7 @@ import { LocalStorageService } from '../../services/localStorage.service';
 export class SettingsComponent implements OnInit {
   isScreenLess = false;
   userName = '';
-  profession = '';
+  role = '';
   isTutor = false;
   sidebarVisible = false;
   sidebarBtnClick = false;
@@ -70,12 +70,12 @@ export class SettingsComponent implements OnInit {
   private handleUserData() {
     // Retrieve the from local storage
     const storedUserName = this.storageService.get('userName');
-    const storedProfession = this.storageService.get('profession');
+    const storedRole = this.storageService.get('role');
     const storedTutor = this.storageService.get('isTutor');
 
 
     this.userName = storedUserName !== null ? storedUserName : '';
-    this.profession = storedProfession !== null ? storedProfession : 'User';
-    if (storedTutor === 'true') {  this.isTutor = true; } else { this.isTutor = false; }
+    this.role = storedRole !== null ? storedRole : '';
+    if (storedTutor === 'true' || storedRole === 'Admin') {  this.isTutor = true; } else { this.isTutor = false; }
   };
 }
