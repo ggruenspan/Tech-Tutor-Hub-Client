@@ -68,14 +68,14 @@ To get started with the development or deployment of Tech Tutor Hub, follow thes
 You need to run the application on HTTPS. To achieve this, follow these steps:
 
 1. Run this command to install Chocolatey
-  ```bash
-  Set-ExecutionPolicy Bypass -Scope Process -Force iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-
+      ```bash
+      Set-ExecutionPolicy Bypass -Scope Process -Force iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+      ```
 2. Run this to valid HTTPS certificates for localhost
-  ```bash
-  # You can put the files this command creates where every you want
-  mkcery localhost
-
+      ```bash
+      # You can put the files this command creates where every you want
+      mkcery localhost
+      ```
 3. Open your browser and navigate to https://localhost:4200 to view the application
 
 ## License
