@@ -54,17 +54,6 @@ To get started with the development or deployment of Tech Tutor Hub, follow thes
     cd server
     npm install
 
-3. Run the application
-    ```bash
-    # Run the front end (Angular)
-    cd client
-    ng serve
-
-    # Run the back end (Node.js)
-    # Make sure you have your .env file in the same folder
-    cd server
-    npm run devStart
-
 You need to run the application on HTTPS. To achieve this, follow these steps:
 
 1. Run this command to install Chocolatey
@@ -76,7 +65,19 @@ You need to run the application on HTTPS. To achieve this, follow these steps:
       # You can put the files this command creates where every you want
       mkcery localhost
       ```
-3. Open your browser and navigate to https://localhost:4200 to view the application
+
+3. Run the application
+    ```bash
+    # Run the front end (Angular)
+    cd client
+    ng serve
+
+    # Run the back end (Node.js)
+    # Make sure you have your .env file in the same folder
+    cd server
+    npm run devStart
+
+4. Open your browser and navigate to https://localhost:4200 to view the application
 
 ## License
 
