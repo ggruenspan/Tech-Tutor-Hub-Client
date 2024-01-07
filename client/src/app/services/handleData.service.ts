@@ -19,9 +19,11 @@ export class HandleDataService {
           // Check if the token is not expired (within the next hour)
           if (decodedToken.exp * 1000 > (Date.now()+ (60 * 60 * 1000))) {
             this.storageService.set('session', 'true');
-            // Check if the user has a 'Tutor' role
+            // Checks for the user roles
+            this.storageService.set('role', decodedToken.role[0]);
             if (decodedToken.role.includes('Tutor')) {
               this.storageService.set('isTutor', 'true');
+              this.storageService.set('role', "Tutor");
             }
             this.storageService.set('userName', decodedToken.userName);
             this.storageService.set('email', decodedToken.email);

@@ -171,7 +171,7 @@ function forgotPassword(req, res) {
                 sendEmail(res, email, subject, message, 'Password reset email sent');
             })
             .catch(err => {
-                console.error(err);
+                // console.error(err);
                 return res.status(500).json({ message: 'An error occurred while saving the reset token' });  
             });
         })

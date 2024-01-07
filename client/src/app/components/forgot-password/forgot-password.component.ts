@@ -38,13 +38,13 @@ export class ForgotPasswordComponent {
     } else {
       // Form is valid, submit the forgot-password data to the server
       this.accountService.forgotPassword(this.forgotPasswordForm.value).subscribe((response) => {
-          // console.log('User signed in successfully', response);
+          // console.log('Reset email sent successfully', response);
           this.toastr.success(response.message);
           setTimeout(() => {
             window.location.replace('/sign-in');
           }, 3000);
         }, (error) => {
-          // console.error('Signup error', error);
+          // console.error('error', error);
           this.toastr.error(error.error.message);
         }
       );

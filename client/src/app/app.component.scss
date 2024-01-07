@@ -3,14 +3,18 @@ header {
     font-weight: 600;
     background-color: var(--bg-primary);
     transition: all 0.3s ease-in-out;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
 .scrolled {
     background-color: var(--site-color3);
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    top: -82px;
-    transform: translateY(100%);
+    border-bottom: 1px solid #ccc;
+    // top: -82px;
+    // transform: translateY(100%);
 }
 
 .navbar-toggler {
