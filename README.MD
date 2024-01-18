@@ -36,7 +36,7 @@ The application is planned to be hosted on Netlify for the front end, providing 
 
 ## Getting Started
 
-To get started with the development or deployment of Tech Tutor Hub, follow these steps:
+To get started with the development or deployment of Tech Tutor Hub, follow these steps (Make Sure you have Angular Installed):
 
 1. Clone the repository:
 
@@ -54,19 +54,27 @@ To get started with the development or deployment of Tech Tutor Hub, follow thes
     cd server
     npm install
 
-You need to run the application on HTTPS. To achieve this, follow these steps:
-
-1. Run this command to install Chocolatey
+You need to run the application on HTTPS. To achieve this, follow these steps from [Medium.com]:
+1. First, open PowerShell as administrator
+      Run Get-ExecutionPolicy. If it returns Restricted, then run Set-ExecutionPolicy AllSigned or Set-ExecutionPolicy Bypass -Scope Process.
+2. Run this command to install Chocolatey
       ```bash
-      Set-ExecutionPolicy Bypass -Scope Process -Force iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
       ```
-2. Run this to valid HTTPS certificates for localhost
+3. After install chocolatey, we can install mkcert using
       ```bash
-      # You can put the files this command creates where every you want
-      mkcery localhost
+choco install mkcert
       ```
-
-3. Run the application
+4. Now we create a trusted certificate authority in our system’s root store
+      ```bash
+mkcert -install
+      ```
+5. Run this to valid HTTPS certificates for localhost
+      ```bash
+# You can put the files this command creates where every you want
+mkcert localhost
+      ```
+6. Run the application
     ```bash
     # Run the front end (Angular)
     cd client
@@ -77,7 +85,7 @@ You need to run the application on HTTPS. To achieve this, follow these steps:
     cd server
     npm run devStart
 
-4. Open your browser and navigate to https://localhost:4200 to view the application
+7. Open your browser and navigate to https://localhost:4200 to view the application
 
 ## License
 
@@ -94,3 +102,4 @@ MIT
    [Passport]: <https://www.passportjs.org/>
    [Express-Session]: <https://www.npmjs.com/package/express-session>
    [MongoDB]: <https://www.mongodb.com/>
+   [Medium.com]: <https://medium.com/@tuanhuyngt/using-https-in-development-with-react-js-5388bf7278de>
