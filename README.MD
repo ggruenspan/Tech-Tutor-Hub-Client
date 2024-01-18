@@ -56,7 +56,14 @@ To get started with the development or deployment of Tech Tutor Hub, follow thes
     ```
 You need to run the application on HTTPS. To achieve this, follow these steps from [Medium.com]:
 1. First, open PowerShell as administrator
-    Run Get-ExecutionPolicy. If it returns Restricted, then run Set-ExecutionPolicy AllSigned or Set-ExecutionPolicy Bypass -Scope Process.
+    Run
+    ```bash
+    Get-ExecutionPolicy 
+    ```
+    If it returns Restricted, then run 
+    ```bash
+    Set-ExecutionPolicy AllSigned or Set-ExecutionPolicy Bypass -Scope Process.
+    ```
 2. Run this command to install Chocolatey
     ```bash
     Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
