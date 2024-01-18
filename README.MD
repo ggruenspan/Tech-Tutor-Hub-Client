@@ -43,7 +43,7 @@ To get started with the development or deployment of Tech Tutor Hub, follow thes
    ```bash
    git clone https://github.com/ggruenspan/tech-tutor-hub.git
    cd tech-tutor-hub
-
+    ```
 2. Install Depedencies
     ```bash
     # Install front-end dependencies
@@ -53,27 +53,27 @@ To get started with the development or deployment of Tech Tutor Hub, follow thes
     # Install back-end dependencies
     cd server
     npm install
-
+    ```
 You need to run the application on HTTPS. To achieve this, follow these steps from [Medium.com]:
 1. First, open PowerShell as administrator
-      Run Get-ExecutionPolicy. If it returns Restricted, then run Set-ExecutionPolicy AllSigned or Set-ExecutionPolicy Bypass -Scope Process.
+    Run Get-ExecutionPolicy. If it returns Restricted, then run Set-ExecutionPolicy AllSigned or Set-ExecutionPolicy Bypass -Scope Process.
 2. Run this command to install Chocolatey
-      ```bash
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-      ```
+    ```bash
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+    ```
 3. After install chocolatey, we can install mkcert using
-      ```bash
-choco install mkcert
-      ```
+    ```bash
+    choco install mkcert
+    ```
 4. Now we create a trusted certificate authority in our system’s root store
-      ```bash
-mkcert -install
-      ```
+    ```bash
+    mkcert -install
+    ```
 5. Run this to valid HTTPS certificates for localhost
-      ```bash
-# You can put the files this command creates where every you want
-mkcert localhost
-      ```
+    ```bash
+    # You can put the files this command creates where every you want
+    mkcert localhost
+    ```
 6. Run the application
     ```bash
     # Run the front end (Angular)
@@ -84,7 +84,7 @@ mkcert localhost
     # Make sure you have your .env file in the same folder
     cd server
     npm run devStart
-
+    ```
 7. Open your browser and navigate to https://localhost:4200 to view the application
 
 ## License
