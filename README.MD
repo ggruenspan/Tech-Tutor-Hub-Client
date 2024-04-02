@@ -2,7 +2,20 @@
 
 ## Overview
 
-Tech Tutor Hub is an ongoing project with the goal of developing a web application that enables users to find a tutor tailored to their specific needs, employing a sleek and user-friendly interface. The primary technologies utilized in this project include Angular for the front end, Node.js for the back end, and Bootstrap for responsive design. User data is handled through Mongoose to ensure scalability, while robust security measures are implemented for user authentication and the sign-up/sign-in/sign-out processes. The application is designed to be mobile-friendly and accessible.
+Tech Tutor Hub is an ongoing project to develop a web application that enables users to find a tutor tailored to their specific needs, employing a sleek and user-friendly interface. The primary technologies utilized in this project include Angular for the front end, Node.js for the back end, and Bootstrap for responsive design. User data is handled through Mongoose to ensure scalability, while robust security measures are implemented for user authentication and the sign-up/sign-in/sign-out processes. The application is designed to be mobile-friendly and accessible.
+
+## Design Preview
+
+Here are some design previews of Tech Tutor Hub:
+
+![Home - Reviews](https://github.com/ggruenspan/Tech-Tutor-Hub/blob/main/design/homeReviews.png)
+- This section of the home page displays reviews of tutors.
+
+![Proflie](https://github.com/ggruenspan/Tech-Tutor-Hub/blob/main/design/proflie.png)
+- This is a user profile, showing all relevant information based on the user's role.
+
+![Mentors](https://github.com/ggruenspan/Tech-Tutor-Hub/blob/main/design/mentors.png)
+- This section lists all available mentors on the site.
 
 ## Technologies Used
 - **Front End:**
@@ -44,7 +57,7 @@ To get started with the development or deployment of Tech Tutor Hub, follow thes
    git clone https://github.com/ggruenspan/tech-tutor-hub.git
    cd tech-tutor-hub
     ```
-2. Install Depedencies
+2. Install Dependencies
     ```bash
     # Install front-end dependencies
     cd client
