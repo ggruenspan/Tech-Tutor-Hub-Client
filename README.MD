@@ -8,13 +8,13 @@ Tech Tutor Hub is an ongoing project to develop a web application that enables u
 
 Here are some design previews of Tech Tutor Hub:
 
-![Home - Reviews](https://github.com/ggruenspan/Tech-Tutor-Hub/blob/main/design/homeReviews.png)
+<img src="https://github.com/ggruenspan/Tech-Tutor-Hub/blob/main/design/homeReviews.png" alt="Home - Reviews" width="500"/>
 - This section of the home page displays reviews of tutors.
 
-![Proflie](https://github.com/ggruenspan/Tech-Tutor-Hub/blob/main/design/proflie.png)
+<img src="https://github.com/ggruenspan/Tech-Tutor-Hub/blob/main/design/proflie.png" alt="Proflie" width="500"/>
 - This is a user profile, showing all relevant information based on the user's role.
 
-![Mentors](https://github.com/ggruenspan/Tech-Tutor-Hub/blob/main/design/mentors.png)
+<img src="https://github.com/ggruenspan/Tech-Tutor-Hub/blob/main/design/mentors.png" alt="Mentors" width="500"/>
 - This section lists all available mentors on the site.
 
 ## Technologies Used
