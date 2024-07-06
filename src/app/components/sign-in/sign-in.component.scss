@@ -107,7 +107,7 @@ input:focus {
 
 @media (max-width: 575px) {
     .sign-in-container {
-        width: 445px; 
+        width: 400px; 
     }
 
     .logo-text {
@@ -118,11 +118,15 @@ input:focus {
         padding: 10px 90px 0px 90px;
     }
 
+    .togglePasswordVisibility {
+        margin: -31px 0px 0px 65px;
+    }
+
     .external-login {
         padding: 0px 90px 10px 90px;
     }
 
     .account {
-        padding: 0px 110px 0px 110px;
+        padding: 0px 90px 0px 90px;
     }
 }

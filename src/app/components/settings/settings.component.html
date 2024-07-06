@@ -37,6 +37,13 @@
                             <i class="fa fa-chevron-right icon-arrow ms-auto"></i>
                         </a>
                     </li>
+                    <li class="nav-item" [hidden]="!isAdmin">
+                        <a class="m-3 text-decoration-none flex-grow-1" href="/settings/admin-dashboard">
+                            <i class="far fa-address-card icon"></i>
+                            Admin Dashboard
+                            <i class="fa fa-chevron-right icon-arrow ms-auto"></i>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="m-3 text-decoration-none flex-grow-1" href="/settings/security&access">
                             <i class="fa fa-shield-halved icon"></i>

@@ -22,7 +22,7 @@ export class HandleDataService {
             // Checks for the user roles
             this.storageService.set('role', decodedToken.role[0]);
             if (decodedToken.role.includes('Tutor')) {
-              this.storageService.set('isTutor', 'true');
+              // this.storageService.set('isTutor', 'true');
               this.storageService.set('role', "Tutor");
             }
             this.storageService.set('userName', decodedToken.userName);

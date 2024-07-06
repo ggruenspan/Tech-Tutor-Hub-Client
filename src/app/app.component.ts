@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
     if (this.isOpened) {
       setTimeout(() => {
         this.isOpened = false;
-      }, 350); // Delay to close the menu with animation
+      }, 150); // Delay to close the menu with animation
     } else {
       this.isOpened = true;
     }

@@ -10,7 +10,7 @@
 
             <div class="account-top-middle">
                 <div class="nameBar">
-                    <p class="m-3 users-profession">{{ profession }}</p>
+                    <p class="m-3 users-profession">{{ role }}</p>
                     <p class="m-3 user-name">{{ userName }}</p>
                     <p class="m-3 user-pic">{{ userName.split(" ")[0].charAt(0).toUpperCase() }}</p>
                 </div>
@@ -25,7 +25,7 @@
         <div class="account-content">
             <div class="account-content-title">General</div>
             <hr>
-            <!-- <form class="userInfoForm" id="userInfoForm">
+            <form class="userInfoForm" id="userInfoForm">
                 <div class="row">
                     <div class="col-sm-6 mb-3">
                             <label for="firstName" class="form-label">First Name</label>
@@ -50,7 +50,7 @@
                         <input type="Date" class="form-control" id="dof" value="{{ dof }}" [readonly]="!editable" [disabled]="!editable">
                     </div>
                 </div>
-            </form> -->
+            </form>
         </div>
     </div>
 

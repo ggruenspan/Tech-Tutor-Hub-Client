@@ -11,6 +11,7 @@ export class SettingsComponent implements OnInit {
   userName = '';
   role = '';
   isTutor = false;
+  isAdmin = false;
   sidebarVisible = false;
   sidebarBtnClick = false;
   sidebarIcon: string = 'fa-chevron-right';
@@ -75,11 +76,10 @@ export class SettingsComponent implements OnInit {
     // Retrieve the from local storage
     const storedUserName = this.storageService.get('userName');
     const storedRole = this.storageService.get('role');
-    const storedTutor = this.storageService.get('isTutor');
-
 
     this.userName = storedUserName !== null ? storedUserName : '';
     this.role = storedRole !== null ? storedRole : '';
-    if (storedTutor === 'true' || storedRole === 'Admin') {  this.isTutor = true; } else { this.isTutor = false; }
+    if (storedRole === 'Tutor') {  this.isTutor = true; } else { this.isTutor = false; }
+    if (storedRole === 'Admin') {  this.isAdmin = true; } else { this.isAdmin = false; }
   };
 }

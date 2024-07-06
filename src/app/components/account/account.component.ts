@@ -8,7 +8,7 @@ import { LocalStorageService } from '../../services/localStorage.service';
 })
 export class AccountComponent implements OnInit {
   userName = '';
-  profession = '';
+  role = '';
   email = '';
   firstName = '';
   lastName = '';
@@ -35,7 +35,7 @@ export class AccountComponent implements OnInit {
   private handleUserData() {
     // Retrieve the from local storage
     const storedUserName = this.storageService.get('userName');
-    const storedProfession = this.storageService.get('profession');
+    const storedRole = this.storageService.get('role');
     const storedEmail = this.storageService.get('email');
     const storedFirstName = this.storageService.get('firstName');
     const storedLastName = this.storageService.get('lastName');
@@ -43,7 +43,7 @@ export class AccountComponent implements OnInit {
     const storedDOF = this.storageService.get('dof');
 
     this.userName = storedUserName !== null ? storedUserName : '';
-    this.profession = storedProfession !== null ? storedProfession : 'User';
+    this.role = storedRole !== null ? storedRole : 'User';
     this.email = storedEmail !== null ? storedEmail : '';
     this.firstName = storedFirstName !== null ? storedFirstName : '';
     this.lastName = storedLastName !== null ? storedLastName : '';
