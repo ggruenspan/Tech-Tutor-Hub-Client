@@ -24,30 +24,39 @@ export class ForgotPasswordComponent {
     })
   }
 
+  // Handle form submission for forgot-password
   forgotPasswordSubmit() {
-    if (this.forgotPasswordForm.invalid) {
-      // Handle validation errors
-      if (this.forgotPasswordForm.get('email')?.errors) {
-        if (this.forgotPasswordForm.get('email')?.errors?.['required']) {
-          this.toastr.error('Email is required');
-        }
-        if (this.forgotPasswordForm.get('email')?.errors?.['email']) {
-          this.toastr.warning('Invalid email address');
-        }
-      }
-    } else {
+    if (this.forgotPasswordForm.valid) {
       // Form is valid, submit the forgot-password data to the server
       this.accountService.forgotPassword(this.forgotPasswordForm.value).subscribe((response) => {
-          // console.log('Reset email sent successfully', response);
-          this.toastr.success(response.message);
-          setTimeout(() => {
-            window.location.replace('/sign-in');
-          }, 3000);
-        }, (error) => {
-          // console.error('error', error);
-          this.toastr.error(error.error.message);
-        }
-      );
+        // console.log('Reset email sent successfully', response);
+        this.toastr.success(response.message);
+        setTimeout(() => {
+          window.location.replace('/sign-in');
+        }, 3000);
+      }, (error) => {
+        // console.error('error', error);
+        this.toastr.error(error.error.message);
+      });
+    } else {
+      this.validateFormFields();
     }
+  }
+
+  // Validate form fields and show toastr messages for errors
+  validateFormFields() {
+    const formControls = this.forgotPasswordForm.controls;
+
+    Object.keys(formControls).forEach(key => {
+      const control = formControls[key];
+      if (control.invalid) {
+        if (control.errors?.['required']) {
+          this.toastr.error(`Email is required`);
+        }
+        if (control.errors?.['email']) {
+          this.toastr.warning('Invalid Email Address');
+        }
+      }
+    });
   }
 }

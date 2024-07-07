@@ -40,42 +40,56 @@ export class SignInComponent {
 
   // Handle sign-in form submission
   signInSubmit() {
-    if (this.signInForm.invalid) {
-      // Handle validation errors
-      if (this.signInForm.get('email')?.errors) {
-        if (this.signInForm.get('email')?.errors?.['required']) {
-          this.toastr.error('Email is required');
-        }
-        if (this.signInForm.get('email')?.errors?.['email']) {
-          this.toastr.warning('Invalid email address');
-        }
-      }
-  
-      if (this.signInForm.get('password')?.errors) {
-        if (this.signInForm.get('password')?.errors?.['required']) {
-          this.toastr.error('Password is required');
-        }
-        if (this.signInForm.get('password')?.hasError('minlength')) {
-          this.toastr.warning('Password must be at least 6 characters long');
-        }
-        if (this.signInForm.get('password')?.errors?.['pattern']) {
-          this.toastr.warning('Password must include at least one digit, one lowercase letter, and one uppercase letter');
-        }
-      }
-    } else {
+    if (this.signInForm.valid) {
       // Form is valid, submit the sign-in data to the server
       this.accountService.signIn(this.signInForm.value).subscribe((response) => {
-          // console.log('User signed in successfully', response);
-          this.toastr.success(response.message);
-          this.storageService.set('jwtToken', response.token);
-          setTimeout(() => {
-            window.location.replace('/');
-          }, 1000);
-        }, (error) => {
-          // console.error('error', error);
-          this.toastr.error(error.error.message);
+        // console.log('User signed in successfully', response);
+        this.toastr.success(response.message);
+        this.storageService.set('jwtToken', response.token);
+        setTimeout(() => {
+          window.location.replace('/');
+        }, 1000);
+      }, (error) => {
+        // console.error('error', error);
+        this.toastr.error(error.error.message);
+      });
+    } else {
+      this.validateFormFields();
+    }
+  }
+
+
+  // Validate form fields and show toastr messages for errors
+  validateFormFields() {
+    const formControls = this.signInForm.controls;
+
+    Object.keys(formControls).forEach(key => {
+      const control = formControls[key];
+      if (control.invalid) {
+        if (control.errors?.['required']) {
+          this.toastr.error(`${this.getDisplayName(key)} is required`);
         }
-      );
+        if (control.errors?.['email']) {
+          this.toastr.warning('Invalid Email Address');
+        }
+        if (control.errors?.['pattern']) {
+            this.toastr.warning('Password must be at least 6 characters long and include at least one digit, one lowercase letter, and one uppercase letter');
+        }
+        if (control.errors?.['minlength']) {
+          this.toastr.warning('Password must be at least 6 characters long');
+        }
+      }
+    });
+  }
+
+  getDisplayName(key: string): string {
+    switch (key) {
+      case 'email':
+        return 'Email';
+      case 'password':
+        return 'Password';
+      default:
+        return key; // fallback to key if no match
     }
   }
 }

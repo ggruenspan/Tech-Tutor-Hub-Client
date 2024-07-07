@@ -40,50 +40,63 @@ export class SignUpComponent {
   
   // Handle sign-up form submission
   signUpSubmit() {
-    if (this.signUpForm.invalid) {
-      // Handle validation errors
-      if (this.signUpForm.get('fullName')?.errors) {
-        if (this.signUpForm.get('fullName')?.errors?.['required']) {
-          this.toastr.error('Full Name is required');
-        }
-        if (this.signUpForm.get('fullName')?.errors?.['pattern']) {
-          this.toastr.warning('Full Name must include first name followed by last name. i.e John Smith');
-        }
-      }
-
-      if (this.signUpForm.get('email')?.errors) {
-        if (this.signUpForm.get('email')?.errors?.['required']) {
-          this.toastr.error('Email is required');
-        }
-        if (this.signUpForm.get('email')?.errors?.['email']) {
-          this.toastr.warning('Invalid email address');
-        }
-      }
-  
-      if (this.signUpForm.get('password')?.errors) {
-        if (this.signUpForm.get('password')?.errors?.['required']) {
-          this.toastr.error('Password is required');
-        }
-        if (this.signUpForm.get('password')?.hasError('minlength')) {
-          this.toastr.warning('Password must be at least 6 characters long');
-        }
-        if (this.signUpForm.get('password')?.errors?.['pattern']) {
-          this.toastr.warning('Password must include at least one digit, one lowercase letter, and one uppercase letter');
-        }
-      }
-    } else {
+    if (this.signUpForm.valid) {
       // Form is valid, submit the sign-up data to the server
       this.accountService.signUp(this.signUpForm.value).subscribe((response) => {
-          // console.log('User signed up successfully', response);
-          this.toastr.success(response.message);
-          setTimeout(() => {
-            window.location.replace('/sign-in');
-          }, 1500);
-        }, (error) => {
-          // console.error('error', error);
-          this.toastr.error(error.error.message);
+        // console.log('User signed up successfully', response);
+        this.toastr.success(response.message);
+        setTimeout(() => {
+          window.location.replace('/sign-in');
+        }, 1500);
+      }, (error) => {
+        // console.error('error', error);
+        this.toastr.error(error.error.message);
+      });
+    } else {
+      this.validateFormFields();
+    }
+  }
+  
+  // Validate form fields and show toastr messages for errors
+  validateFormFields() {
+    const formControls = this.signUpForm.controls;
+
+    Object.keys(formControls).forEach(key => {
+      const control = formControls[key];
+      if (control.invalid) {
+        if (control.errors?.['required']) {
+          this.toastr.error(`${this.getDisplayName(key)} is required`);
         }
-      );
+        if (control.errors?.['email']) {
+          this.toastr.warning('Invalid Email Address');
+        }
+        if (control.errors?.['pattern']) {
+          if (this.signUpForm.get('fullName')?.errors) {
+            this.toastr.warning('Full Name must include first name followed by last name. i.e John Smith');
+          }
+          if (this.signUpForm.get('password')?.errors) {
+            this.toastr.warning('Password must be at least 6 characters long and include at least one digit, one lowercase letter, and one uppercase letter');
+          }
+        }
+        if (control.errors?.['minlength']) {
+          this.toastr.warning('Password must be at least 6 characters long');
+        }
+      }
+    });
+  }
+
+  getDisplayName(key: string): string {
+    switch (key) {
+      case 'fullName':
+        return 'Full Name';
+      case 'lastName':
+        return 'Last Name';
+      case 'email':
+        return 'Email';
+      case 'password':
+        return 'Password';
+      default:
+        return key; // fallback to key if no match
     }
   }
 }

@@ -39,33 +39,42 @@ export class ResetPasswordComponent {
     })
   }
 
+   // Handle form submission for resetting the password
   resetPasswordSubmit() {
-    if (this.resetPasswordForm.invalid) {
-      // Handle validation errors
-      if (this.resetPasswordForm.get('password')?.errors) {
-        if (this.resetPasswordForm.get('password')?.errors?.['required']) {
-          this.toastr.error('Password is required');
-        }
-        if (this.resetPasswordForm.get('password')?.hasError('minlength')) {
-          this.toastr.warning('Password must be at least 6 characters long');
-        }
-        if (this.resetPasswordForm.get('password')?.errors?.['pattern']) {
-          this.toastr.warning('Password must include at least one digit, one lowercase letter, and one uppercase letter');
-        }
-      }
-    } else {
+    if (this.resetPasswordForm.valid) {
       // Form is valid, submit the sign-up data to the server
       this.accountService.resetPassword(this.token, this.resetPasswordForm.value).subscribe((response) => {
-          // console.log('User signed up successfully', response);
-          this.toastr.success(response.message);
-          setTimeout(() => {
-            window.location.replace('/sign-in');
-          }, 3000);
-        }, (error) => {
-          // console.error('Signup error', error);
-          this.toastr.error(error.error.message);
-        }
-      );
+        // console.log('User signed up successfully', response);
+        this.toastr.success(response.message);
+        setTimeout(() => {
+          window.location.replace('/sign-in');
+        }, 3000);
+      }, (error) => {
+        // console.error('Signup error', error);
+        this.toastr.error(error.error.message);
+      });
+    } else {
+      this.validateFormFields();
     }
+  }
+
+  // Validate form fields and show toastr messages for errors
+  validateFormFields() {
+    const formControls = this.resetPasswordForm.controls;
+
+    Object.keys(formControls).forEach(key => {
+      const control = formControls[key];
+      if (control.invalid) {
+        if (control.errors?.['required']) {
+          this.toastr.error(`Password is required`);
+        }
+        if (control.errors?.['pattern']) {
+          this.toastr.warning('Password must be at least 6 characters long and include at least one digit, one lowercase letter, and one uppercase letter');
+        }
+        if (control.errors?.['minlength']) {
+          this.toastr.warning('Password must be at least 6 characters long');
+        }
+      }
+    });
   }
 }
