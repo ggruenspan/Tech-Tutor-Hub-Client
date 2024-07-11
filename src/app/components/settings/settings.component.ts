@@ -72,7 +72,7 @@ export class SettingsComponent implements OnInit {
   }
 
   // Handles user data from local storage
-  private handleUserData() {
+  handleUserData() {
     // Retrieve the from local storage
     const storedUserName = this.storageService.get('userName');
     const storedRole = this.storageService.get('role');
