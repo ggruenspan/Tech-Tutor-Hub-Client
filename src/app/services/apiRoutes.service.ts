@@ -40,4 +40,9 @@ export class APIRoutesService {
     return this.http.get(`${this.baseUrl}/authenticate`);
   }
 
+  // Method for updating the users profile
+  updateUserProfile(data: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/updateUserProfile`, data);
+  }
+
 }
