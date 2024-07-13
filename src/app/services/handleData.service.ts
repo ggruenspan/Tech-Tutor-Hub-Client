@@ -9,8 +9,13 @@ export class HandleDataService {
 
   constructor(private storageService: LocalStorageService) { }
 
+  // Helper method to set storage values
+  setStorage(key: string, value: any) {
+    this.storageService.set(key, value === undefined ? '' : value);
+  }
+
   // Method to set user data in local storage based on the decoded JWT token
-  public setData () {
+  setData () {
     try {
       const token = this.storageService.get('jwtToken');
       const helper = new JwtHelperService();
@@ -22,15 +27,19 @@ export class HandleDataService {
             // Checks for the user roles
             this.storageService.set('role', decodedToken.role[0]);
             if (decodedToken.role.includes('Tutor')) {
-              // this.storageService.set('isTutor', 'true');
               this.storageService.set('role', "Tutor");
             }
             this.storageService.set('userName', decodedToken.userName);
             this.storageService.set('email', decodedToken.email);
             this.storageService.set('firstName', decodedToken.firstName);
             this.storageService.set('lastName', decodedToken.lastName);
-            this.storageService.set('phone', decodedToken.phone);
-            this.storageService.set('dof', decodedToken.dof);
+            this.setStorage('phoneNumber', decodedToken.phoneNumber);
+            this.setStorage('dateOfBirth', decodedToken.dateOfBirth);
+            this.setStorage('country', decodedToken.country);
+            this.setStorage('stateprovince', decodedToken.stateprovince);
+            this.setStorage('city', decodedToken.city);
+            this.setStorage('bio', decodedToken.bio);
+            this.setStorage('pronouns', decodedToken.pronouns);
           } else {
             this.removeData ();
           }
@@ -41,7 +50,7 @@ export class HandleDataService {
   }
 
   // Method to clear all data from local storage
-  public removeData () {
+  removeData () {
     localStorage.clear();
   }
 }
