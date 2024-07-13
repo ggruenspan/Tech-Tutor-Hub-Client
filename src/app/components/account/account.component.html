@@ -16,7 +16,7 @@
                 </div>
 
                 <button *ngIf="!editable" type="button" class="btn edit rounded" (click)="toggleEdit()">Edit Account</button>
-                <button *ngIf="editable" type="submit" form="userInfoForm" class="btn submit rounded" (click)="submitNewUserInfo()">Submit</button>
+                <button *ngIf="editable" type="submit" form="generalForm, addInfoForm" class="btn submit rounded" (click)="submitNewUserInfo()">Submit</button>
             </div>
             
 
@@ -25,56 +25,78 @@
         <div class="account-content">
             <div class="account-content-title">General</div>
             <hr>
-            <form class="userInfoForm" id="userInfoForm">
+            <form class="generalForm" id="generalForm" [formGroup]="generalForm">
                 <div class="row">
-                    <div class="col-sm-6 mb-3">
-                            <label for="firstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="firstName" value="{{ firstName }}" [readonly]="!editable" [disabled]="!editable">
+                    <div class="col-sm-6 mb-3 form-group">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input class="form-control" id="firstName" name="firstName" type="text" formControlName="firstName">
                     </div>
-                    <div class="col-sm-6 mb-3">
-                            <label for="lastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" value="{{ lastName }}" [readonly]="!editable" [disabled]="!editable">
+                    <div class="col-sm-6 mb-3 form-group">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input  class="form-control" id="lastName" name="lastName" type="text" formControlName="lastName">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm mb-3">
+                    <div class="col-sm mb-3 form-group">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" value="{{ email }}" [readonly]="!editable" [disabled]="!editable">
+                        <input class="form-control" id="email" name="email" type="email" formControlName="email">
                     </div>
-                    <div class="col-sm mb-3">
-                        <label for="phone" class="form-label">Phone</label>
-                    <input type="text" class="form-control" id="phone" value="{{ phone }}" [readonly]="!editable" [disabled]="!editable">
+                    <div class="col-sm mb-3 form-group">
+                        <label for="phoneNumber" class="form-label">Phone</label>
+                        <input class="form-control" id="phoneNumber" name="phoneNumber" type="tel" formControlName="phoneNumber">
                     </div>
-                    <div class="col-sm mb-3">
-                        <label for="dof" class="form-label">Date of Birth</label>
-                        <input type="Date" class="form-control" id="dof" value="{{ dof }}" [readonly]="!editable" [disabled]="!editable">
+                    <div class="col-sm mb-3 form-group">
+                        <label for="dateOfBirth" class="form-label">Date of Birth</label>
+                        <input class="form-control" id="dateOfBirth" name="dateOfBirth" type="date" formControlName="dateOfBirth">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm mb-3 form-group">
+                        <label for="country" class="form-label">Country</label>
+                        <input class="form-control" id="country" name="country" type="text" formControlName="country">
+                    </div>
+                    <div class="col-sm mb-3 form-group">
+                        <label for="stateprovince" class="form-label">State / Province</label>
+                        <input class="form-control" id="stateprovince" name="stateprovince" type="text" formControlName="stateprovince">
+                    </div>
+                    <div class="col-sm mb-3 form-group">
+                        <label for="city" class="form-label">City</label>
+                        <input  class="form-control" id="city" name="city" type="text" formControlName="city">
                     </div>
                 </div>
             </form>
         </div>
     </div>
 
-    <div class="row access-container rounded">
-        <div class="access-content">
-            <div class="access-content-title">Access</div>
+    <div class="row addInfo-container rounded">
+        <div class="addInfo-content">
+            <div class="addInfo-content-title">Additional Information</div>
             <hr>
-
-            <ul class="navbar-nav flex-column">
-                <li class="nav-item">
-                    <a class="m-3 text-decoration-none flex-grow-1" href="">
-                        <i-tabler class="icon" name="key"></i-tabler>
-                        Change Password
-                        <i class="fa fa-chevron-right icon-arrow ms-auto"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="m-3 text-decoration-none flex-grow-1" href="">
-                        <i-tabler class="icon" name="user-x"></i-tabler>
-                        Deactivate Account
-                        <i class="fa fa-chevron-right icon-arrow ms-auto"></i>
-                    </a>
-                </li>
-            </ul>
+            <form class="addInfoForm" id="addInfoForm" [formGroup]="addInfoForm">
+                <div class="row">
+                    <div class="col-sm-10 mb-3 form-group">
+                        <label for="bio" class="form-label">Bio</label>
+                        <textarea class="form-control" id="bio" name="bio" type="text" formControlName="bio"></textarea>
+                        <div class="text-muted">
+                            <span [ngStyle]="{ 'color': bioWordCount > maxWords ? 'red' : 'inherit' }">
+                                {{ bioWordCount }}
+                            </span>
+                            / {{ maxWords }} words
+                        </div>
+                    </div>
+                    <div class="col-sm mb-3 form-group">
+                        <label for="pronouns" class="form-label">Pronouns</label>
+                        <select class="form-select" id="pronouns" name="pronouns" formControlName="pronouns" (change)="toggleCustomPronouns($event)">
+                            <option selected>Select Pronouns</option>
+                            <option value="he/him">He/Him</option>
+                            <option value="she/her">She/Her</option>
+                            <option value="they/them">They/Them</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                        <input *ngIf="showCustomPronounsInput" class="form-control mt-2" id="customPronouns" name="customPronouns" type="text" placeholder="Pronouns" formControlName="customPronouns">
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
