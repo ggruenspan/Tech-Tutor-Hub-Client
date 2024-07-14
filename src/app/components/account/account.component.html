@@ -52,16 +52,13 @@
                 </div>
                 <div class="row">
                     <div class="col-sm mb-3 form-group">
-                        <label for="country" class="form-label">Country</label>
-                        <input class="form-control" id="country" name="country" type="text" formControlName="country">
-                    </div>
-                    <div class="col-sm mb-3 form-group">
-                        <label for="stateprovince" class="form-label">State / Province</label>
-                        <input class="form-control" id="stateprovince" name="stateprovince" type="text" formControlName="stateprovince">
-                    </div>
-                    <div class="col-sm mb-3 form-group">
-                        <label for="city" class="form-label">City</label>
-                        <input  class="form-control" id="city" name="city" type="text" formControlName="city">
+                        <label for="location" class="form-label">Address</label>
+                        <input class="form-control" id="location" name="location" type="text" formControlName="location">
+                        <ul id="autocomplete-results" class="list-group">
+                          <li *ngFor="let result of autocompleteResults" class="list-group-item" (click)="selectAddress(result)">
+                            {{ result.display_name }}
+                          </li>
+                        </ul>
                     </div>
                 </div>
             </form>
@@ -87,7 +84,7 @@
                     <div class="col-sm mb-3 form-group">
                         <label for="pronouns" class="form-label">Pronouns</label>
                         <select class="form-select" id="pronouns" name="pronouns" formControlName="pronouns" (change)="toggleCustomPronouns($event)">
-                            <option selected>Select Pronouns</option>
+                            <option [selected]="pronouns === ''">Select Pronouns</option>
                             <option value="he/him">He/Him</option>
                             <option value="she/her">She/Her</option>
                             <option value="they/them">They/Them</option>
