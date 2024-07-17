@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
     providedIn: 'root'
 })
 
-export class AuthGuardService implements CanActivate {
+export class ProtectedRouteGuardService implements CanActivate {
     
     constructor(private accountService: APIRoutesService, private route : Router, private toastr: ToastrService) { }
 

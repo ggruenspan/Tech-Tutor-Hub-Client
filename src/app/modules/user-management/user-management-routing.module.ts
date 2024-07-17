@@ -6,10 +6,10 @@ import { AccountComponent } from '../../components/account/account.component';
 import { SecurityAndAccessComponent } from '../../components/security-and-access/security-and-access.component';
 import { NotificationsComponent } from '../../components/notifications/notifications.component';
 import { PaymentsComponent } from '../../components/payments/payments.component';
-import { AuthGuardService as AuthGuard } from '../../guards/auth.guard';
+import { ProtectedRouteGuardService as ProtectedRouteGuard } from '../../guards/protected-route.guard';
 
 const routes: Routes = [
-  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard],
+  { path: 'settings', component: SettingsComponent, canActivate: [ProtectedRouteGuard],
     children: [
       { path: '', redirectTo: 'account', pathMatch: 'full' },
       { path: 'account', component: AccountComponent},
