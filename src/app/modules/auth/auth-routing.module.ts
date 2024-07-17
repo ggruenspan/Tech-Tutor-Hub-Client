@@ -5,11 +5,11 @@ import { SignInComponent } from '../../components/sign-in/sign-in.component';
 import { SignUpComponent } from '../../components/sign-up/sign-up.component';
 import { ForgotPasswordComponent } from '../../components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from '../../components/reset-password/reset-password.component';
-import { SignGuardService as SignGuard } from '../../guards/sign.guard';
+import { AuthGuardService as AuthGuard } from '../../guards/auth.guard';
 
 const routes: Routes = [
-  { path:'sign-in', component: SignInComponent, canActivate: [SignGuard] },
-  { path:'sign-up', component: SignUpComponent, canActivate: [SignGuard] },
+  { path:'sign-in', component: SignInComponent, canActivate: [AuthGuard] },
+  { path:'sign-up', component: SignUpComponent, canActivate: [AuthGuard] },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path:'reset-password/:token', component: ResetPasswordComponent }
 ];

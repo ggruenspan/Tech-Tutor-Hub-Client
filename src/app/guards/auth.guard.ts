@@ -9,7 +9,7 @@ import { of } from 'rxjs';
     providedIn: 'root'
 })
 
-export class SignGuardService implements CanActivate {
+export class AuthGuardService implements CanActivate {
     
     constructor(private accountService: APIRoutesService, private route : Router, private toastr: ToastrService) { }
 
