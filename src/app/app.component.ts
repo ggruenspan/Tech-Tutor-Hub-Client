@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
     if (this.isOpened) {
       setTimeout(() => {
         this.isOpened = false;
-      }, 150); // Delay to close the menu with animation
+      }, 500); // Delay to close the menu with animation
     } else {
       this.isOpened = true;
     }
@@ -58,14 +58,12 @@ export class AppComponent implements OnInit {
   // Handle user sign out
   handleSignOut() {
     this.accountService.signOut().subscribe((response) => {
-        // console.log('User signed out successfully', response);
         this.toastr.success(response.message);
         this.dataService.removeData();
         setTimeout(() => {
           window.location.replace('/');
         }, 1000);
       }, (error) => {
-        // console.error('SignOut error', error);
         this.toastr.error(error.error.message);
       }
     );
