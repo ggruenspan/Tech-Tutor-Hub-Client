@@ -1,0 +1,160 @@
+.auth-container {
+    background-color: var(--site-color3);
+    width: 530px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+
+    &.sign-in-container {
+        height: 725px;
+    }
+
+    &.sign-up-container {
+        height: 755px;
+    }
+
+    &.forgot-password-container, &.reset-password-container {
+        height: 530px;
+        margin-top: 100px;
+        margin-bottom: 129px;
+      }
+    
+    .logo-text {
+        padding: 0px 150px;
+    }
+
+    &.forgot-password-container .logo-text, &.reset-password-container .logo-text {
+        padding: 0px 145px;
+    }
+
+    img {
+        margin-top: 30px;
+    }
+
+    &.forgot-password-container img, &.reset-password-container img {
+        margin-top: 20px;
+    }
+
+    .description {
+        font-weight: 500;
+        font-size: 16px;
+        margin: 15px 75px 30px;
+        text-align: center;
+    }
+
+    .form-group {
+        padding-top: 10px;
+    }
+
+    .btn {
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        width: 165px;
+        height: 40px;
+        border: none;
+
+        &.submit {
+            background-color: var(--site-color);
+            margin: 20px;
+
+            &:hover {
+                background-color: var(--site-color2);
+                color: var(--site-color);
+            }
+        }
+
+        &.google {
+            background-color: #4285F4;
+            margin-bottom: 20px;
+        }
+
+        &.facebook {
+            background-color: #4267B2;
+        }
+    }
+
+    hr {
+        overflow: visible;
+        opacity: 100%;
+        font-weight: bold;
+
+        &:after {
+            background: var(--site-color3);
+            content: 'OR';
+            padding: 0 4px;
+            position: relative;
+            top: -13px;
+        }
+    }
+
+    .external-login {
+        margin: 10px;
+    }
+
+    .account {
+        padding: 0px 20px;
+
+        a {
+            color: var(--site-color);
+            font-weight: bold;
+
+            &:hover {
+                color: var(--site-color2);
+            }
+        }
+    }
+
+    &.forgot-password-container .account, &.reset-password-container .account {
+        padding: 0px 30px;
+    }
+
+    input:focus {
+        border-color: var(--site-color);
+        outline: none;
+        box-shadow: 0 0 5px var(--site-color);
+    }
+
+    .togglePasswordVisibility {
+        border: none;
+        background-color: transparent;
+        position: absolute;
+        margin: -31px 0px 0px 85px;
+    }
+
+    .forgotPasswordContainer {
+        text-align: right;
+
+        a {
+            transition: color 0.3s ease;
+            color: black;
+
+            &:hover {
+                color: var(--site-color);
+            }
+        }
+    }
+
+    @media (max-width: 575px) {
+        width: 400px;
+
+        .logo-text {
+            padding: 0px 90px;
+        }
+
+        .form-group {
+            padding: 10px 90px 0px 90px;
+        }
+
+        .togglePasswordVisibility {
+            margin: -31px 0px 0px 65px;
+        }
+
+        .external-login {
+            padding: 0px 90px 10px 90px;
+        }
+
+        .account {
+            padding: 0px 86px;
+        }
+    }
+}

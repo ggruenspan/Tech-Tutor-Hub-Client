@@ -1,0 +1,65 @@
+<div class="auth-container container text-center rounded" [ngClass]="{
+    'sign-in-container': mode === 'signIn', 
+    'sign-up-container': mode === 'signUp', 
+    'forgot-password-container': mode === 'forgotPassword', 
+    'reset-password-container': mode === 'resetPassword'
+}">
+    <div class="logo-text">
+        <img src="../assets/TechTutorHubLogoImage.png" width="110" height="120" alt="Tech Tutor Hub">
+        <h3 *ngIf="mode === 'signIn'">Welcome Back! Please Sign In</h3>
+        <h3 *ngIf="mode === 'signUp'">Welcome To Tech Tutor Hub</h3>
+        <h3 *ngIf="mode === 'forgotPassword'">Forgot Password</h3>
+        <h3 *ngIf="mode === 'resetPassword'">Reset Password</h3>
+    </div>
+
+    <div *ngIf="mode === 'forgotPassword'" class="description">Provide your account's email address and a reset password email will be sent to your inbox.</div>
+    <div *ngIf="mode === 'resetPassword'" class="description">Please enter your new password below.</div>
+
+
+    <div class="row">
+        <div class="col-sm-6 offset-sm-3">
+            <form (ngSubmit)="onSubmit()" [formGroup]="authForm">
+                <div class="form-group" *ngIf="mode !== 'signIn' && mode !== 'forgotPassword' && mode !== 'resetPassword'">
+                    <label class="d-flex justify-content-left" for="fullName">Full Name</label>
+                    <input type="text" class="form-control" id="fullName" placeholder="Full Name" formControlName="fullName"/>
+                </div>
+                <div class="form-group" *ngIf="mode !== 'resetPassword'">
+                    <label class="d-flex justify-content-left" for="email">Email</label>
+                    <input class="form-control" id="email" name="email" type="email" placeholder="Email Address" formControlName="email"/>
+                </div>
+                <div class="form-group" *ngIf="mode !== 'forgotPassword'">
+                    <label class="d-flex justify-content-left" for="password">Password</label>
+                    <input class="form-control" id="password" name="password" type="{{ passwordVisible ? 'text' : 'password' }}"
+                        placeholder="Password" formControlName="password"/>
+                    <button class="togglePasswordVisibility" type="button" (click)="togglePasswordVisibility()">
+                        <i class="fa {{ showPasswordIcon }}"></i>
+                    </button>
+                    <div class="forgotPasswordContainer" *ngIf="mode === 'signIn'">
+                        <a class="text-decoration-none" href="/forgot-password">Forgot Password?</a>
+                    </div>
+                </div>
+                <button type="submit" class="btn submit rounded">
+                    {{ 
+                        mode === 'signIn' ? 'Sign In' : 
+                        mode === 'signUp' ? 'Sign Up' : 
+                        mode === 'forgotPassword' ? 'Send Email' : 
+                        'Reset Password' 
+                    }}
+                </button>
+            </form>
+            <div class="external-login" *ngIf="mode !== 'forgotPassword' && mode !== 'resetPassword'">
+                <hr/>
+                <button class="btn google text-center rounded"><i class="fa fa-brands fa-google"></i></button>
+                <button class="btn facebook text-center rounded"><i class="fa fa-brands fa-facebook"></i></button>
+            </div>
+            <div class="account">
+                <span>
+                    {{ mode === 'signUp' || mode === 'resetPassword' ? 'Already have an account?' : mode === 'forgotPassword' ? 'Changed your mind?' : "Don't have an account?" }}
+                    <a class="text-decoration-none" href="{{ mode === 'signUp' ? '/sign-in' : mode === 'forgotPassword' ? '/sign-in' : '/sign-up' }}">
+                        {{ mode === 'signUp' || mode === 'resetPassword' ? 'Sign In' : mode === 'forgotPassword' ? 'Head Back' : 'Sign Up' }}
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
