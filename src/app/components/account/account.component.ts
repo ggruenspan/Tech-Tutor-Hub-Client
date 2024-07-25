@@ -75,7 +75,7 @@ export class AccountComponent implements OnInit {
     this.generalForm = new FormGroup({
       firstName: new FormControl({value: this.firstName, disabled: true}, Validators.required),
       lastName: new FormControl({value: this.lastName, disabled: true}, Validators.required),
-      email: new FormControl({value: this.email, disabled: true}, [Validators.required, Validators.email]),
+      email: new FormControl({value: this.email, disabled: true}, [Validators.required, Validators.pattern(/^[^@]+@[^@]+\.[^@]+$/)]),
       phoneNumber: new FormControl({value: this.phoneNumber, disabled: true}, [Validators.pattern('[0-9]{1,15}')]),
       dateOfBirth: new FormControl({value: this.dateOfBirth, disabled: true}, Validators.required),
       location: new FormControl({value: this.location, disabled: true}, Validators.required),
@@ -199,11 +199,13 @@ export class AccountComponent implements OnInit {
         if (errors['required']) {
           this.toastr.error(`${this.getDisplayName(key)} is required`);
         }
-        if (errors['email']) {
-          this.toastr.warning('Invalid Email Address');
-        }
-        if (errors['pattern']) {
-          this.toastr.warning('Invalid Phone Number');
+        if (control.errors?.['pattern']) {
+          if (this.getDisplayName(key) === 'Email') {
+            this.toastr.warning('Invalid Email Address');
+          }
+          if (this.getDisplayName(key) === 'Phone Number') {
+            this.toastr.warning('Invalid Phone Number');
+          }
         }
         if (errors['maxWords']) {
           const { actualWords, maxWords } = errors['maxWords'];
