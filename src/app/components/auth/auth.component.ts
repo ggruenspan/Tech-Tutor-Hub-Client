@@ -6,11 +6,11 @@ import { LocalStorageService } from '../../services/localStorage.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-auth-form',
-  templateUrl: './auth-form.component.html',
-  styleUrls: ['./auth-form.component.scss']
+  selector: 'app-auth-component',
+  templateUrl: './auth.component.html',
+  styleUrls: ['./auth.component.scss']
 })
-export class AuthFormComponent implements OnInit {
+export class AuthComponent implements OnInit {
   // Input to determine the mode of the form (signIn, signUp, forgotPassword, or resetPassword)
   @Input() mode: 'signIn' | 'signUp' | 'forgotPassword' | 'resetPassword' = 'signIn';
   @Output() formSubmit = new EventEmitter<any>();
