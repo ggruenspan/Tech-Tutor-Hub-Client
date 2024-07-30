@@ -169,10 +169,17 @@ hr {
 @media (max-width: 600px) {
     .container {
         padding: 0px 35px;
+        height: 1282px;
     }
 
     .navbar-toggler {
         right: 70px;
+    }
+}
+
+@media (max-width: 450px) {
+    .container {
+        height: 1304px;
     }
 }
 
