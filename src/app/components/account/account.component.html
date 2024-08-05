@@ -10,13 +10,16 @@
 
             <div class="account-top-middle">
                 <div class="nameBar">
-                    <p class="m-3 users-profession">{{ role }}</p>
+                    <p class="m-3 users-role">{{ role }}</p>
                     <p class="m-3 user-name">{{ userName }}</p>
+                    <!-- <img *ngIf="profileImage" [src]="profileImage" alt="Profile Picture" class="profile-img"> -->
                     <p class="m-3 user-pic">{{ userName.split(" ")[0].charAt(0).toUpperCase() }}</p>
+                    <button class="editPhoto" type="button" (click)="editPhoto()"><i class="fa fa-pencil icon"></i></button>
+                    <app-profile-image-uploader *ngIf="photoEditability" (closeModal)="editPhoto()"></app-profile-image-uploader>
                 </div>
 
-                <button *ngIf="!editable" type="button" class="btn edit rounded" (click)="toggleEdit()">Edit Account</button>
-                <button *ngIf="editable" type="submit" form="generalForm, addInfoForm" class="btn submit rounded" (click)="submitNewUserInfo()">Submit</button>
+                <button *ngIf="!formEditability" type="button" class="btn edit rounded" (click)="editForm()">Edit Account</button>
+                <button *ngIf="formEditability" type="submit" form="generalForm, addInfoForm" class="btn submit rounded" (click)="submitNewUserInfo()">Submit</button>
             </div>
             
 

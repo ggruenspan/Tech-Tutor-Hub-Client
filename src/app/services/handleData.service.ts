@@ -23,20 +23,22 @@ export class HandleDataService {
         const decodedToken = helper.decodeToken(token);
           // Check if the token is not expired (within the next hour)
           if (decodedToken.exp * 1000 > (Date.now()+ (60 * 60 * 1000))) {
-            this.storageService.set('session', 'true');
-            // Checks for the user roles
-            this.storageService.set('role', decodedToken.role[0]);
-            if (decodedToken.role.includes('Tutor')) {
-              this.storageService.set('role', "Tutor");
-            }
-            this.storageService.set('userName', decodedToken.userName);
-            this.storageService.set('email', decodedToken.email);
-            this.storageService.set('firstName', decodedToken.firstName);
-            this.storageService.set('lastName', decodedToken.lastName);
+            this.setStorage('session', 'true');
+            this.setStorage('id', decodedToken.id);
+    
+            // Set user roles
+            const userRole = decodedToken.role.includes('Tutor') ? 'Tutor' : decodedToken.role[0];
+            this.setStorage('role', userRole);
+    
+            // Set user information
+            this.setStorage('userName', decodedToken.userName);
+            this.setStorage('email', decodedToken.email);
+            this.setStorage('firstName', decodedToken.firstName);
+            this.setStorage('lastName', decodedToken.lastName);
             this.setStorage('phoneNumber', decodedToken.phoneNumber);
             this.setStorage('dateOfBirth', decodedToken.dateOfBirth);
             this.setStorage('country', decodedToken.country);
-            this.setStorage('stateprovince', decodedToken.stateprovince);
+            this.setStorage('stateProvince', decodedToken.stateProvince);
             this.setStorage('city', decodedToken.city);
             this.setStorage('bio', decodedToken.bio);
             this.setStorage('pronouns', decodedToken.pronouns);

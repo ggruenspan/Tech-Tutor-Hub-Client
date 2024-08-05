@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
@@ -20,21 +20,22 @@ export class AccountComponent implements OnInit {
   dateOfBirth = '';
   location = '';
   country = ' ';
-  stateprovince = ' ';
+  stateProvince = ' ';
   city = ' ';
   bio = '';
   pronouns = '';
   customPronouns = '';
   bioWordCount: number = 0;
   maxWords: number = 50; // Define the maximum word count
-  editable = false;
+  formEditability = false;
+  photoEditability = false;
   generalForm: FormGroup = new FormGroup({})
   addInfoForm: FormGroup = new FormGroup({})
   showCustomPronounsInput: boolean = false;
   autocompleteResults: any[] = [];
   autocompleteInput: any;
 
-  constructor( private ngZone: NgZone, private http: HttpClient, private toastr: ToastrService, private accountService: APIRoutesService, private storageService: LocalStorageService) {}
+  constructor( private ngZone: NgZone, private renderer: Renderer2, private http: HttpClient, private toastr: ToastrService, private accountService: APIRoutesService, private storageService: LocalStorageService) {}
 
   ngOnInit() {
     this.handleUserData(); // Initialize user data handling
@@ -49,7 +50,7 @@ export class AccountComponent implements OnInit {
   // Retrieve user data from local storage
   handleUserData() {
     const fields: { [key: string]: string } = { userName: '', role: 'User', email: '', firstName: '', lastName: '', phoneNumber: '', dateOfBirth: '', 
-      street: '', country: '', stateprovince: '',  city: '', bio: '', pronouns: ''};
+      street: '', country: '', stateProvince: '',  city: '', bio: '', pronouns: ''};
 
     Object.keys(fields).forEach(field => {
       (this as any)[field] = this.storageService.get(field) || fields[field];
@@ -59,7 +60,7 @@ export class AccountComponent implements OnInit {
     const storedDateOfBirth = this.storageService.get('dateOfBirth');
     this.dateOfBirth = storedDateOfBirth ? new Date(storedDateOfBirth).toISOString().split('T')[0] : '';
 
-    this.location = this.country && this.stateprovince && this.city ? `${this.country}, ${this.stateprovince}, ${this.city}` : '';
+    this.location = this.country && this.stateProvince && this.city ? `${this.country}, ${this.stateProvince}, ${this.city}` : '';
 
     this.bioWordCount = this.calculateWordCount(this.bio);
 
@@ -124,13 +125,20 @@ export class AccountComponent implements OnInit {
   
     (document.getElementById('location') as HTMLInputElement).value = locationString;
     this.country = country;
-    this.stateprovince = stateProvince;
+    this.stateProvince = stateProvince;
     this.city = area;
   }
   
+  // Toggles the edit mode of the ProfileImageUploader Modal
+  editPhoto(): void {
+    this.photoEditability = !this.photoEditability;
+    this.renderer.setStyle(document.body, 'overflow', this.photoEditability ? 'hidden' : '');
+    this.renderer.setAttribute(document.body, 'scroll', this.photoEditability ? 'no' : '');
+  }
+
   // Toggles the edit mode of the form between editable and non-editable states.
-  toggleEdit() {
-    this.editable = !this.editable;
+  editForm() {
+    this.formEditability = !this.formEditability;
     this.updateFormEditableState(); // Update form control state based on edit mode
   }
 
@@ -138,7 +146,7 @@ export class AccountComponent implements OnInit {
   updateFormEditableState() {
     const updateControls = (formControls: { [key: string]: any }) => {
       Object.keys(formControls).forEach(key => {
-        this.editable ? formControls[key].enable() : formControls[key].disable();
+        this.formEditability ? formControls[key].enable() : formControls[key].disable();
       });
     };
   
@@ -158,7 +166,7 @@ export class AccountComponent implements OnInit {
         phoneNumber: this.generalForm.value.phoneNumber,
         dateOfBirth: this.generalForm.value.dateOfBirth,
         country: this.country,
-        stateprovince: this.stateprovince,
+        stateProvince: this.stateProvince,
         city: this.city,
         bio: this.addInfoForm.value.bio,
         pronouns: this.addInfoForm.value.pronouns === 'custom' ? this.addInfoForm.value.customPronouns : this.addInfoForm.value.pronouns,
@@ -166,20 +174,15 @@ export class AccountComponent implements OnInit {
 
       // Form is valid, submit the sign-up data to the server
       this.accountService.updateUserProfile(payload).subscribe((response) => {
-        // console.log('Updated profile successfully', response);
         this.toastr.success(response.message);
-        this.storageService.set('jwtToken', response.token);
+        response.token && this.storageService.set('jwtToken', response.token);
         setTimeout(() => {
           window.location.replace('/settings/account');
         }, 1500);
       }, (error) => {
-        // console.error('error', error);
         this.toastr.error(error.error.message);
       });
-
-      this.toggleEdit(); // Toggle edit mode
     } else {
-      this.toastr.error('Please fill out the required fields correctly');
       this.validateFormFields();
     }
   }
@@ -219,39 +222,29 @@ export class AccountComponent implements OnInit {
   validateWordCount(maxWords: number): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (!control.value) return null;
-
       const words = control.value.trim().split(/\s+/);
-      const actualWords = words.length;
-
-      return actualWords > maxWords ? { maxWords: { actualWords, maxWords } } : null;
+      return words.length > maxWords ? { maxWords: { actualWords: words.length, maxWords } } : null;
     };
   }
 
   // Subscribe to bio value changes to update word count
   subscribeToBioChanges() {
     const bioControl = this.addInfoForm.get('bio');
-    if (bioControl) {
-      bioControl.valueChanges.subscribe(value => {
-        this.bioWordCount = this.calculateWordCount(value);
-      });
-    }
+    bioControl?.valueChanges.subscribe(value => {
+      this.bioWordCount = this.calculateWordCount(value);
+    });
   }
 
   // Calculate word count
   calculateWordCount(text: string): number {
-    if (!text) {
-      return 0;
-    }
-    return text.trim().split(/\s+/).length;
+    return text ? text.trim().split(/\s+/).length : 0;
   }
 
   // Toggle visibility of custom pronouns input based on dropdown selection
   toggleCustomPronouns(event: any) {
     const selectedPronouns = event.target.value;
     this.showCustomPronounsInput = (selectedPronouns === 'custom');
-
-    console.log(selectedPronouns);
-
+  
     // Enable/disable customPronouns control based on selection
     const customPronounsControl = this.addInfoForm.get('customPronouns');
     if (customPronounsControl) {

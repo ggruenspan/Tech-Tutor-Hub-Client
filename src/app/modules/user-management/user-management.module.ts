@@ -8,6 +8,7 @@ import { AccountComponent } from '../../components/account/account.component';
 import { SecurityAndAccessComponent } from '../../components/security-and-access/security-and-access.component';
 import { NotificationsComponent } from '../../components/notifications/notifications.component';
 import { PaymentsComponent } from '../../components/payments/payments.component';
+import { ProfileImageUploaderComponent } from '../../components/modals/profile-image-uploader/profile-image-uploader.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { PaymentsComponent } from '../../components/payments/payments.component'
     AccountComponent,
     SecurityAndAccessComponent,
     NotificationsComponent,
-    PaymentsComponent
+    PaymentsComponent,
+    ProfileImageUploaderComponent
   ],
   imports: [
     CommonModule,

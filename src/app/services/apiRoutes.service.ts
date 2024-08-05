@@ -42,7 +42,11 @@ export class APIRoutesService {
 
   // Method for updating the users profile
   updateUserProfile(data: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/updateUserProfile`, data);
+    return this.http.post<any>(`${this.baseUrl}/update-user-profile`, data);
   }
 
+  // Method for updating the user's profile picture
+  uploadProfilePicture(data: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/upload-profile-picture`, data);
+  }
 }
