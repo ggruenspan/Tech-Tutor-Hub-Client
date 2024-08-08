@@ -1,5 +1,6 @@
 import { Component, HostListener, Renderer2, OnInit } from '@angular/core';
-import { LocalStorageService } from '../../services/localStorage.service';
+import { APIRoutesService } from '../../services/apiRoutes.service';
+import { HandleDataService } from '../../services/handleData.service';
 
 @Component({
   selector: 'app-settings',
@@ -16,7 +17,7 @@ export class SettingsComponent implements OnInit {
   sidebarBtnClick = false;
   sidebarIcon: string = 'fa-chevron-right';
 
-  constructor(private renderer: Renderer2, private storageService: LocalStorageService) {}
+  constructor(private renderer: Renderer2, private accountService: APIRoutesService, private dataService: HandleDataService) {}
 
   ngOnInit() {
     this.handleWindowResize(); // Initialize window resize handling
@@ -73,13 +74,19 @@ export class SettingsComponent implements OnInit {
 
   // Handles user data from local storage
   handleUserData() {
-    // Retrieve the from local storage
-    const storedUserName = this.storageService.get('userName');
-    const storedRole = this.storageService.get('role');
-
-    this.userName = storedUserName !== null ? storedUserName : '';
-    this.role = storedRole !== null ? storedRole : '';
-    if (storedRole === 'Tutor') {  this.isTutor = true; } else { this.isTutor = false; }
-    if (storedRole === 'Admin') {  this.isAdmin = true; } else { this.isAdmin = false; }
+    this.accountService.getUserData().subscribe(() => {
+      const profileData = this.dataService.getUserProfile();
+      if (profileData) {
+        const storedUserName = profileData.userName
+        const storedRole = profileData.role;
+    
+        this.userName = storedUserName !== null ? storedUserName : '';
+        this.role = storedRole !== null ? storedRole : '';
+        if (storedRole === 'Tutor') {  this.isTutor = true; } else { this.isTutor = false; }
+        if (storedRole === 'Admin') {  this.isAdmin = true; } else { this.isAdmin = false; }
+      }
+    }, (error) => {
+      console.error('Internal server error. Please try again');
+    });
   };
 }

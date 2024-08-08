@@ -11,6 +11,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpInterceptorService } from './interceptors/auth.interceptor';
 
+import { APIRoutesService } from './services/apiRoutes.service';
+import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('jwt');
+}
 
 @NgModule({
   declarations: [
@@ -26,14 +32,17 @@ import { HttpInterceptorService } from './interceptors/auth.interceptor';
       positionClass: 'toast-top-center',
       preventDuplicates: true,
     }),
-    IconsModule
+    IconsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+      }
+    })
   ],
   providers: [
-    { 
-      provide: HTTP_INTERCEPTORS, 
-      useClass: HttpInterceptorService, 
-      multi: true 
-    },
+    APIRoutesService,
+    JwtHelperService, // Provide JwtHelperService here
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]
 })

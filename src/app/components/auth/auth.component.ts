@@ -2,7 +2,6 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { APIRoutesService } from '../../services/apiRoutes.service';
-import { LocalStorageService } from '../../services/localStorage.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -19,7 +18,7 @@ export class AuthComponent implements OnInit {
   showPasswordIcon: string = 'fa-eye-slash';
   token: any;
 
-  constructor( private fb: FormBuilder, private toastr: ToastrService, private accountService: APIRoutesService, private storageService: LocalStorageService, private route: ActivatedRoute) {}
+  constructor( private fb: FormBuilder, private toastr: ToastrService, private accountService: APIRoutesService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.initializeForm();
@@ -66,7 +65,6 @@ export class AuthComponent implements OnInit {
   signIn() {
     this.accountService.signIn(this.authForm.value).subscribe((response) => {
       this.toastr.success(response.message);
-      this.storageService.set('jwtToken', response.token);
       setTimeout(() => {
         window.location.replace('/');
       }, 1500);

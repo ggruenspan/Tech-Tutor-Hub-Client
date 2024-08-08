@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators, AbstractControl, ValidatorFn } from
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { APIRoutesService } from '../../services/apiRoutes.service';
-import { LocalStorageService } from '../../services/localStorage.service';
+import { HandleDataService } from '../../services/handleData.service';
 
 @Component({
   selector: 'app-account',
@@ -35,7 +35,9 @@ export class AccountComponent implements OnInit {
   autocompleteResults: any[] = [];
   autocompleteInput: any;
 
-  constructor( private ngZone: NgZone, private renderer: Renderer2, private http: HttpClient, private toastr: ToastrService, private accountService: APIRoutesService, private storageService: LocalStorageService) {}
+  constructor( private ngZone: NgZone, private renderer: Renderer2, private http: HttpClient, 
+               private toastr: ToastrService, private accountService: APIRoutesService, 
+               private dataService: HandleDataService) {}
 
   ngOnInit() {
     this.handleUserData(); // Initialize user data handling
@@ -49,26 +51,36 @@ export class AccountComponent implements OnInit {
 
   // Retrieve user data from local storage
   handleUserData() {
-    const fields: { [key: string]: string } = { userName: '', role: 'User', email: '', firstName: '', lastName: '', phoneNumber: '', dateOfBirth: '', 
-      street: '', country: '', stateProvince: '',  city: '', bio: '', pronouns: ''};
+    this.accountService.getUserData().subscribe(() => {
+      const profileData = this.dataService.getUserProfile();
+      if (profileData) {
+        const fields: { [key: string]: string } = { userName: '', role: 'User', email: '', firstName: '', lastName: '', phoneNumber: '', dateOfBirth: '', 
+          country: '', stateProvince: '',  city: '', bio: '', pronouns: 'Select Pronouns'};
+    
+        Object.keys(fields).forEach(field => {
+          (this as any)[field] = profileData[field] || fields[field];
+        });
+    
+        // Retrieve and format dateOfBirth
+        const storedDateOfBirth = profileData.dateOfBirth
+        this.dateOfBirth = storedDateOfBirth ? new Date(storedDateOfBirth).toISOString().split('T')[0] : '';
+    
+        this.location = this.country && this.stateProvince && this.city ? `${this.country}, ${this.stateProvince}, ${this.city}` : '';
+    
+        this.bioWordCount = this.calculateWordCount(this.bio);
 
-    Object.keys(fields).forEach(field => {
-      (this as any)[field] = this.storageService.get(field) || fields[field];
+        this.showCustomPronounsInput = !['Select Pronouns', 'he/him', 'she/her', 'they/them'].includes(this.pronouns);
+        if (this.showCustomPronounsInput) {
+          this.customPronouns = this.pronouns;
+          this.pronouns = 'custom';
+        }
+
+        // Reinitialize the form with updated data
+        this.initializeForm();
+      }
+    }, (error) => {
+      console.error('Internal server error. Please try again');
     });
-
-    // Retrieve and format dateOfBirth
-    const storedDateOfBirth = this.storageService.get('dateOfBirth');
-    this.dateOfBirth = storedDateOfBirth ? new Date(storedDateOfBirth).toISOString().split('T')[0] : '';
-
-    this.location = this.country && this.stateProvince && this.city ? `${this.country}, ${this.stateProvince}, ${this.city}` : '';
-
-    this.bioWordCount = this.calculateWordCount(this.bio);
-
-    this.showCustomPronounsInput = !['', 'he/him', 'she/her', 'they/them'].includes(this.pronouns);
-    if (this.showCustomPronounsInput) {
-      this.customPronouns = this.pronouns;
-      this.pronouns = 'custom';
-    }
   }
 
   // Initialize the sign-up form with form controls and validators
@@ -159,7 +171,7 @@ export class AccountComponent implements OnInit {
     if (this.generalForm.valid && this.addInfoForm.valid) {
 
       const payload = {
-        oldEmail: this.storageService.get('email'),
+        oldEmail: this.email,
         firstName: this.generalForm.value.firstName.charAt(0).toUpperCase() + this.generalForm.value.firstName.slice(1).toLowerCase(),
         lastName: this.generalForm.value.lastName.charAt(0).toUpperCase() + this.generalForm.value.lastName.slice(1).toLowerCase(),
         newEmail: this.generalForm.value.email,
@@ -175,7 +187,7 @@ export class AccountComponent implements OnInit {
       // Form is valid, submit the sign-up data to the server
       this.accountService.updateUserProfile(payload).subscribe((response) => {
         this.toastr.success(response.message);
-        response.token && this.storageService.set('jwtToken', response.token);
+        // response.token && this.storageService.set('jwtToken', response.token);
         setTimeout(() => {
           window.location.replace('/settings/account');
         }, 1500);

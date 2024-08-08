@@ -1,6 +1,5 @@
 import { Component, HostListener, Renderer2, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { LocalStorageService } from './services/localStorage.service';
 import { APIRoutesService } from './services/apiRoutes.service';
 import { HandleDataService } from './services/handleData.service';
 
@@ -22,18 +21,16 @@ export class AppComponent implements OnInit {
   menuIcon: string = 'fa-caret-right';
 
 
-  constructor(private toastr: ToastrService, private renderer: Renderer2, private accountService: APIRoutesService, 
-              private storageService: LocalStorageService, private dataService: HandleDataService) {
-
-                // Event listener to close the user menu when clicking outside
-                this.renderer.listen('window', 'click', (e: Event) => {
-                  if (!this.menuBtnClick) {
-                    this.menuVisible = false;
-                    this.menuIcon = this.menuVisible ? 'fa-caret-down' : 'fa-caret-right';
-                  }
-                  this.menuBtnClick = false;
-                });
-              }
+  constructor(private toastr: ToastrService, private renderer: Renderer2, private accountService: APIRoutesService, private dataService: HandleDataService) {
+    // Event listener to close the user menu when clicking outside
+    this.renderer.listen('window', 'click', (e: Event) => {
+      if (!this.menuBtnClick) {
+        this.menuVisible = false;
+        this.menuIcon = this.menuVisible ? 'fa-caret-down' : 'fa-caret-right';
+      }
+      this.menuBtnClick = false;
+    });
+  }
 
   ngOnInit() {
     this.handleWindowResize(); // Initialize window resize handling
@@ -57,16 +54,7 @@ export class AppComponent implements OnInit {
 
   // Handle user sign out
   handleSignOut() {
-    this.accountService.signOut().subscribe((response) => {
-        this.toastr.success(response.message);
-        this.dataService.removeData();
-        setTimeout(() => {
-          window.location.replace('/');
-        }, 1000);
-      }, (error) => {
-        this.toastr.error(error.error.message);
-      }
-    );
+    this.dataService.clearData();
   }
 
   // Toggle visibility of the user menu
@@ -127,11 +115,13 @@ export class AppComponent implements OnInit {
 
   // Handles user data from JWT token stored in local storage
   private handleUserData() {
-    this.dataService.setData();
-    const storedUserName = this.storageService.get('userName');
-    const storedSession= this.storageService.get('session');
-
-    this.userName = storedUserName !== null ? storedUserName : '';
-    this.session = storedSession !== null ? storedSession : '';
-  };
+    this.accountService.isAuthenticated();
+    const profileData = this.dataService.getUserProfile();
+    if (profileData) {
+      const storedUserName = profileData.userName;
+      const storedSession = localStorage.getItem('session');
+      this.userName = storedUserName !== null ? storedUserName : '';
+      this.session = storedSession !== null ? storedSession : '';
+    }
+  }
 }

@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { APIRoutesService } from '../../../services/apiRoutes.service';
-import { LocalStorageService } from '../../../services/localStorage.service';
 
 @Component({
   selector: 'app-profile-image-uploader',
@@ -13,21 +12,29 @@ export class ProfileImageUploaderComponent {
   file: File | null = null;
   @Output() closeModal = new EventEmitter<void>();
 
-  constructor(private toastr: ToastrService, private accountService: APIRoutesService, private storageService: LocalStorageService) {}
+  private readonly FILE_SIZE_LIMIT = 2 * 1024 * 1024; // 2MB in bytes
+  private readonly ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png'];
+
+  constructor(private toastr: ToastrService, private accountService: APIRoutesService) {}
 
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
-      this.file = file;
-
-      // Set the file size limit (e.g., 2MB)
-      const fileSizeLimit = 2 * 1024 * 1024; // 2MB in bytes
-      if (file.size > fileSizeLimit) {
+      // Check file size
+      if (file.size > this.FILE_SIZE_LIMIT) {
         this.toastr.warning('File size exceeds 2MB limit. Please select a smaller file.');
         this.onRemove();
         return;
       }
 
+      // Check file type
+      if (!this.ALLOWED_FILE_TYPES.includes(file.type)) {
+        this.toastr.warning('Invalid file type. Please select a JPEG or PNG image.');
+        this.onRemove();
+        return;
+      }
+
+      this.file = file;
       const reader = new FileReader();
       reader.onload = (e) => {
         if (e.target?.result) {
@@ -40,7 +47,11 @@ export class ProfileImageUploaderComponent {
 
   onChange() {
     const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
-    fileInput.click();
+    if (fileInput) {
+      fileInput.click();
+    } else {
+      this.toastr.error('File input element not found.');
+    }
   }
 
   onSubmit() {
@@ -48,14 +59,13 @@ export class ProfileImageUploaderComponent {
       const formData = new FormData();
       formData.append('profileImage', this.file);
 
-      this.accountService.uploadProfilePicture(formData).subscribe((response) => {
+      this.accountService.uploadProfilePicture(formData).subscribe(
+        (response) => {
           this.toastr.success(response.message);
-          // this.storageService.set('jwtToken', response.token);
-          setTimeout(() => {
-            this.close();
-          }, 1500);
-        }, (error) => {
-          this.toastr.error(error.error.message);
+          setTimeout(() => this.close(), 1500);
+        },
+        (error) => {
+          this.toastr.error('Failed to upload image. Please try again.');
         }
       );
     } else {
