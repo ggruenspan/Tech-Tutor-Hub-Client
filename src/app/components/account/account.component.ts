@@ -55,7 +55,7 @@ export class AccountComponent implements OnInit {
       const profileData = this.dataService.getUserProfile();
       if (profileData) {
         const fields: { [key: string]: string } = { userName: '', role: 'User', email: '', firstName: '', lastName: '', phoneNumber: '', dateOfBirth: '', 
-          country: '', stateProvince: '',  city: '', bio: '', pronouns: 'Select Pronouns'};
+          country: '', stateProvince: '',  city: '', bio: '', pronouns: ''};
     
         Object.keys(fields).forEach(field => {
           (this as any)[field] = profileData[field] || fields[field];
@@ -69,7 +69,7 @@ export class AccountComponent implements OnInit {
     
         this.bioWordCount = this.calculateWordCount(this.bio);
 
-        this.showCustomPronounsInput = !['Select Pronouns', 'he/him', 'she/her', 'they/them'].includes(this.pronouns);
+        this.showCustomPronounsInput = !['', 'he/him', 'she/her', 'they/them'].includes(this.pronouns);
         if (this.showCustomPronounsInput) {
           this.customPronouns = this.pronouns;
           this.pronouns = 'custom';
