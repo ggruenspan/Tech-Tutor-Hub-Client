@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { HandleDataService } from '../services/handleData.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -13,7 +12,7 @@ export class APIRoutesService {
   private userProfileSubject: BehaviorSubject<any>;
   public userProfile: Observable<any>;
 
-  constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private dataService: HandleDataService) {
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
     this.userProfileSubject = new BehaviorSubject<any>(null);
     this.userProfile = this.userProfileSubject.asObservable();
   }

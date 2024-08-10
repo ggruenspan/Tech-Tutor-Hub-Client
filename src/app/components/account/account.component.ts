@@ -36,7 +36,7 @@ export class AccountComponent implements OnInit {
   autocompleteInput: any;
 
   constructor( private ngZone: NgZone, private renderer: Renderer2, private http: HttpClient, 
-               private toastr: ToastrService, private accountService: APIRoutesService, 
+               private toastr: ToastrService, private apiService: APIRoutesService, 
                private dataService: HandleDataService) {}
 
   ngOnInit() {
@@ -51,7 +51,7 @@ export class AccountComponent implements OnInit {
 
   // Retrieve user data from local storage
   handleUserData() {
-    this.accountService.getUserData().subscribe(() => {
+    this.apiService.getUserData().subscribe(() => {
       const profileData = this.dataService.getUserProfile();
       if (profileData) {
         const fields: { [key: string]: string } = { userName: '', role: 'User', email: '', firstName: '', lastName: '', phoneNumber: '', dateOfBirth: '', 
@@ -185,7 +185,7 @@ export class AccountComponent implements OnInit {
       }
 
       // Form is valid, submit the sign-up data to the server
-      this.accountService.updateUserProfile(payload).subscribe((response) => {
+      this.apiService.updateUserProfile(payload).subscribe((response) => {
         this.toastr.success(response.message);
         // response.token && this.storageService.set('jwtToken', response.token);
         setTimeout(() => {

@@ -1,4 +1,5 @@
 import { Component, HostListener, Renderer2, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { APIRoutesService } from '../../services/apiRoutes.service';
 import { HandleDataService } from '../../services/handleData.service';
 
@@ -17,7 +18,7 @@ export class SettingsComponent implements OnInit {
   sidebarBtnClick = false;
   sidebarIcon: string = 'fa-chevron-right';
 
-  constructor(private renderer: Renderer2, private accountService: APIRoutesService, private dataService: HandleDataService) {}
+  constructor(private toastr: ToastrService, private renderer: Renderer2, private apiService: APIRoutesService, private dataService: HandleDataService) {}
 
   ngOnInit() {
     this.handleWindowResize(); // Initialize window resize handling
@@ -74,7 +75,7 @@ export class SettingsComponent implements OnInit {
 
   // Handles user data from local storage
   handleUserData() {
-    this.accountService.getUserData().subscribe(() => {
+    this.apiService.getUserData().subscribe(() => {
       const profileData = this.dataService.getUserProfile();
       if (profileData) {
         const storedUserName = profileData.userName
@@ -86,7 +87,7 @@ export class SettingsComponent implements OnInit {
         if (storedRole === 'Admin') {  this.isAdmin = true; } else { this.isAdmin = false; }
       }
     }, (error) => {
-      console.error('Internal server error. Please try again');
+      this.toastr.error(error.error.message);
     });
   };
 }

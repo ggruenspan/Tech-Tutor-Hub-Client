@@ -18,7 +18,7 @@ export class AuthComponent implements OnInit {
   showPasswordIcon: string = 'fa-eye-slash';
   token: any;
 
-  constructor( private fb: FormBuilder, private toastr: ToastrService, private accountService: APIRoutesService, private route: ActivatedRoute) {}
+  constructor( private fb: FormBuilder, private toastr: ToastrService, private apiService: APIRoutesService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.initializeForm();
@@ -63,7 +63,7 @@ export class AuthComponent implements OnInit {
 
   // Handle form submission for sign-in
   signIn() {
-    this.accountService.signIn(this.authForm.value).subscribe((response) => {
+    this.apiService.signIn(this.authForm.value).subscribe((response) => {
       this.toastr.success(response.message);
       setTimeout(() => {
         window.location.replace('/');
@@ -75,7 +75,7 @@ export class AuthComponent implements OnInit {
 
   // Handle form submission for sign-up
   signUp() {
-    this.accountService.signUp(this.authForm.value).subscribe((response) => {
+    this.apiService.signUp(this.authForm.value).subscribe((response) => {
       this.toastr.success(response.message);
       setTimeout(() => {
         window.location.replace('/sign-in');
@@ -87,7 +87,7 @@ export class AuthComponent implements OnInit {
 
   // Handle form submission for forgot-password
   forgotPasswordSubmit() {
-    this.accountService.forgotPassword(this.authForm.value).subscribe((response) => {
+    this.apiService.forgotPassword(this.authForm.value).subscribe((response) => {
       this.toastr.success(response.message);
       setTimeout(() => {
         window.location.replace('/sign-in');
@@ -99,7 +99,7 @@ export class AuthComponent implements OnInit {
 
   // Handle form submission for reset-password
   resetPasswordSubmit() {
-    this.accountService.resetPassword(this.token, this.authForm.value).subscribe((response) => {
+    this.apiService.resetPassword(this.token, this.authForm.value).subscribe((response) => {
       this.toastr.success(response.message);
       setTimeout(() => {
         window.location.replace('/sign-in');

@@ -15,7 +15,7 @@ export class ProfileImageUploaderComponent {
   private readonly FILE_SIZE_LIMIT = 2 * 1024 * 1024; // 2MB in bytes
   private readonly ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png'];
 
-  constructor(private toastr: ToastrService, private accountService: APIRoutesService) {}
+  constructor(private toastr: ToastrService, private apiService: APIRoutesService) {}
 
   onFileSelected(event: any): void {
     const file = event.target.files[0];
@@ -59,12 +59,10 @@ export class ProfileImageUploaderComponent {
       const formData = new FormData();
       formData.append('profileImage', this.file);
 
-      this.accountService.uploadProfilePicture(formData).subscribe(
-        (response) => {
+      this.apiService.uploadProfilePicture(formData).subscribe((response) => {
           this.toastr.success(response.message);
           setTimeout(() => this.close(), 1500);
-        },
-        (error) => {
+        }, (error) => {
           this.toastr.error('Failed to upload image. Please try again.');
         }
       );

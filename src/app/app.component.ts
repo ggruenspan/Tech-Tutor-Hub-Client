@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   menuIcon: string = 'fa-caret-right';
 
 
-  constructor(private toastr: ToastrService, private renderer: Renderer2, private accountService: APIRoutesService, private dataService: HandleDataService) {
+  constructor(private toastr: ToastrService, private renderer: Renderer2, private apiService: APIRoutesService, private dataService: HandleDataService) {
     // Event listener to close the user menu when clicking outside
     this.renderer.listen('window', 'click', (e: Event) => {
       if (!this.menuBtnClick) {
@@ -115,7 +115,7 @@ export class AppComponent implements OnInit {
 
   // Handles user data from JWT token stored in local storage
   private handleUserData() {
-    this.accountService.isAuthenticated();
+    this.apiService.isAuthenticated();
     const profileData = this.dataService.getUserProfile();
     if (profileData) {
       const storedUserName = profileData.userName;

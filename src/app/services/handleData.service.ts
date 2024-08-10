@@ -5,9 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class HandleDataService {
-
-  constructor() { }
-
+  
   // Retrieves the JWT token from local storage
   getToken(): string | null {
     return localStorage.getItem('jwt');
