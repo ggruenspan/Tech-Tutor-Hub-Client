@@ -1,6 +1,6 @@
 import { Component, HostListener, Renderer2, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { APIRoutesService } from './services/apiRoutes.service';
+import { AuthRoutesService } from './services/authRoutes.service';
 import { HandleDataService } from './services/handleData.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   menuIcon: string = 'fa-caret-right';
   profileImage: string | null = null;
 
-  constructor(private toastr: ToastrService, private renderer: Renderer2, private apiService: APIRoutesService, private dataService: HandleDataService) {
+  constructor(private toastr: ToastrService, private renderer: Renderer2, private authService: AuthRoutesService, private dataService: HandleDataService) {
     // Event listener to close the user menu when clicking outside
     this.renderer.listen('window', 'click', (e: Event) => {
       if (!this.menuBtnClick) {
@@ -115,11 +115,8 @@ export class AppComponent implements OnInit {
 
   // Handles user data from JWT token stored in local storage
   private handleUserData() {
-    this.apiService.isAuthenticated();
+    this.authService.isAuthenticated();
     const profileData = this.dataService.getUserProfile();
-
-    // console.log(localStorage.getItem('profileImage'));
-
     if (profileData) {
       this.userName = profileData.userName;
       this.session = localStorage.getItem('session');

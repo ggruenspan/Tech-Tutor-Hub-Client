@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
-import { APIRoutesService } from '../../services/apiRoutes.service';
+import { UserRoutesService } from '../../services/userRoutes.service';
 import { HandleDataService } from '../../services/handleData.service';
 
 @Component({
@@ -37,7 +37,7 @@ export class AccountComponent implements OnInit {
   profileImage: string | null = null;
 
   constructor( private ngZone: NgZone, private renderer: Renderer2, private http: HttpClient, 
-               private toastr: ToastrService, private apiService: APIRoutesService, 
+               private toastr: ToastrService, private userService: UserRoutesService, 
                private dataService: HandleDataService) {}
 
   ngOnInit() {
@@ -52,7 +52,7 @@ export class AccountComponent implements OnInit {
 
   // Retrieve user data from local storage
   handleUserData() {
-    this.apiService.getUserData().subscribe(() => {
+    this.userService.getUserData().subscribe(() => {
       const profileData = this.dataService.getUserProfile();
       if (profileData) {
         this.profileImage = localStorage.getItem('profileImage');
@@ -187,7 +187,7 @@ export class AccountComponent implements OnInit {
       }
 
       // Form is valid, submit the sign-up data to the server
-      this.apiService.updateUserProfile(payload).subscribe((response) => {
+      this.userService.updateUserProfile(payload).subscribe((response) => {
         this.toastr.success(response.message);
         setTimeout(() => {
           window.location.replace('/settings/account');

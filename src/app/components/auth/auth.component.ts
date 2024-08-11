@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { APIRoutesService } from '../../services/apiRoutes.service';
+import { AuthRoutesService } from '../../services/authRoutes.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -18,7 +18,7 @@ export class AuthComponent implements OnInit {
   showPasswordIcon: string = 'fa-eye-slash';
   token: any;
 
-  constructor( private fb: FormBuilder, private toastr: ToastrService, private apiService: APIRoutesService, private route: ActivatedRoute) {}
+  constructor( private fb: FormBuilder, private toastr: ToastrService, private authService: AuthRoutesService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.initializeForm();
@@ -63,7 +63,7 @@ export class AuthComponent implements OnInit {
 
   // Handle form submission for sign-in
   signIn() {
-    this.apiService.signIn(this.authForm.value).subscribe((response) => {
+    this.authService.signIn(this.authForm.value).subscribe((response) => {
       this.toastr.success(response.message);
       setTimeout(() => {
         window.location.replace('/');
@@ -75,7 +75,7 @@ export class AuthComponent implements OnInit {
 
   // Handle form submission for sign-up
   signUp() {
-    this.apiService.signUp(this.authForm.value).subscribe((response) => {
+    this.authService.signUp(this.authForm.value).subscribe((response) => {
       this.toastr.success(response.message);
       setTimeout(() => {
         window.location.replace('/sign-in');
@@ -87,7 +87,7 @@ export class AuthComponent implements OnInit {
 
   // Handle form submission for forgot-password
   forgotPasswordSubmit() {
-    this.apiService.forgotPassword(this.authForm.value).subscribe((response) => {
+    this.authService.forgotPassword(this.authForm.value).subscribe((response) => {
       this.toastr.success(response.message);
       setTimeout(() => {
         window.location.replace('/sign-in');
@@ -99,7 +99,7 @@ export class AuthComponent implements OnInit {
 
   // Handle form submission for reset-password
   resetPasswordSubmit() {
-    this.apiService.resetPassword(this.token, this.authForm.value).subscribe((response) => {
+    this.authService.resetPassword(this.token, this.authForm.value).subscribe((response) => {
       this.toastr.success(response.message);
       setTimeout(() => {
         window.location.replace('/sign-in');

@@ -11,7 +11,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpInterceptorService } from './interceptors/auth.interceptor';
 
-import { APIRoutesService } from './services/apiRoutes.service';
+import { AuthRoutesService } from './services/authRoutes.service';
+import { UserRoutesService } from './services/userRoutes.service';
 import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
 
 export function tokenGetter() {
@@ -40,7 +41,8 @@ export function tokenGetter() {
     })
   ],
   providers: [
-    APIRoutesService,
+    AuthRoutesService,
+    UserRoutesService,
     JwtHelperService, // Provide JwtHelperService here
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }
   ],
