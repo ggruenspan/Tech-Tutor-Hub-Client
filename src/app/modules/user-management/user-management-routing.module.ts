@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { SettingsComponent } from '../../components/settings/settings.component';
+import { PublicProfileComponent } from '../../components/public-profile/public-profile.component';
 import { AccountComponent } from '../../components/account/account.component';
 import { SecurityAndAccessComponent } from '../../components/security-and-access/security-and-access.component';
 import { NotificationsComponent } from '../../components/notifications/notifications.component';
@@ -11,7 +12,8 @@ import { ProtectedRouteGuardService as ProtectedRouteGuard } from '../../guards/
 const routes: Routes = [
   { path: 'settings', component: SettingsComponent, canActivate: [ProtectedRouteGuard],
     children: [
-      { path: '', redirectTo: 'account', pathMatch: 'full' },
+      { path: '', redirectTo: 'profile', pathMatch: 'full' },
+      { path: 'profile', component: PublicProfileComponent},
       { path: 'account', component: AccountComponent},
       { path: 'security&access', component: SecurityAndAccessComponent},
       { path: 'notifications', component: NotificationsComponent},

@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { UserManagementRoutingModule } from './user-management-routing.module';
 import { SettingsComponent } from '../../components/settings/settings.component';
-import { AccountComponent } from '../../components/account/account.component';
+import { PublicProfileComponent } from '../../components/public-profile/public-profile.component';
 import { SecurityAndAccessComponent } from '../../components/security-and-access/security-and-access.component';
 import { NotificationsComponent } from '../../components/notifications/notifications.component';
 import { PaymentsComponent } from '../../components/payments/payments.component';
@@ -13,7 +13,7 @@ import { ProfileImageUploaderComponent } from '../../components/modals/profile-i
 @NgModule({
   declarations: [
     SettingsComponent,
-    AccountComponent,
+    PublicProfileComponent,
     SecurityAndAccessComponent,
     NotificationsComponent,
     PaymentsComponent,
