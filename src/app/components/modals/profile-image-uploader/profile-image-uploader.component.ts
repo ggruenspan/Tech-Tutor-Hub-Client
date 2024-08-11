@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { UserRoutesService } from '../../../services/userRoutes.service';
+import { ImageRoutesService } from '../../../services/imageRoutes.service';
 
 @Component({
   selector: 'app-profile-image-uploader',
@@ -15,7 +16,7 @@ export class ProfileImageUploaderComponent implements OnInit {
   private readonly FILE_SIZE_LIMIT = 2 * 1024 * 1024; // 2MB in bytes
   private readonly ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png'];
 
-  constructor(private toastr: ToastrService, private userService: UserRoutesService) {}
+  constructor(private toastr: ToastrService, private userService: UserRoutesService, private imageService: ImageRoutesService) {}
 
   ngOnInit() {
     this.profileImage = localStorage.getItem('profileImage');
@@ -64,10 +65,14 @@ export class ProfileImageUploaderComponent implements OnInit {
       formData.append('profileImage', this.file);
 
       this.userService.uploadProfilePicture(formData).subscribe((response) => {
-          this.toastr.success(response.message);
-          setTimeout(() => {
-            window.location.replace('/settings/account');
-          }, 1500);
+          this.imageService.getProfileImage().subscribe(() => {
+            this.toastr.success(response.message);
+            setTimeout(() => {
+              window.location.replace('/settings/account');
+            }, 1500);
+          }, (error) => {
+            this.toastr.error(error.error.message);
+          });
         }, (error) => {
           this.toastr.error('Failed to upload image. Please try again.');
         }
@@ -78,8 +83,18 @@ export class ProfileImageUploaderComponent implements OnInit {
   }
 
   onRemove() {
-    this.profileImage = null;
-    this.file = null;
+    this.imageService.removeProfileImage().subscribe((response) => {
+      this.toastr.success(response.message);
+      localStorage.removeItem('profileImage');
+      this.profileImage = null;
+      this.file = null;
+      setTimeout(() => {
+        window.location.replace('/settings/account');
+      }, 1500);
+    }, (error) => {
+      this.toastr.error(error.error.message);
+    });
+
   }
 
   close(): void {

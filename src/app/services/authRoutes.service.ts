@@ -19,10 +19,8 @@ export class AuthRoutesService {
 
   // Method for sending a sign-in request to the API
   signIn(data: any): Observable<any> {
-    return this.http.post<{ token: string, image: { data: string, contentType: string } }>(`${this.baseUrl}/sign-in`, data).pipe(
+    return this.http.post<{ token: string }>(`${this.baseUrl}/sign-in`, data).pipe(
       map(response => {
-        const profileImage = `data:${response.image.contentType};base64,${response.image.data}`;
-        localStorage.setItem('profileImage', profileImage);
         localStorage.setItem('jwt', response.token);
         localStorage.setItem('session', 'true');
         return response;

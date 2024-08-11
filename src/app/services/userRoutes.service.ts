@@ -40,12 +40,6 @@ export class UserRoutesService {
 
   // Method for updating the user's profile picture
   uploadProfilePicture(data: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/upload-profile-picture`, data).pipe(
-      map(response => {
-        const profileImage = `data:${response.image.contentType};base64,${response.image.data}`;
-        localStorage.setItem('profileImage', profileImage);
-        return response;
-      })
-    );
+    return this.http.post<any>(`${this.baseUrl}/upload-profile-picture`, data);
   }
 }
