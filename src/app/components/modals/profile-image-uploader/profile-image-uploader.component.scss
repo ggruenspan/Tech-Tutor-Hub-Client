@@ -69,7 +69,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--site-color);
     transition: transform 0.3s ease;
 }
 
@@ -93,12 +92,12 @@
 .profile-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
     border-radius: 50%;
     display: block;
     position: relative;
     z-index: 0;
     transition: filter 0.3s ease;
+    object-fit: cover;
 }
 
 .profile-picture-container:hover .profile-img {
@@ -146,5 +145,5 @@
 
 .btn:hover {
     background-color: var(--site-color2);
-    color: var(--site-color);
+    color: var(--site-color3);
 }

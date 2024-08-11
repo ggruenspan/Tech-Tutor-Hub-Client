@@ -88,9 +88,13 @@ export class ProfileImageUploaderComponent implements OnInit {
       localStorage.removeItem('profileImage');
       this.profileImage = null;
       this.file = null;
-      setTimeout(() => {
+      this.imageService.getProfileImage().subscribe(() => {
+        this.toastr.success(response.message);
         window.location.replace('/settings/account');
-      }, 1500);
+      }, (error) => {
+        this.toastr.error(error.error.message);
+      });
+    
     }, (error) => {
       this.toastr.error(error.error.message);
     });

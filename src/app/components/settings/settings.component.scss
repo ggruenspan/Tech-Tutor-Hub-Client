@@ -50,18 +50,12 @@
 }
 
 .user-pic {
-    font-size: 45px;
     position: relative;
     top: 20px;
     right: 14px;
-    display: inline-block;
     width: 70px;
     height: 70px;
-    line-height: 65px;
-    text-align: center;
     border-radius: 50%;
-    color: var(--site-color3);
-    background-color: var(--site-color);
     border: 1px solid #ccc;
     object-fit: cover;
 }
