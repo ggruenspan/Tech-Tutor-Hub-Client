@@ -24,8 +24,10 @@ export class APIRoutesService {
 
   // Method for sending a sign-in request to the API
   signIn(data: any): Observable<any> {
-    return this.http.post<{ token: string }>(`${this.baseUrl}/sign-in`, data).pipe(
+    return this.http.post<{ token: string, image: { data: string, contentType: string } }>(`${this.baseUrl}/sign-in`, data).pipe(
       map(response => {
+        const profileImage = `data:${response.image.contentType};base64,${response.image.data}`;
+        localStorage.setItem('profileImage', profileImage);
         localStorage.setItem('jwt', response.token);
         localStorage.setItem('session', 'true');
         return response;
@@ -33,14 +35,14 @@ export class APIRoutesService {
     );
   }
 
-  // Method for getting the users datafrom the API
-  getUserData(): Observable<any> {
-    return this.http.get<{ token: string }>(`${this.baseUrl}/get-user-profile`).pipe(
-      map(response => {
-        localStorage.setItem('jwt', response.token);
-        this.userProfileSubject.next(response);
-      })
-    );
+  // Method for sending a forgot-password request to the API
+  forgotPassword(data: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/forgot-password`, data);
+  }
+
+  // Method for sending a reset-password request to the API
+  resetPassword(token: any, data: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/reset-password/${token}`, data);
   }
 
   // Method for getting the authenticate request from the API
@@ -53,14 +55,14 @@ export class APIRoutesService {
     return false;
   }
 
-  // Method for sending a forgot-password request to the API
-  forgotPassword(data: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/forgot-password`, data);
-  }
-
-  // Method for sending a reset-password request to the API
-  resetPassword(token: any, data: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/reset-password/${token}`, data);
+  // Method for getting the users datafrom the API
+  getUserData(): Observable<any> {
+    return this.http.get<{ token: string }>(`${this.baseUrl}/get-user-profile`).pipe(
+      map(response => {
+        localStorage.setItem('jwt', response.token);
+        this.userProfileSubject.next(response);
+      })
+    );
   }
 
   // Method for updating the users profile
@@ -76,6 +78,12 @@ export class APIRoutesService {
 
   // Method for updating the user's profile picture
   uploadProfilePicture(data: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/upload-profile-picture`, data);
+    return this.http.post<any>(`${this.baseUrl}/upload-profile-picture`, data).pipe(
+      map(response => {
+        const profileImage = `data:${response.image.contentType};base64,${response.image.data}`;
+        localStorage.setItem('profileImage', profileImage);
+        return response;
+      })
+    );
   }
 }

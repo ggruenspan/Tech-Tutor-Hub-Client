@@ -14,12 +14,12 @@ export class AppComponent implements OnInit {
   isScrolled = false;
   scrollThreshold: number = 100;
   isScreenLess = false;
-  session = '';
+  session: string | null = null;
   userName = '';
   menuVisible = false;
   menuBtnClick = false;
   menuIcon: string = 'fa-caret-right';
-
+  profileImage: string | null = null;
 
   constructor(private toastr: ToastrService, private renderer: Renderer2, private apiService: APIRoutesService, private dataService: HandleDataService) {
     // Event listener to close the user menu when clicking outside
@@ -117,11 +117,13 @@ export class AppComponent implements OnInit {
   private handleUserData() {
     this.apiService.isAuthenticated();
     const profileData = this.dataService.getUserProfile();
+
+    // console.log(localStorage.getItem('profileImage'));
+
     if (profileData) {
-      const storedUserName = profileData.userName;
-      const storedSession = localStorage.getItem('session');
-      this.userName = storedUserName !== null ? storedUserName : '';
-      this.session = storedSession !== null ? storedSession : '';
+      this.userName = profileData.userName;
+      this.session = localStorage.getItem('session');
+      this.profileImage = localStorage.getItem('profileImage');
     }
   }
 }

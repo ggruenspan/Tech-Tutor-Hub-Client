@@ -81,10 +81,11 @@ hr {
     color: var(--site-color3);
     background-color: var(--site-color);
     border: 1px solid #ccc;
+    object-fit: cover;
 }
 
 .editPhoto {
-    top: 36px;
+    top: 50px;
     left: -50px;
     position: relative;
     width: 25px;
@@ -222,7 +223,7 @@ input:focus, textarea:focus, select:focus {
     }
     
     .editPhoto {
-        top: 46px;
+        top: 55px;
         width: 25px;
         height: 25px;
     }

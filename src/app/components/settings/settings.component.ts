@@ -17,6 +17,7 @@ export class SettingsComponent implements OnInit {
   sidebarVisible = false;
   sidebarBtnClick = false;
   sidebarIcon: string = 'fa-chevron-right';
+  profileImage: string | null = null;
 
   constructor(private toastr: ToastrService, private renderer: Renderer2, private apiService: APIRoutesService, private dataService: HandleDataService) {}
 
@@ -78,13 +79,11 @@ export class SettingsComponent implements OnInit {
     this.apiService.getUserData().subscribe(() => {
       const profileData = this.dataService.getUserProfile();
       if (profileData) {
-        const storedUserName = profileData.userName
-        const storedRole = profileData.role;
-    
-        this.userName = storedUserName !== null ? storedUserName : '';
-        this.role = storedRole !== null ? storedRole : '';
-        if (storedRole === 'Tutor') {  this.isTutor = true; } else { this.isTutor = false; }
-        if (storedRole === 'Admin') {  this.isAdmin = true; } else { this.isAdmin = false; }
+        this.profileImage = localStorage.getItem('profileImage');
+        this.userName = profileData.userName;
+        this.role = profileData.role;
+        this.isTutor = this.role === 'Tutor';
+        this.isAdmin = this.role === 'Admin';
       }
     }, (error) => {
       this.toastr.error(error.error.message);

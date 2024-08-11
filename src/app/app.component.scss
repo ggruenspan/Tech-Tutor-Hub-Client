@@ -13,14 +13,12 @@ header {
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
     border-bottom: 1px solid #ccc;
-    // top: -82px;
-    // transform: translateY(100%);
 }
 
 .navbar-toggler {
     background-color: transparent;
     border: none;
-    right: 50px;
+    right: 25px;
     top: 13px;
     position: absolute;
     opacity: 80%;
@@ -123,6 +121,7 @@ header {
     color: var(--site-color3);
     background-color: var(--site-color);
     border: 1px solid #ccc;
+    object-fit: cover;
 }
 
 .menu-opt a {
@@ -165,6 +164,7 @@ hr {
     color: var(--site-color);
     background-color: var(--site-color3);
     border: 1px solid #ccc;
+    object-fit: cover;
 }
 
 .user-opt .icon {

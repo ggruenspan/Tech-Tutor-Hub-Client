@@ -12,8 +12,8 @@
                 <div class="nameBar">
                     <p class="m-3 users-role">{{ role }}</p>
                     <p class="m-3 user-name">{{ userName }}</p>
-                    <!-- <img *ngIf="profileImage" [src]="profileImage" alt="Profile Picture" class="profile-img"> -->
-                    <p class="m-3 user-pic">{{ userName.split(" ")[0].charAt(0).toUpperCase() }}</p>
+                    <img *ngIf="profileImage" [src]="profileImage" alt="Profile Picture" class="m-3 user-pic">
+                    <!-- <p class="m-3 user-pic">{{ userName.split(" ")[0].charAt(0).toUpperCase() }}</p> -->
                     <button class="editPhoto" type="button" (click)="editPhoto()"><i class="fa fa-pencil icon"></i></button>
                     <app-profile-image-uploader *ngIf="photoEditability" (closeModal)="editPhoto()"></app-profile-image-uploader>
                 </div>

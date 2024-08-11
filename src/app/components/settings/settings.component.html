@@ -13,7 +13,7 @@
                 <div class="nameBar">
                     <p class="m-3 users-role">{{ role }}</p>
                     <p class="m-3 user-name">{{ userName }}</p>
-                    <p class="m-3 user-pic">{{ userName.split(" ")[0].charAt(0).toUpperCase() }}</p>
+                    <img *ngIf="profileImage" [src]="profileImage" alt="Profile Picture" class="m-3 user-pic">
                 </div>
 
                 <hr [hidden]="isScreenLess">

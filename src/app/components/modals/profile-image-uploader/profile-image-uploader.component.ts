@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { APIRoutesService } from '../../../services/apiRoutes.service';
 
@@ -7,7 +7,7 @@ import { APIRoutesService } from '../../../services/apiRoutes.service';
   templateUrl: './profile-image-uploader.component.html',
   styleUrls: ['./profile-image-uploader.component.scss'],
 })
-export class ProfileImageUploaderComponent {
+export class ProfileImageUploaderComponent implements OnInit {
   profileImage: string | ArrayBuffer | null = null;
   file: File | null = null;
   @Output() closeModal = new EventEmitter<void>();
@@ -16,6 +16,10 @@ export class ProfileImageUploaderComponent {
   private readonly ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png'];
 
   constructor(private toastr: ToastrService, private apiService: APIRoutesService) {}
+
+  ngOnInit() {
+    this.profileImage = localStorage.getItem('profileImage');
+  }
 
   onFileSelected(event: any): void {
     const file = event.target.files[0];
@@ -61,7 +65,9 @@ export class ProfileImageUploaderComponent {
 
       this.apiService.uploadProfilePicture(formData).subscribe((response) => {
           this.toastr.success(response.message);
-          setTimeout(() => this.close(), 1500);
+          setTimeout(() => {
+            window.location.replace('/settings/account');
+          }, 1500);
         }, (error) => {
           this.toastr.error('Failed to upload image. Please try again.');
         }

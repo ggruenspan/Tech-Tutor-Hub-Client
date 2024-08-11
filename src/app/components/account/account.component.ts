@@ -34,6 +34,7 @@ export class AccountComponent implements OnInit {
   showCustomPronounsInput: boolean = false;
   autocompleteResults: any[] = [];
   autocompleteInput: any;
+  profileImage: string | null = null;
 
   constructor( private ngZone: NgZone, private renderer: Renderer2, private http: HttpClient, 
                private toastr: ToastrService, private apiService: APIRoutesService, 
@@ -54,6 +55,8 @@ export class AccountComponent implements OnInit {
     this.apiService.getUserData().subscribe(() => {
       const profileData = this.dataService.getUserProfile();
       if (profileData) {
+        this.profileImage = localStorage.getItem('profileImage');
+      
         const fields: { [key: string]: string } = { userName: '', role: 'User', email: '', firstName: '', lastName: '', phoneNumber: '', dateOfBirth: '', 
           country: '', stateProvince: '',  city: '', bio: '', pronouns: ''};
     
@@ -62,8 +65,7 @@ export class AccountComponent implements OnInit {
         });
     
         // Retrieve and format dateOfBirth
-        const storedDateOfBirth = profileData.dateOfBirth
-        this.dateOfBirth = storedDateOfBirth ? new Date(storedDateOfBirth).toISOString().split('T')[0] : '';
+        this.dateOfBirth = profileData.dateOfBirth ? new Date(profileData.dateOfBirth).toISOString().split('T')[0] : '';
     
         this.location = this.country && this.stateProvince && this.city ? `${this.country}, ${this.stateProvince}, ${this.city}` : '';
     
@@ -187,7 +189,6 @@ export class AccountComponent implements OnInit {
       // Form is valid, submit the sign-up data to the server
       this.apiService.updateUserProfile(payload).subscribe((response) => {
         this.toastr.success(response.message);
-        // response.token && this.storageService.set('jwtToken', response.token);
         setTimeout(() => {
           window.location.replace('/settings/account');
         }, 1500);

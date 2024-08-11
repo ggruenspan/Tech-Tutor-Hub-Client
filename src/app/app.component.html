@@ -21,7 +21,7 @@
                 <div [hidden]="!session">
                     <a class="m-3 text-decoration-none menu-profile" href="/profile/{{ userName }}">My Profile<i class="fa fa-arrow-right-long icon"></i></a>
                     <p class="m-3 menu-user">{{ userName }}</p>
-                    <p class="m-3 menu-user-pic">{{ userName.split(" ")[0].charAt(0).toUpperCase() }}</p>
+                    <img *ngIf="profileImage" [src]="profileImage" alt="Profile Picture" class="m-3 menu-user-pic">
                 </div>
             </div>
             <hr *ngIf="isOpened" [hidden]="!isScreenLess">
@@ -55,7 +55,7 @@
 
         <div class="user-opt" [hidden]="!session" [style.visibility]="isScreenLess ? 'hidden' : ''" [class.openedPositionUserOpt]="isOpened">
             <div type="button" (click)="toggleUserOpt(); preventCloseOnClick()"><i class="fa {{ menuIcon }} icon"></i></div>
-            <p class="m-3 user-pic">{{ userName.split(" ")[0].charAt(0).toUpperCase() }}</p>
+            <img *ngIf="profileImage" [src]="profileImage" alt="Profile Picture" class="m-3 user-pic">
         </div>
 
         <div class="user-menu" [hidden]="!menuVisible" (click)="preventCloseOnClick()">
