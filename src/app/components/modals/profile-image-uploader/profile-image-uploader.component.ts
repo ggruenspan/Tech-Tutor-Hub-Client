@@ -68,7 +68,7 @@ export class ProfileImageUploaderComponent implements OnInit {
           this.imageService.getProfileImage().subscribe(() => {
             this.toastr.success(response.message);
             setTimeout(() => {
-              window.location.replace('/settings/account');
+              window.location.replace('/settings/profile');
             }, 1500);
           }, (error) => {
             this.toastr.error(error.error.message);
@@ -90,7 +90,7 @@ export class ProfileImageUploaderComponent implements OnInit {
       this.file = null;
       this.imageService.getProfileImage().subscribe(() => {
         this.toastr.success(response.message);
-        window.location.replace('/settings/account');
+        window.location.replace('/settings/profile');
       }, (error) => {
         this.toastr.error(error.error.message);
       });

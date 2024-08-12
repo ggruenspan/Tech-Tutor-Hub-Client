@@ -81,9 +81,21 @@ export class SettingsComponent implements OnInit {
       if (profileData) {
         this.profileImage = localStorage.getItem('profileImage');
         this.userName = profileData.userName;
-        this.role = profileData.role;
-        this.isTutor = this.role === 'Tutor';
-        this.isAdmin = this.role === 'Admin';
+
+        // Determine the role based on the presence of 'Tutor' and 'Admin'
+        this.role = profileData.role.includes('Admin') && profileData.role.includes('Tutor')
+            ? 'Admin/Tutor'
+            : profileData.role.includes('Admin')
+            ? 'Admin'
+            : profileData.role.includes('Tutor')
+            ? 'Tutor'
+            : 'User';
+
+        localStorage.setItem('role', this.role);
+        
+        // Update boolean flags
+        this.isTutor = this.role.includes('Tutor');
+        this.isAdmin = this.role.includes('Admin');
       }
     }, (error) => {
       this.toastr.error(error.error.message);

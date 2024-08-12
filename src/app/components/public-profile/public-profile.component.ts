@@ -12,7 +12,7 @@ import { HandleDataService } from '../../services/handleData.service';
 })
 export class PublicProfileComponent implements OnInit {
   userName = '';
-  role = '';
+  role: string | null = null;
   email = '';
   firstName = '';
   lastName = '';
@@ -56,8 +56,9 @@ export class PublicProfileComponent implements OnInit {
       const profileData = this.dataService.getUserProfile();
       if (profileData) {
         this.profileImage = localStorage.getItem('profileImage');
+        this.role = localStorage.getItem('role');
       
-        const fields: { [key: string]: string } = { userName: '', role: 'User', email: '', firstName: '', lastName: '', phoneNumber: '', dateOfBirth: '', 
+        const fields: { [key: string]: string } = { userName: '', email: '', firstName: '', lastName: '', phoneNumber: '', dateOfBirth: '', 
           country: '', stateProvince: '',  city: '', bio: '', pronouns: ''};
     
         Object.keys(fields).forEach(field => {
@@ -190,7 +191,7 @@ export class PublicProfileComponent implements OnInit {
       this.userService.updateUserProfile(payload).subscribe((response) => {
         this.toastr.success(response.message);
         setTimeout(() => {
-          window.location.replace('/settings/account');
+          window.location.replace('/settings/profile');
         }, 1500);
       }, (error) => {
         this.toastr.error(error.error.message);
