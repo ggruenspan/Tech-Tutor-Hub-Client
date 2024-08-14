@@ -47,4 +47,9 @@ export class AuthRoutesService {
     localStorage.removeItem('jwt');
     return false;
   }
+
+  // Method for sending a verify request to the API
+  verifyEmail(token: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/verify-email/${token}`);
+  }
 }

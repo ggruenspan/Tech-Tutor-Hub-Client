@@ -12,12 +12,17 @@
         height: 755px;
     }
 
-    &.forgot-password-container, &.reset-password-container {
+    &.forgot-password-container, &.reset-password-container, &.verify-email-container {
         height: 530px;
         margin-top: 100px;
         margin-bottom: 129px;
-      }
+    }
     
+    &.verify-email-container {
+        height: 450px;
+        margin-top: 180px;
+    }
+
     .logo-text {
         padding: 0px 150px;
     }

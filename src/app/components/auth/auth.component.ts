@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AuthComponent implements OnInit {
   // Input to determine the mode of the form (signIn, signUp, forgotPassword, or resetPassword)
-  @Input() mode: 'signIn' | 'signUp' | 'forgotPassword' | 'resetPassword' = 'signIn';
+  @Input() mode?: 'signIn' | 'signUp' | 'forgotPassword' | 'resetPassword' | 'verifyEmail';
   @Output() formSubmit = new EventEmitter<any>();
   authForm!: FormGroup;
   passwordVisible: boolean = false;
@@ -29,9 +29,9 @@ export class AuthComponent implements OnInit {
   // Initializes the form based on the current mode
   initializeForm() {
     this.authForm = this.fb.group({
-      fullName: ['', this.mode === 'signUp' ? [Validators.required, Validators.pattern(/^(\w\w+)\s(\w+)$/)] : []],
-      email: ['', this.mode !== 'resetPassword' ? [Validators.required, Validators.pattern(/^[^@]+@[^@]+\.[^@]+$/)] : []],
-      password: ['', this.mode !== 'forgotPassword' ? [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/)] : []],
+      fullName: ['', this.mode === 'signUp' ? [Validators.required, Validators.pattern(/^(\w\w+)\s(\w+)$/)] : this.mode === 'verifyEmail' ? [] : []],
+      email: ['', this.mode !== 'resetPassword' && this.mode !== 'verifyEmail' ? [Validators.required, Validators.pattern(/^[^@]+@[^@]+\.[^@]+$/)] : []],
+      password: ['', this.mode !== 'forgotPassword' && this.mode !== 'verifyEmail' ? [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/)] : []],
     });
   }
 
@@ -56,6 +56,8 @@ export class AuthComponent implements OnInit {
         this.forgotPasswordSubmit();
       } else if (this.mode === 'resetPassword') {
         this.resetPasswordSubmit();
+      } else if (this.mode === 'verifyEmail') {
+        this.verifyEmailSubmit();
       }
     } else {
       this.validateFormFields();
@@ -84,7 +86,7 @@ export class AuthComponent implements OnInit {
       this.toastr.success(response.message);
       setTimeout(() => {
         window.location.replace('/sign-in');
-      }, 1500);
+      }, 2500);
     }, (error) => {
       this.toastr.error(error.error.message);
     });
@@ -96,7 +98,7 @@ export class AuthComponent implements OnInit {
       this.toastr.success(response.message);
       setTimeout(() => {
         window.location.replace('/sign-in');
-      }, 1500);
+      }, 2500);
     }, (error) => {
       this.toastr.error(error.error.message);
     });
@@ -109,6 +111,18 @@ export class AuthComponent implements OnInit {
       setTimeout(() => {
         window.location.replace('/sign-in');
       }, 3000);
+    }, (error) => {
+      this.toastr.error(error.error.message);
+    });
+  }
+
+  // Handle form submission for email verification
+  verifyEmailSubmit() {
+    this.authService.verifyEmail(this.token).subscribe((response) => {
+      this.toastr.success(response.message);
+      setTimeout(() => {
+        window.location.replace('/sign-in');
+      }, 2500);
     }, (error) => {
       this.toastr.error(error.error.message);
     });
