@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { AuthRoutesService } from '../../services/authRoutes.service';
-import { ImageRoutesService } from '../../services/imageRoutes.service';
+import { AuthRoutesService } from '../../services/routes/authRoutes.service';
+import { ImageRoutesService } from '../../services/routes/imageRoutes.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { UserRoutesService } from '../../../services/userRoutes.service';
-import { ImageRoutesService } from '../../../services/imageRoutes.service';
+import { UserRoutesService } from '../../../services/routes/userRoutes.service';
+import { ImageRoutesService } from '../../../services/routes/imageRoutes.service';
 
 @Component({
   selector: 'app-profile-image-uploader',

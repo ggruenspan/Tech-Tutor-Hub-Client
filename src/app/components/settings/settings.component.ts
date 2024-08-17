@@ -1,6 +1,6 @@
 import { Component, HostListener, Renderer2, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { UserRoutesService } from '../../services/userRoutes.service';
+import { UserRoutesService } from '../../services/routes/userRoutes.service';
 import { HandleDataService } from '../../services/handleData.service';
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component, HostListener, Renderer2, OnInit } from '@angular/core';
-import { AuthRoutesService } from './services/authRoutes.service';
+import { AuthRoutesService } from './services/routes/authRoutes.service';
 import { HandleDataService } from './services/handleData.service';
 
 @Component({

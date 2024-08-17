@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
-import { UserRoutesService } from '../../services/userRoutes.service';
+import { UserRoutesService } from '../../services/routes/userRoutes.service';
 import { HandleDataService } from '../../services/handleData.service';
 
 @Component({
