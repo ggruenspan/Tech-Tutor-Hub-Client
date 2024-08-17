@@ -74,7 +74,7 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  // Handles user data from local storage
+  // Handles user data from API
   handleUserData() {
     this.userService.getUserData().subscribe(() => {
       const profileData = this.dataService.getUserProfile();
