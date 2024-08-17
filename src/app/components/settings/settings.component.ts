@@ -89,6 +89,8 @@ export class SettingsComponent implements OnInit {
             ? 'Admin'
             : profileData.role.includes('Tutor')
             ? 'Tutor'
+            : profileData.role.includes('SampleUser')
+            ? 'SampleUser'
             : 'User';
 
         localStorage.setItem('role', this.role);
