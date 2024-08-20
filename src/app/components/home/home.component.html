@@ -1,1 +1,50 @@
-<p>home works!</p>
+<div class="main-container">
+    <div class="row">
+        <div class="text-content col-sm-6">
+            <h2>Achieve Your Goals 3x Faster with Personal Tutors</h2>
+            <ul>
+              <li>🌟 Find Your Perfect Tutor Match</li>
+              <li>🌍 Join 25+ Million Learners Globally</li>
+              <li>🎓 Experience Personalized Learning, Anytime, Anywhere!</li>
+            </ul>
+            <div *ngIf="changeSearchBar" class="search-bar">
+              <div class="search-input">
+                <input type="text" placeholder='Try "Maths"'>
+                <input type="text" placeholder="Course location">
+              </div>
+              <button>Search</button>
+            </div>
+        </div>
+        <div *ngIf="isScreenLess" class="image-content col-sm-6">
+          <div class="circle large" style="background-color: lightgreen;">
+            <img src="path/to/image" alt="">
+            <span class="username">User1</span>
+          </div>
+          <div class="circle xlarge" style="background-color: lightcoral;">
+            <img src="path/to/image" alt="">
+            <span class="username">User2</span>
+          </div>
+          <div class="circle large" style="background-color: lightpink;">
+            <img src="path/to/image" alt="">
+            <span class="username">User3</span>
+          </div>
+          <div class="circle xlarge" style="background-color: lightblue;">
+            <img src="path/to/image" alt="">
+            <span class="username">User4</span>
+          </div>
+          <div class="circle large" style="background-color: lightsalmon;">
+            <img src="path/to/image" alt="">
+            <span class="username">User5</span>
+          </div>
+          <div class="circle medium" style="background-color: lightseagreen;">
+            <img src="path/to/image" alt="">
+            <span class="username">User6</span>
+          </div>
+          <div class="circle small" style="background-color: lightskyblue;">
+            <img src="path/to/image" alt="">
+            <span class="username">User7</span>
+          </div>
+        </div>
+        
+    </div>
+</div>
