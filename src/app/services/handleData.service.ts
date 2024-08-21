@@ -23,6 +23,17 @@ export class HandleDataService {
     return this.getDecodedToken();
   }
 
+  getRoleFromToken(token: any): string {
+    // Determine the role based on the presence of 'Tutor' and 'Admin'
+    return token.role.includes('Admin') && token.role.includes('Tutor')
+      ? 'Admin/Tutor'
+      : token.role.includes('Admin')
+      ? 'Admin'
+      : token.role.includes('Tutor')
+      ? 'Tutor'
+      : 'User';
+  }
+
   // Clears all data from local storage
   clearData() {
     localStorage.clear();

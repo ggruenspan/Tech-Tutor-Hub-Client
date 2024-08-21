@@ -11,7 +11,7 @@ import { HandleDataService } from '../../services/handleData.service';
 export class SettingsComponent implements OnInit {
   isScreenLess = false;
   userName = '';
-  role = '';
+  role: string | null = null;
   isTutor = false;
   isAdmin = false;
   sidebarVisible = false;
@@ -76,28 +76,16 @@ export class SettingsComponent implements OnInit {
 
   // Handles user data from API
   handleUserData() {
-    this.userService.getUserData().subscribe(() => {
+    this.userService.getUserProfile().subscribe(() => {
       const profileData = this.dataService.getUserProfile();
       if (profileData) {
         this.profileImage = localStorage.getItem('profileImage');
         this.userName = profileData.userName;
+        this.role = localStorage.getItem('role');
 
-        // Determine the role based on the presence of 'Tutor' and 'Admin'
-        this.role = profileData.role.includes('Admin') && profileData.role.includes('Tutor')
-            ? 'Admin/Tutor'
-            : profileData.role.includes('Admin')
-            ? 'Admin'
-            : profileData.role.includes('Tutor')
-            ? 'Tutor'
-            : profileData.role.includes('SampleUser')
-            ? 'SampleUser'
-            : 'User';
-
-        localStorage.setItem('role', this.role);
-        
         // Update boolean flags
-        this.isTutor = this.role.includes('Tutor');
-        this.isAdmin = this.role.includes('Admin');
+        this.isTutor = this.role?.includes('Tutor') ?? false;
+        this.isAdmin = this.role?.includes('Admin') ?? false;
       }
     }, (error) => {
       this.toastr.error(error.error.message);

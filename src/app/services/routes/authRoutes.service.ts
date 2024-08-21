@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { HandleDataService } from '../../services/handleData.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -10,7 +11,7 @@ import { map } from 'rxjs/operators';
 export class AuthRoutesService {
   baseUrl = "http://localhost:8080";
 
-  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private dataService: HandleDataService) {}
 
   // Method for sending a sign-up request to the API
   signUp(data: any): Observable<any> {
@@ -23,6 +24,8 @@ export class AuthRoutesService {
       map(response => {
         localStorage.setItem('jwt', response.token);
         localStorage.setItem('session', 'true');
+        console.log(this.dataService.getRoleFromToken(this.dataService.getDecodedToken()));
+        localStorage.setItem('role', this.dataService.getRoleFromToken(this.dataService.getDecodedToken()));
         return response;
       })
     );
