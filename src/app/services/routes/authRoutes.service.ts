@@ -24,7 +24,6 @@ export class AuthRoutesService {
       map(response => {
         localStorage.setItem('jwt', response.token);
         localStorage.setItem('session', 'true');
-        console.log(this.dataService.getRoleFromToken(this.dataService.getDecodedToken()));
         localStorage.setItem('role', this.dataService.getRoleFromToken(this.dataService.getDecodedToken()));
         return response;
       })
