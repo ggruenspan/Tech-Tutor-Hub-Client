@@ -32,21 +32,10 @@ export class SettingsComponent implements OnInit {
         setTimeout(() => {
             this.sidebarVisible = false;
             this.sidebarIcon = this.sidebarVisible ? 'fa-chevron-down' : 'fa-chevron-right';
-            this.toggleContentClasses();
         }, 250); // Delay to close the menu with animation
     } else {
         this.sidebarVisible = true;
         this.sidebarIcon = this.sidebarVisible ? 'fa-chevron-down' : 'fa-chevron-right';
-        this.toggleContentClasses();
-    }
-  }
-
-  // Toggle classes for the content based on menu state
-  toggleContentClasses() {
-    const settingsContent = document.querySelector('.settings-content');
-    if (settingsContent) { 
-      if (this.isTutor) { settingsContent.classList.toggle('tutor'); }
-      else { settingsContent.classList.toggle('menu-open'); }
     }
   }
 
@@ -66,18 +55,13 @@ export class SettingsComponent implements OnInit {
       this.sidebarIcon = this.sidebarVisible ? 'fa-chevron-down' : 'fa-chevron-right';
       const element = document.getElementById('settings-menu');
       this.renderer.removeClass(element, 'show');
-      const settingsContent = document.querySelector('.settings-content');
-      if (settingsContent) { 
-        if (this.isTutor) { settingsContent.classList.remove('tutor'); }
-        else { settingsContent.classList.remove('menu-open'); }
-      }
     }
   }
 
   // Handles user data from API
   handleUserData() {
     this.userService.getUserProfile().subscribe(() => {
-      const profileData = this.dataService.getUserProfile();
+      const profileData = this.dataService.getDecodedToken();
       if (profileData) {
         this.profileImage = localStorage.getItem('profileImage');
         this.userName = profileData.userName;
