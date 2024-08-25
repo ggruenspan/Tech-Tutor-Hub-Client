@@ -18,11 +18,6 @@ export class HandleDataService {
     return token ? helper.decodeToken(token) : null;
   }
 
-  // Retrieves the user profile information by decoding the JWT token
-  getUserProfile(): any {
-    return this.getDecodedToken();
-  }
-
   getRoleFromToken(token: any): string {
     // Determine the role based on the presence of 'Tutor' and 'Admin'
     return token.role.includes('Admin') && token.role.includes('Tutor')

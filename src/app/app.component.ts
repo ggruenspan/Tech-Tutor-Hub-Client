@@ -116,7 +116,7 @@ export class AppComponent implements OnInit {
   // Handles user data from JWT token stored in local storage
   private handleUserData() {
     this.authService.isAuthenticated();
-    const profileData = this.dataService.getUserProfile();
+    const profileData = this.dataService.getDecodedToken();
     if (profileData) {
       this.userName = profileData.userName;
       this.session = localStorage.getItem('session');

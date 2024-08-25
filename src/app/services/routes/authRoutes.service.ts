@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HandleDataService } from '../../services/handleData.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, retry } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -44,9 +44,14 @@ export class AuthRoutesService {
   isAuthenticated() {
     const token = localStorage.getItem('jwt');
     if (token && !this.jwtHelper.isTokenExpired(token)) {
-      return true;
+      return this.http.get(`${this.baseUrl}/verify-user`).subscribe((response) => {
+        return true;
+      }, () => {
+        this.dataService.clearData();
+        return false;
+      });
     }
-    localStorage.removeItem('jwt');
+    this.dataService.clearData();
     return false;
   }
 
