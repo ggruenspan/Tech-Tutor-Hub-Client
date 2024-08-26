@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HandleDataService } from '../../services/handleData.service';
 import { Observable } from 'rxjs';
-import { map, retry } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthRoutesService {
-  baseUrl = "http://localhost:8080";
+  baseUrl = "https://localhost:8080";
 
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private dataService: HandleDataService) {}
 

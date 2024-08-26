@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class UserRoutesService {
-  baseUrl = "http://localhost:8080";
+  baseUrl = "https://localhost:8080";
   private userProfileSubject: BehaviorSubject<any>;
   public userProfile: Observable<any>;
 
