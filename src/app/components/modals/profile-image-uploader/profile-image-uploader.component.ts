@@ -89,8 +89,10 @@ export class ProfileImageUploaderComponent implements OnInit {
       this.profileImage = null;
       this.file = null;
       this.imageService.getProfileImage().subscribe(() => {
-        this.toastr.success(response.message);
-        window.location.replace('/settings/profile');
+        setTimeout(() => {
+          this.toastr.success(response.message);
+          window.location.replace('/settings/profile');
+        }, 500);
       }, (error) => {
         this.toastr.error(error.error.message);
       });
