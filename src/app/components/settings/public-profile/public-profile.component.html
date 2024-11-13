@@ -1,1 +1,8 @@
-<p>public-profile works!</p>
+<h1>User Profile</h1>
+<p *ngIf="userProfile">
+  <strong>Name:</strong> {{ userProfile.account.firstName + ' ' + userProfile.account.lastName}} <br />
+  <strong>Email:</strong> {{ userProfile.email.address }} <br />
+  <strong>Bio:</strong> {{ userProfile.profile.bio }}
+</p>
+<p *ngIf="!userProfile">Loading...</p>
+

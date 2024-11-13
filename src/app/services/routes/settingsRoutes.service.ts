@@ -20,22 +20,12 @@ export class SettingsRoutesService {
 
   // Method for getting the users profile data from the API
   getPublicProfile(): Observable<any> {
-    return this.http.get<{ token: string }>(`${this.baseUrl}/get-user-profile`).pipe(
-      map(response => {
-        localStorage.setItem('jwt', response.token);
-        this.userProfileSubject.next(response);
-      })
-    );
+    return this.http.get<{ token: string }>(`${this.baseUrl}/get-public-profile`)
   }
 
   // Method for updating the users profile
   updatePublicProfile(data: any): Observable<any> {
-    return this.http.post<{ token: string }>(`${this.baseUrl}/update-user-profile`, data).pipe(
-      map(response => {
-        response.token && localStorage.setItem('jwt', response.token);
-        return response;
-      })
-    );
+    return this.http.post<{ token: string }>(`${this.baseUrl}/update-public-profile`, data)
   }
 
   // Method for updating the user's profile picture
