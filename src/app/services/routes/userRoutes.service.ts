@@ -36,17 +36,16 @@ export class UserRoutesService {
     );
   }
 
-  // Method for getting the users account data from the API
-  getUserAccount(): Observable<any> {
-    return this.http.get<{ token: string }>(`${this.baseUrl}/get-user-account`).pipe(
-      map(response => {
-        localStorage.setItem('jwt', response.token);
-        this.userProfileSubject.next(response);
-      })
-    );
-  }
-
-
+  // // Method for getting the users account data from the API
+  // getUserAccount(): Observable<any> {
+  //   return this.http.get<{ token: string }>(`${this.baseUrl}/get-user-account`).pipe(
+  //     map(response => {
+  //       localStorage.setItem('jwt', response.token);
+  //       this.userProfileSubject.next(response);
+  //     })
+  //   );
+  // }
+  
   // Method for updating the users account
   updateUserAccount(data: any): Observable<any> {
     return this.http.post<{ token: string }>(`${this.baseUrl}/update-user-account`, data).pipe(

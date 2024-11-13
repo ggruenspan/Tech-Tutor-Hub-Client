@@ -5,7 +5,7 @@ import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: '', loadChildren: () => import('./modules/user-management/user-management.module').then(m => m.UserManagementModule) },
+  { path: '', loadChildren: () => import('./modules/settings/settings.module').then(m => m.SettingsModule) },
   { path: '', loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule) },
   { path: '', loadChildren: () => import('./modules/core/core.module').then(m => m.CoreModule) },
 ];
