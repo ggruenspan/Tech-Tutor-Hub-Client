@@ -28,14 +28,12 @@ export class ProfileImageUploaderComponent implements OnInit {
       // Check file size
       if (file.size > this.FILE_SIZE_LIMIT) {
         this.toastr.warning('File size exceeds 2MB limit. Please select a smaller file.');
-        this.onRemove();
         return;
       }
 
       // Check file type
       if (!this.ALLOWED_FILE_TYPES.includes(file.type)) {
         this.toastr.warning('Invalid file type. Please select a JPEG or PNG image.');
-        this.onRemove();
         return;
       }
 
