@@ -59,7 +59,7 @@
         </div>
 
         <div class="user-menu" [hidden]="!menuVisible" (click)="preventCloseOnClick()">
-            <a class="m-3 text-decoration-none menu-item" href="">Profile</a>
+            <a class="m-3 text-decoration-none menu-item" href="/profile/{{ userName }}">Profile</a>
             <a class="m-3 text-decoration-none menu-item" href="">Messages</a>
             <a class="m-3 text-decoration-none menu-item" href="/settings">Settings</a>
             <a class="m-3 text-decoration-none menu-item" (click)="handleSignOut()" href="">Sign Out</a>  
