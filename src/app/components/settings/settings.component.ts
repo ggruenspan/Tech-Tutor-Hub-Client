@@ -1,6 +1,6 @@
 import { Component, HostListener, Renderer2, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { UserRoutesService } from '../../services/routes/userRoutes.service';
+import { SettingsRoutesService } from '../../services/routes/settingsRoutes.service';
 import { HandleDataService } from '../../services/handleData.service';
 
 @Component({
@@ -19,7 +19,7 @@ export class SettingsComponent implements OnInit {
   sidebarIcon: string = 'fa-chevron-right';
   profileImage: string | null = null;
 
-  constructor(private toastr: ToastrService, private renderer: Renderer2, private userService: UserRoutesService, private dataService: HandleDataService) {}
+  constructor(private toastr: ToastrService, private renderer: Renderer2, private settingsRoutes: SettingsRoutesService, private dataService: HandleDataService) {}
 
   ngOnInit() {
     this.handleWindowResize(); // Initialize window resize handling
@@ -60,7 +60,7 @@ export class SettingsComponent implements OnInit {
 
   // Handles user data from API
   handleUserData() {
-    this.userService.getUserProfile().subscribe(() => {
+    this.settingsRoutes.getPublicProfile().subscribe(() => {
       const profileData = this.dataService.getDecodedToken();
       if (profileData) {
         this.profileImage = localStorage.getItem('profileImage');

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { UserRoutesService } from '../../../services/routes/userRoutes.service';
+import { SettingsRoutesService } from '../../../services/routes/settingsRoutes.service';
 import { ImageRoutesService } from '../../../services/routes/imageRoutes.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class ProfileImageUploaderComponent implements OnInit {
   private readonly FILE_SIZE_LIMIT = 2 * 1024 * 1024; // 2MB in bytes
   private readonly ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png'];
 
-  constructor(private toastr: ToastrService, private userService: UserRoutesService, private imageService: ImageRoutesService) {}
+  constructor(private toastr: ToastrService, private settingsRoutes: SettingsRoutesService, private imageService: ImageRoutesService) {}
 
   ngOnInit() {
     this.profileImage = localStorage.getItem('profileImage');
@@ -62,7 +62,7 @@ export class ProfileImageUploaderComponent implements OnInit {
       const formData = new FormData();
       formData.append('profileImage', this.file);
 
-      this.userService.uploadProfilePicture(formData).subscribe((response) => {
+      this.settingsRoutes.uploadProfilePicture(formData).subscribe((response) => {
           this.imageService.getProfileImage().subscribe(() => {
             this.toastr.success(response.message);
             setTimeout(() => {

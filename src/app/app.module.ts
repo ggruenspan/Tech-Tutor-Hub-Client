@@ -12,7 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpInterceptorService } from './interceptors/auth.interceptor';
 
 import { AuthRoutesService } from './services/routes/authRoutes.service';
-import { UserRoutesService } from './services/routes/userRoutes.service';
+import { SettingsRoutesService } from './services/routes/settingsRoutes.service';
 import { ImageRoutesService } from './services/routes/imageRoutes.service';
 import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
 
@@ -43,7 +43,7 @@ export function tokenGetter() {
   ],
   providers: [
     AuthRoutesService,
-    UserRoutesService,
+    SettingsRoutesService,
     ImageRoutesService,
     JwtHelperService, // Provide JwtHelperService here
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }
