@@ -13,11 +13,10 @@ import { PrivacyAndPermissionsComponent } from '../../components/settings/privac
 import { LanguageAndTimeComponent } from '../../components/settings/language-and-time/language-and-time.component';
 import { HelpAndSupportComponent } from '../../components/settings/help-and-support/help-and-support.component';
 
-import { ProtectedRouteGuardService as ProtectedRouteGuard } from '../../guards/protected-route.guard';
 import { RoleGuardService as RoleGuard } from '../../guards/role.guard';
 
 const routes: Routes = [
-  { path: 'settings', component: SettingsComponent, canActivate: [ProtectedRouteGuard],
+  { path: 'settings', component: SettingsComponent,
     children: [
       { path: '', redirectTo: 'profile', pathMatch: 'full' },
       { path: 'profile', component: PublicProfileComponent},
