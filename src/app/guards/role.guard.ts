@@ -12,7 +12,7 @@ export class RoleGuardService implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
     const requiredRole = route.data['requiredRole'];
-    const tokenRole = this.dataService.getRoleFromToken(this.dataService.getDecodedToken());
+    const tokenRole = this.dataService.getRoleFromData();
 
     if (tokenRole === requiredRole) {
         return true; // Roles match, allow access

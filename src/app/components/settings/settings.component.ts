@@ -61,10 +61,10 @@ export class SettingsComponent implements OnInit {
   // Handles user data from API
   handleUserData() {
     this.settingsRoutes.getPublicProfile().subscribe(() => {
-      const profileData = this.dataService.getDecodedToken();
-      if (profileData) {
+      const userData = this.dataService.decodedToken();
+      if (userData) {
         this.profileImage = localStorage.getItem('profileImage');
-        this.userName = profileData.userName;
+        this.userName = userData.userName;
         this.role = localStorage.getItem('role');
 
         // Update boolean flags

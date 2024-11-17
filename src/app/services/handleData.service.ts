@@ -12,19 +12,20 @@ export class HandleDataService {
   }
 
   // Decodes the JWT token using JwtHelperService
-  getDecodedToken(): any {
-    const token = this.getToken();
+  decodedToken(token?: any): any {
+    const data = token? token.token : this.getToken();
     const helper = new JwtHelperService();
-    return token ? helper.decodeToken(token) : null;
+    return data ? helper.decodeToken(data) : null;
   }
 
-  getRoleFromToken(token: any): string {
+  getRoleFromData(): string {
+    const data = this.decodedToken();
     // Determine the role based on the presence of 'Tutor' and 'Admin'
-    return token.role.includes('Admin') && token.role.includes('Tutor')
+    return data.role.includes('Admin') && data.role.includes('Tutor')
       ? 'Admin/Tutor'
-      : token.role.includes('Admin')
+      : data.role.includes('Admin')
       ? 'Admin'
-      : token.role.includes('Tutor')
+      : data.role.includes('Tutor')
       ? 'Tutor'
       : 'User';
   }
