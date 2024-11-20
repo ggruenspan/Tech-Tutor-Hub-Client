@@ -13,7 +13,6 @@ import { HttpInterceptorService } from './interceptors/auth.interceptor';
 
 import { AuthRoutesService } from './services/routes/authRoutes.service';
 import { SettingsRoutesService } from './services/routes/settingsRoutes.service';
-import { ImageRoutesService } from './services/routes/imageRoutes.service';
 import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
 
 export function tokenGetter() {
@@ -44,7 +43,6 @@ export function tokenGetter() {
   providers: [
     AuthRoutesService,
     SettingsRoutesService,
-    ImageRoutesService,
     JwtHelperService, // Provide JwtHelperService here
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }
   ],

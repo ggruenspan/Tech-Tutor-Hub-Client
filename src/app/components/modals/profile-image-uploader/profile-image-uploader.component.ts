@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { SettingsRoutesService } from '../../../services/routes/settingsRoutes.service';
-import { ImageRoutesService } from '../../../services/routes/imageRoutes.service';
 
 @Component({
   selector: 'app-profile-image-uploader',
@@ -16,12 +15,13 @@ export class ProfileImageUploaderComponent implements OnInit {
   private readonly FILE_SIZE_LIMIT = 2 * 1024 * 1024; // 2MB in bytes
   private readonly ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png'];
 
-  constructor(private toastr: ToastrService, private settingsRoutes: SettingsRoutesService, private imageService: ImageRoutesService) {}
+  constructor(private toastr: ToastrService, private settingsRoutes: SettingsRoutesService) {}
 
   ngOnInit() {
     this.profileImage = localStorage.getItem('profileImage');
   }
 
+  // Handles the file selection event.
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
@@ -37,6 +37,7 @@ export class ProfileImageUploaderComponent implements OnInit {
         return;
       }
 
+      // Store the file and read its data for preview
       this.file = file;
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -48,6 +49,7 @@ export class ProfileImageUploaderComponent implements OnInit {
     }
   }
 
+  // Handles file input
   onChange() {
     const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
     if (fileInput) {
@@ -57,13 +59,14 @@ export class ProfileImageUploaderComponent implements OnInit {
     }
   }
 
+  // Submit the selected file to the server
   onSubmit() {
     if (this.file) {
       const formData = new FormData();
       formData.append('profileImage', this.file);
 
       this.settingsRoutes.uploadProfilePicture(formData).subscribe((response) => {
-          this.imageService.getProfileImage().subscribe(() => {
+          this.settingsRoutes.getProfileImage().subscribe(() => {
             this.toastr.success(response.message);
             setTimeout(() => {
               window.location.replace('/settings/profile');
@@ -80,13 +83,14 @@ export class ProfileImageUploaderComponent implements OnInit {
     }
   }
 
+  // Remove the profile image
   onRemove() {
-    this.imageService.removeProfileImage().subscribe((response) => {
+    this.settingsRoutes.removeProfileImage().subscribe((response) => {
       this.toastr.success(response.message);
       localStorage.removeItem('profileImage');
       this.profileImage = null;
       this.file = null;
-      this.imageService.getProfileImage().subscribe(() => {
+      this.settingsRoutes.getProfileImage().subscribe(() => {
         setTimeout(() => {
           this.toastr.success(response.message);
           window.location.replace('/settings/profile');

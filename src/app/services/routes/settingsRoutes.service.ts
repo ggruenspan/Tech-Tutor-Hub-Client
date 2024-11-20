@@ -8,13 +8,8 @@ import { map } from 'rxjs/operators';
 })
 export class SettingsRoutesService {
   baseUrl = "https://localhost:8080";
-  private userProfileSubject: BehaviorSubject<any>;
-  public userProfile: Observable<any>;
 
-  constructor(private http: HttpClient) {
-    this.userProfileSubject = new BehaviorSubject<any>(null);
-    this.userProfile = this.userProfileSubject.asObservable();
-  }
+  constructor(private http: HttpClient) {}
 
   // ----------------------------------------- Public Profile Page Start -------------------------------------------------------
 
@@ -28,9 +23,25 @@ export class SettingsRoutesService {
     return this.http.post<{ token: string }>(`${this.baseUrl}/update-public-profile`, data)
   }
 
+  // Method for getting the user profile image
+  getProfileImage(): Observable<any> {
+    return this.http.get<{ image: { data: string, contentType: string } }>(`${this.baseUrl}/get-profile-image`).pipe(
+        map(response => {
+          const profileImage = `data:${response.image.contentType};base64,${response.image.data}`;
+          localStorage.setItem('profileImage', profileImage);
+          return response;
+        })
+    );
+  }
+
   // Method for updating the user's profile picture
   uploadProfilePicture(data: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/upload-profile-picture`, data);
+  }
+
+  // Method for removing a users profile image
+  removeProfileImage(): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/remove-profile-image`);
   }
 
   // ----------------------------------------- Public Profile Page End -------------------------------------------------------

@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AuthRoutesService } from '../../services/routes/authRoutes.service';
-import { ImageRoutesService } from '../../services/routes/imageRoutes.service';
+import { SettingsRoutesService } from '../../services/routes/settingsRoutes.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -19,7 +19,8 @@ export class AuthComponent implements OnInit {
   showPasswordIcon: string = 'fa-eye-slash';
   token: any;
 
-  constructor( private fb: FormBuilder, private toastr: ToastrService, private authService: AuthRoutesService, private route: ActivatedRoute, private imageService: ImageRoutesService) {}
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private authService: AuthRoutesService, 
+              private route: ActivatedRoute, private settingsRoutes: SettingsRoutesService) {}
 
   ngOnInit() {
     this.initializeForm();
@@ -67,7 +68,7 @@ export class AuthComponent implements OnInit {
   // Handle form submission for sign-in
   signIn() {
     this.authService.signIn(this.authForm.value).subscribe((response) => {
-      this.imageService.getProfileImage().subscribe(() => {
+      this.settingsRoutes.getProfileImage().subscribe(() => {
         this.toastr.success(response.message);
         setTimeout(() => {
           window.location.replace('/');
