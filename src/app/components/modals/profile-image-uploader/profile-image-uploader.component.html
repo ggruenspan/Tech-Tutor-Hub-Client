@@ -19,6 +19,6 @@
               <button class="btn" type="button" (click)="onRemove()">Remove</button>
           </div>
       </div>
-      <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;">
+      <input id="profileImageFileInput" type="file" hidden (change)="onFileSelected($event)">
   </div>
 </div>

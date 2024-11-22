@@ -51,7 +51,7 @@ export class ProfileImageUploaderComponent implements OnInit {
 
   // Handles file input
   onChange() {
-    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const fileInput = document.getElementById('profileImageFileInput') as HTMLInputElement;
     if (fileInput) {
       fileInput.click();
     } else {
