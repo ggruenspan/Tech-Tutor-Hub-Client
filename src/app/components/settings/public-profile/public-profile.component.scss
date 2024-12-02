@@ -1,0 +1,192 @@
+.public-profile-container {
+    padding: 6px 28px;
+    border: 1px solid #ccc;
+    background-color: var(--site-color3);
+
+    .public-profile-top {
+        margin-bottom: 15px;
+
+        .title {
+            font-size: 20px;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .icon {
+                margin: 7px 5px 0 0;
+                font-size: 20px;
+                width: 16px;
+                height: 16px;
+                color: black;
+            }
+            
+            .icon:hover {
+                cursor: pointer;
+                color: var(--site-color);
+            }
+        }
+        
+        hr {
+            border-width: 2px;
+            margin-top: 10px;
+        }
+    }
+
+    .public-profile-content {
+        .user-profile-bio-field-container {
+            textarea {
+                min-height: calc(4.5em + .75rem + calc(var(--bs-border-width)* 2));
+            }
+
+            .form-control {
+                width: 440px;
+                max-width: 100%;
+            }
+
+            @media (max-width: 1111px) {
+                .form-control {
+                    width: 100%;
+                }
+            }
+        }
+
+        .user-profile-pronouns-field-container, .user-profile-portfolio-field-container {
+            .form-control, .form-select {
+                width: 440px;
+                max-width: 100%;
+            }
+
+            @media (max-width: 1111px) {
+                .form-control, .form-select {
+                    width: 100%;
+                }
+            }
+        }
+        
+        .user-profile-project-field-container {            
+            .project-img {
+                max-width: 100%;
+                height: 250px;
+                display: block;
+                position: relative;
+                z-index: 0;
+                transition: filter 0.3s ease;
+                object-fit: contain;
+            }
+
+            @media (max-width: 1300px) {
+                .row {
+                    flex-direction: column;
+                }
+
+                .col-md-6 {
+                    width: 100%;
+                }
+            }
+        }
+
+        .user-profile-social-accounts-field-container {
+            i {
+                font-size: 20px;
+                width: 20px;
+                height: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+              
+            .form-control {
+                max-width: 100%;
+                margin-left: 10px;
+            }
+
+            @media (min-width: 1300px) {
+                .form-control {
+                    width: 440px;
+                }
+            }
+
+            @media (max-width: 1111px) {
+                .form-control {
+                    width: 100%;
+                }
+            }
+        }
+
+        .avatar-upload-container {
+            position: relative;
+
+            .avatar-user {
+                border-radius: 50%;
+            }
+            
+            .avatar {
+                display: inline-block;
+                border: 2px solid #ccc;
+                overflow: hidden;
+                object-fit: contain;
+            }
+            
+            .editPhoto {
+                cursor: pointer;
+                position: absolute;
+                margin: 0px 0px 8px 8px;
+                padding: 4px 8px 4px 8px;
+                background-color: var(--site-color3);
+                color: var(--site-color);
+                border: 1px solid #ccc;
+                bottom: 0px;
+                left: 0px;
+
+            }
+
+            .editPhoto:hover {
+                background-color: var(--site-color2);
+                color: var(--site-color3);
+            }
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--site-color);
+            outline: none;
+            box-shadow: 0 0 5px var(--site-color);
+        }
+
+        .btn {
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            width: 145px;
+            height: 40px;
+            border: none;
+            background-color: var(--site-color);
+        }
+        
+        .btn:hover {
+            background-color: var(--site-color2);
+            color: var(--site-color3);
+        }
+
+        @media (max-width: 1250px) {
+            .row {
+                flex-direction: column;
+            }
+          
+            .col-md-4 {
+                order: -1;
+                margin-bottom: 1rem;
+            }
+          
+            .col-md-8 {
+                order: 1;
+            }
+        }          
+    }
+
+    // @media (max-width: 1116px) {
+    //        .user-profile-social-accounts-field-container{
+    //          display: none !important;
+    //     }          
+    //  }
+}

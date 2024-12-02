@@ -1,8 +1,133 @@
-<h1>User Profile</h1>
-<p *ngIf="userProfile">
-  <strong>Name:</strong> {{ userProfile.account.firstName + ' ' + userProfile.account.lastName}} <br />
-  <strong>Email:</strong> {{ userProfile.email.address }} <br />
-  <strong>Bio:</strong> {{ userProfile.profile.bio }}
-</p>
-<p *ngIf="!userProfile">Loading...</p>
+
+<div class="public-profile-container rounded">
+  <div class="public-profile-top">
+      <div class="title">
+          Public Profile
+          <a class="text-decoration-none" (click)="goBack()"><i class="fa fa-x icon"></i></a>
+      </div>
+
+      <hr>
+  </div>
+
+  <div class="public-profile-content">
+    <div class="row">
+      <div class="col-12 col-md-8">
+        <form class="editUserForm" id="editUserForm" [formGroup]="editUserForm">
+          <div>
+            <dl class="form-group">
+              <dt><label class="mb-2" for="userProfileBio">Bio</label></dt>
+              <dd class="user-profile-bio-field-container">
+                <textarea class="form-control" id="userProfileBio" type="text"  placeholder="Tell us a little bit about yourself" formControlName="userProfileBio"></textarea>
+                <div class="text-muted">
+                    <span [ngStyle]="{ 'color': bioWordCount > maxWords ? 'red' : 'inherit' }">
+                        {{ bioWordCount }}
+                    </span>
+                    / {{ maxWords }} words
+                </div>
+              </dd>
+            </dl>
+            <dl class="form-group">
+              <dt><label class="mb-2" for="userProfilePronouns">Pronouns</label></dt>
+              <dd class="user-profile-pronouns-field-container">
+                <select class="form-select" id="userProfilePronouns" formControlName="userProfilePronouns" (change)="toggleCustomPronouns($event)">
+                  <option value="">Don't Specify</option>
+                  <option value="he/him">He/Him</option>
+                  <option value="she/her">She/Her</option>
+                  <option value="they/them">They/Them</option>
+                  <option value="custom">Custom</option>
+                </select>
+                <input *ngIf="showCustomPronounsInput" class="form-control mt-2" id="userProfileCustomPronouns" type="text" placeholder="Your preferred pronouns" formControlName="userProfileCustomPronouns">
+              </dd>
+            </dl>
+            <dl class="form-group">
+              <dt><label class="mb-2" for="userProfilePortfolio">Portfolio</label></dt>
+              <dd class="user-profile-portfolio-field-container">
+                <input class="form-control" id="userProfilePortfolio" type="text" placeholder="https://example.com" formControlName="userProfilePortfolio">
+              </dd>
+            </dl>
+            <dl class="form-group">
+              <div class="user-profile-project-field-container">
+                <div class="row">
+                  <div class="col-6 col-md-6">
+                    <dt><label class="mb-2">Project 1</label></dt>
+                    <dd>
+                      <input type="file" hidden data-project="1" (change)="onFileSelected($event, 1)" />
+                      <img class="project-img mb-2" [src]="projectOneImage" alt="Project Image One" *ngIf="projectOneImage">
+                      <button class="btn btn-primary mb-2" *ngIf="!projectOneImage" (click)="onChange(1)">Upload File</button>
+                      <button class="btn btn-primary mb-2" *ngIf="projectOneImage" (click)="onRemove(1)">Remove Project</button>
+                      <div *ngIf="projectOneImage">
+                        <label class="mb-2" for="userProfileProjectOneName">Name</label>
+                        <input class="form-control mb-2" id="userProfileProjectOneName" type="text" placeholder="Project Name" formControlName="userProfileProjectOneName">
+                        <label class="mb-2" for="userProfileProjectOneUrl">Link</label>
+                        <input class="form-control mb-2" id="userProfileProjectOneUrl" type="text" placeholder="Project Link" formControlName="userProfileProjectOneUrl">
+                        <label class="mb-2" for="userProfileProjectOneDesc">Description</label>
+                        <textarea class="form-control mb-2" id="userProfileProjectOneDesc" type="text" placeholder="Project Description" formControlName="userProfileProjectOneDesc"></textarea>
+                        <div class="text-muted">
+                          <span [ngStyle]="{ 'color': projectOneDesWordCount > maxWords ? 'red' : 'inherit' }">
+                              {{ projectOneDesWordCount }}
+                          </span>
+                          / {{ maxWords }} words
+                        </div>
+                      </div>
+                    </dd>
+                  </div>
+                  <div class="col-6 col-md-6" *ngIf="projectOneImage">
+                    <dt><label class="mb-2">Project 2</label></dt>
+                    <dd>
+                      <input type="file" hidden data-project="2" (change)="onFileSelected($event, 2)" />
+                      <img class="project-img mb-2" [src]="projectTwoImage" alt="Project Image Two" *ngIf="projectTwoImage">
+                      <button class="btn btn-primary mb-2" *ngIf="!projectTwoImage" (click)="onChange(2)">Upload File</button>
+                      <button class="btn btn-primary mb-2" *ngIf="projectTwoImage" (click)="onRemove(2)">Remove Project</button>
+                      <div *ngIf="projectTwoImage">
+                        <label class="mb-2" for="userProfileProjectTwoName">Name</label>
+                        <input class="form-control mb-2" id="userProfileProjectTwoName" type="text" placeholder="Project Name" formControlName="userProfileProjectTwoName">
+                        <label class="mb-2" for="userProfileProjectTwoUrl">Link</label>
+                        <input class="form-control mb-2" id="userProfileProjectTwoUrl" type="text" placeholder="Project Link" formControlName="userProfileProjectTwoUrl">
+                        <label class="mb-2" for="userProfileProjectTwoDesc">Description</label>
+                        <textarea class="form-control mb-2" id="userProfileProjectTwoeDesc" type="text" placeholder="Project Description" formControlName="userProfileProjectTwoDesc"></textarea>
+                        <div class="text-muted">
+                          <span [ngStyle]="{ 'color': projectTwoDesWordCount > maxWords ? 'red' : 'inherit' }">
+                              {{ projectTwoDesWordCount }}
+                          </span>
+                          / {{ maxWords }} words
+                        </div>
+                      </div>
+                    </dd>
+                  </div>
+                </div>
+              </div>
+            </dl>
+            <dl class="form-group">
+              <dt><label class="mb-2" for="userProfileSocialAccounts">Social Accounts</label></dt>
+              <dd class="user-profile-social-accounts-field-container">
+                <div class="d-flex align-items-center mb-2">
+                  <i [class]="getLogo(editUserForm.get('userProfileSocialLinkOne')?.value)" class="me-2"></i>
+                  <input class="form-control" id="userProfileSocialLinkOne" type="text" placeholder="Link to social profile" formControlName="userProfileSocialLinkOne" (input)="getLogo(editUserForm.get('userProfileSocialLinkOne')?.value)"
+                  />
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                  <i [class]="getLogo(editUserForm.get('userProfileSocialLinkTwo')?.value)" class="me-2"></i>
+                  <input class="form-control" id="userProfileSocialLinkTwo" type="text" placeholder="Link to social profile" formControlName="userProfileSocialLinkTwo" (input)="getLogo(editUserForm.get('userProfileSocialLinkTwo')?.value)"
+                  />
+                </div>
+              </dd>
+            </dl>
+          </div>
+        </form>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <dt><label class="d-block mb-2">Profile picture</label></dt>
+        <dd class="avatar-upload-container">
+          <img class="avatar avatar-user" *ngIf="profileImage" [src]="profileImage" width="200" height="200" alt="Profile Picture">
+          <div class="editPhoto rounded" (click)="editPhoto()"><i class="fa fa-pencil icon"></i> Edit</div>
+          <app-profile-image-uploader *ngIf="photoEditability" (closeModal)="editPhoto()"></app-profile-image-uploader>
+        </dd>
+      </div>
+    </div>
+    <button class="btn submit rounded mb-2" type="submit" form="editUserForm"  (click)="submitNewUserInfo()">Update Profile</button>
+  </div>
+</div>
+
+
 

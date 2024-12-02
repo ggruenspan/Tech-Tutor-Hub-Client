@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class SettingsRoutesService {
   baseUrl = "https://localhost:8080";
 
@@ -21,6 +19,11 @@ export class SettingsRoutesService {
   // Method for updating the users profile
   updatePublicProfile(data: any): Observable<any> {
     return this.http.post<{ token: string }>(`${this.baseUrl}/update-public-profile`, data)
+  }
+
+  // Method for removing a user projects
+  removePublicProfileProject(projectId: any): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/remove-profile-project/${projectId}`);
   }
 
   // Method for getting the user profile image
