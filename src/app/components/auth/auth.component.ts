@@ -32,7 +32,12 @@ export class AuthComponent implements OnInit {
     this.authForm = this.fb.group({
       fullName: ['', this.mode === 'signUp' ? [Validators.required, Validators.pattern(/^(\w\w+)\s(\w+)$/)] : this.mode === 'verifyEmail' ? [] : []],
       email: ['', this.mode !== 'resetPassword' && this.mode !== 'verifyEmail' ? [Validators.required, Validators.pattern(/^[^@]+@[^@]+\.[^@]+$/)] : []],
-      password: ['', [Validators.required, ...(this.mode !== 'forgotPassword' && this.mode !== 'verifyEmail' && this.mode !== 'signIn' ? [Validators.minLength(6), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/)] : [])]]
+      password: ['',
+        [
+          ...(this.mode === 'signIn' || this.mode === 'signUp' ? [Validators.required] : []), 
+          ...(this.mode !== 'forgotPassword' && this.mode !== 'verifyEmail' && this.mode !== 'signIn' ? [Validators.minLength(6), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/)] : [])
+        ]
+      ]
     });
   }
 
