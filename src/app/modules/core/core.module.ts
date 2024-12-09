@@ -7,7 +7,7 @@ import { FindYourTutorComponent } from '../../components/core/find-your-tutor/fi
 import { BecomeATutorComponent } from '../../components/core/become-a-tutor/become-a-tutor.component';
 import { CommunityComponent } from '../../components/core/community/community.component';
 import { HelpComponent } from '../../components/core/help/help.component';
-import { PageNotFoundComponent } from '../../components/core/page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from '../../components/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [

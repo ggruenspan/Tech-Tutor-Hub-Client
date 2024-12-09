@@ -19,7 +19,7 @@
                     <a class="m-3 text-decoration-none" href="/sign-up">Sign Up</a>    
                 </div>
                 <div [hidden]="!session">
-                    <a class="m-3 text-decoration-none menu-profile" href="/profile/{{ userName }}">My Profile<i class="fa fa-arrow-right-long icon"></i></a>
+                    <a class="m-3 text-decoration-none menu-profile" href="{{ userName }}">My Profile<i class="fa fa-arrow-right-long icon"></i></a>
                     <p class="m-3 menu-user">{{ userName }}</p>
                     <img *ngIf="profileImage" [src]="profileImage" alt="Profile Picture" class="m-3 menu-user-pic">
                 </div>
@@ -62,8 +62,8 @@
         </div>
 
         <div class="user-menu" [hidden]="!menuVisible" (click)="preventCloseOnClick()">
-            <a class="m-3 text-decoration-none menu-item" href="/profile/{{ userName }}">Profile</a>
-            <a class="m-3 text-decoration-none menu-item" href="">Messages</a>
+            <a class="m-3 text-decoration-none menu-item" href="{{ userName }}">Profile</a>
+            <a class="m-3 text-decoration-none menu-item" href="/messages">Messages</a>
             <a class="m-3 text-decoration-none menu-item" href="/settings">Settings</a>
             <a class="m-3 text-decoration-none menu-item" (click)="handleSignOut()" href="">Sign Out</a>  
         </div>

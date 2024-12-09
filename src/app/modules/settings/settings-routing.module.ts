@@ -28,9 +28,7 @@ const routes: Routes = [
       { path: 'security&access', component: SecurityAndAccessComponent},
       { path: 'privacy&permissions', component: PrivacyAndPermissionsComponent},
       { path: 'language&time', component: LanguageAndTimeComponent},
-      { path: 'help&support', component: HelpAndSupportComponent},
-
-      
+      { path: 'help&support', component: HelpAndSupportComponent} 
     ]
   },
 ];
