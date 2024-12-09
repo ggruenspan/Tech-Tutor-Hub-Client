@@ -68,11 +68,6 @@ export class PublicProfileComponent implements OnInit {
     }
   };
 
-  // Navigate back to the previous page
-  goBack(): void {
-    this.location.back();
-  }
-
   // Handles user data from API
   handleUserData() {
     this.settingsRoutes.getPublicProfile().subscribe((response) => {
