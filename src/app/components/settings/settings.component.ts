@@ -1,6 +1,5 @@
 import { Component, HostListener, Renderer2, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { SettingsRoutesService } from '../../services/routes/settingsRoutes.service';
 import { HandleDataService } from '../../services/handleData.service';
 
 @Component({
@@ -19,7 +18,7 @@ export class SettingsComponent implements OnInit {
   sidebarIcon: string = 'fa-chevron-right';
   profileImage: string | null = null;
 
-  constructor(private toastr: ToastrService, private renderer: Renderer2, private settingsRoutes: SettingsRoutesService, private dataService: HandleDataService) {}
+  constructor(private toastr: ToastrService, private renderer: Renderer2, private dataService: HandleDataService) {}
 
   ngOnInit() {
     this.handleWindowResize(); // Initialize window resize handling
@@ -60,19 +59,15 @@ export class SettingsComponent implements OnInit {
 
   // Handles user data from API
   handleUserData() {
-    this.settingsRoutes.getPublicProfile().subscribe(() => {
-      const userData = this.dataService.decodedToken();
-      if (userData) {
-        this.profileImage = localStorage.getItem('profileImage');
-        this.userName = userData.userName;
-        this.role = localStorage.getItem('role');
+    const profileData = this.dataService.decodedToken();
+    if (profileData) {
+      this.userName = profileData.userName;
+      this.profileImage = localStorage.getItem('profileImage');
+      this.role = localStorage.getItem('role');
 
-        // Update boolean flags
-        this.isTutor = this.role?.includes('Tutor') ?? false;
-        this.isAdmin = this.role?.includes('Admin') ?? false;
-      }
-    }, (error) => {
-      this.toastr.error(error.error.message);
-    });
+      // Update boolean flags
+      this.isTutor = this.role?.includes('Tutor') ?? false;
+      this.isAdmin = this.role?.includes('Admin') ?? false;
+    }
   };
 }
