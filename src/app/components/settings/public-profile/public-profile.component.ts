@@ -2,7 +2,7 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
-import { SettingsRoutesService } from '../../../services/routes/settingsRoutes.service';
+import { PublicProfileRoutes } from '../../../services/routes/settings/publicProfileRoutes.service';
 import { HandleDataService } from '../../../services/handleData.service';
 
 @Component({
@@ -47,7 +47,7 @@ export class PublicProfileComponent implements OnInit {
     default: 'fa-solid fa-link'
   };
 
-  constructor(private location: Location, private settingsRoutes: SettingsRoutesService, private dataService: HandleDataService, 
+  constructor(private location: Location, private publicProfileRoutes: PublicProfileRoutes, private dataService: HandleDataService, 
               private renderer: Renderer2, private toastr: ToastrService) {}
 
   ngOnInit() {
@@ -70,7 +70,7 @@ export class PublicProfileComponent implements OnInit {
 
   // Handles user data from API
   handleUserData() {
-    this.settingsRoutes.getPublicProfile().subscribe((response) => {
+    this.publicProfileRoutes.getPublicProfile().subscribe((response) => {
         this.userData = this.dataService.decodedToken(response);
 
         // Initialize fields with user data or default empty values
@@ -274,7 +274,7 @@ export class PublicProfileComponent implements OnInit {
       this.editUserForm.get('userProfileProjectTwoDesc')?.clearValidators();
     } else {
       // Call the service to update the user profile
-      this.settingsRoutes.removePublicProfileProject(projectNumber).subscribe(
+      this.publicProfileRoutes.removePublicProfileProject(projectNumber).subscribe(
         (response) => {
           this.toastr.success(response.message);
           setTimeout(() => {
@@ -365,7 +365,7 @@ export class PublicProfileComponent implements OnInit {
       }
   
       // Call the service to update the user profile
-      this.settingsRoutes.updatePublicProfile(formData).subscribe(
+      this.publicProfileRoutes.updatePublicProfile(formData).subscribe(
         (response) => {
           this.toastr.success(response.message);
           setTimeout(() => {

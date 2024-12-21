@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { SettingsRoutesService } from '../../../services/routes/settingsRoutes.service';
+import { PublicProfileRoutes } from '../../../services/routes/settings/publicProfileRoutes.service';
 
 @Component({
   selector: 'app-profile-image-uploader',
@@ -15,7 +15,7 @@ export class ProfileImageUploaderComponent implements OnInit {
   private readonly FILE_SIZE_LIMIT = 2 * 1024 * 1024; // 2MB in bytes
   private readonly ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png'];
 
-  constructor(private toastr: ToastrService, private settingsRoutes: SettingsRoutesService) {}
+  constructor(private toastr: ToastrService, private publicProfileRoutes: PublicProfileRoutes) {}
 
   ngOnInit() {
     this.profileImage = localStorage.getItem('profileImage');
@@ -65,8 +65,8 @@ export class ProfileImageUploaderComponent implements OnInit {
       const formData = new FormData();
       formData.append('profileImage', this.file);
 
-      this.settingsRoutes.uploadProfilePicture(formData).subscribe((response) => {
-          this.settingsRoutes.getProfileImage().subscribe(() => {
+      this.publicProfileRoutes.uploadProfilePicture(formData).subscribe((response) => {
+          this.publicProfileRoutes.getProfileImage().subscribe(() => {
             this.toastr.success(response.message);
             setTimeout(() => {
               window.location.replace('/settings/profile');
@@ -85,12 +85,12 @@ export class ProfileImageUploaderComponent implements OnInit {
 
   // Remove the profile image
   onRemove() {
-    this.settingsRoutes.removeProfileImage().subscribe((response) => {
+    this.publicProfileRoutes.removeProfileImage().subscribe((response) => {
       this.toastr.success(response.message);
       localStorage.removeItem('profileImage');
       this.profileImage = null;
       this.file = null;
-      this.settingsRoutes.getProfileImage().subscribe(() => {
+      this.publicProfileRoutes.getProfileImage().subscribe(() => {
         setTimeout(() => {
           this.toastr.success(response.message);
           window.location.replace('/settings/profile');

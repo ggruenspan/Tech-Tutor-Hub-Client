@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
-export class SettingsRoutesService {
+export class PublicProfileRoutes {
   baseUrl = "https://localhost:8080";
 
   constructor(private http: HttpClient) {}
