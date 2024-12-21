@@ -21,13 +21,15 @@ export class HandleDataService {
   getRoleFromData(): string {
     const data = this.decodedToken();
     // Determine the role based on the presence of 'Tutor' and 'Admin'
-    return data.role.includes('Admin') && data.role.includes('Tutor')
-      ? 'Admin/Tutor'
-      : data.role.includes('Admin')
-      ? 'Admin'
-      : data.role.includes('Tutor')
-      ? 'Tutor'
-      : 'User';
+    return data?.role
+    ? data.role.includes('Admin') && data.role.includes('Tutor')
+        ? 'Admin/Tutor'
+        : data.role.includes('Admin')
+            ? 'Admin'
+            : data.role.includes('Tutor')
+                ? 'Tutor'
+                : ''
+    : 'User'; // Default case when data.role is null or undefined
   }
 
   // Clears all data from local storage
