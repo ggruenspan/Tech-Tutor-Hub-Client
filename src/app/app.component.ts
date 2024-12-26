@@ -9,6 +9,7 @@ import { HandleDataService } from './services/handleData.service';
 })
 export class AppComponent implements OnInit {
   title = 'Tech Tutor Hub';
+  isSmaller = false;
   isOpened = false;
   isScrolled = false;
   scrollThreshold: number = 100;
