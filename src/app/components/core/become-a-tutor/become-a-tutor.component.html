@@ -1,1 +1,82 @@
-<p>become-a-tutor works!</p>
+<div class="become-a-tutor-container">
+    <div class="main-container">
+        <div class="blob-container">
+            <div class="blob">
+                <!-- This SVG is from https://codepen.io/Ali_Farooq_/pen/gKOJqx -->
+                <svg xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 350">
+                <path d="M156.4,339.5c31.8-2.5,59.4-26.8,80.2-48.5c28.3-29.5,40.5-47,56.1-85.1c14-34.3,20.7-75.6,2.3-111  c-18.1-34.8-55.7-58-90.4-72.3c-11.7-4.8-24.1-8.8-36.8-11.5l-0.9-0.9l-0.6,0.6c-27.7-5.8-56.6-6-82.4,3c-38.8,13.6-64,48.8-66.8,90.3c-3,43.9,17.8,88.3,33.7,128.8c5.3,13.5,10.4,27.1,14.9,40.9C77.5,309.9,111,343,156.4,339.5z"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="text-content col-lg-6" *ngIf="isScreenLess">
+                <h1 class="header-title">
+                    Share Your Tech Expertise<br>
+                    Become a Tech Tutor Today
+                </h1>
+                <div class="header-subtitle">
+                    <p></p>
+                    <p>Join <strong>Tech Tutor Hub</strong>, Canada’s leading platform connecting tech experts with learners eager to grow. Help others unlock their potential while earning on your own terms.</p>
+                    <p>🌟 &nbsp;<strong>Teach a wide range of tech topics</strong> coding, web development, cybersecurity, IT support, and more</p>
+                    <p>🗓️ &nbsp;<strong>Set your schedule</strong> and teach when it’s convenient for you</p>
+                    <p>💻 Offer lessons <strong>online or in-person</strong>, your choice</p>
+                    <p>💸 &nbsp;<strong>Set your rates </strong>starting as low as $5 per hour!</p>
+                    <p>Whether you're a tech professional, educator, or self-taught expert, your knowledge can make a difference.</p>
+                    <p><strong>Join Tech Tutor Hub today and inspire the next generation of tech talent!</strong></p>
+                </div>
+            </div>
+            <div class="from-content col-lg-6">
+                <h1 class="header-title"  *ngIf="!isScreenLess">
+                    Share Your Tech Expertise<br>
+                    Become a Tech Tutor Today
+                </h1>
+
+                <div class="container rounded text-center">
+                    <div class="logo-text">
+                        <img src="../assets/TechTutorHubLogoImage.png" width="110" height="120" alt="Tech Tutor Hub">
+                        <h3 *ngIf="!isTutor">Join Our Team!</h3>
+                        <h3 *ngIf="isTutor">Thank You, for becoming a Tutor!</h3>
+                    </div>
+    
+                    <div class="col-sm-6 offset-sm-3">
+                        <form (ngSubmit)="onSubmit()" [formGroup]="becomeATutorForm" *ngIf="!(isTutor && validSession)">
+                            <div class="form-group" *ngIf="!validSession">
+                                <label class="d-flex justify-content-left" for="email">Email</label>
+                                <input class="form-control" id="email" name="email" type="email" placeholder="Email Address" formControlName="email"/>
+                            </div>
+                            <button type="submit" class="btn submit rounded">Join</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="header-subtitle" *ngIf="!isScreenLess">
+                    <p></p>
+                    <p>Join <strong>Tech Tutor Hub</strong>, Canada’s leading platform connecting tech experts with learners eager to grow. Help others unlock their potential while earning on your own terms.</p>
+                    <p>🌟 &nbsp;<strong>Teach a wide range of tech topics</strong> coding, web development, cybersecurity, IT support, and more</p>
+                    <p>🗓️ &nbsp;<strong>Set your schedule</strong> and teach when it’s convenient for you</p>
+                    <p>💻 Offer lessons <strong>online or in-person</strong>, your choice</p>
+                    <p>💸 &nbsp;<strong>Set your rates </strong>starting as low as $5 per hour!</p>
+                    <p>Whether you're a tech professional, educator, or self-taught expert, your knowledge can make a difference.</p>
+                    <p><strong>Join Tech Tutor Hub today and inspire the next generation of tech talent!</strong></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="how-to-become-a-tutor-container">
+        <p>how-to-become-a-tutor-container work!</p>
+    </div>
+    <div class="tutor-community-container">
+        <p>tutor-community-container works!</p>
+    </div>
+    <div class="tutor-privacy-container">
+        <p>tutor-privacy-container works!</p>
+    </div>
+    <div class="tutor-topics-container">
+        <p>tutor-topics-container works!</p>
+    </div>
+    <div class="common-questions-container">
+        <p>common-questions-container works!</p>
+    </div>
+</div>
