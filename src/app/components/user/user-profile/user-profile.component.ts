@@ -1,24 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserRoutesService } from '../../../services/routes/userRoutes.service';
+import { UserProfileRoutesService } from '../../../services/routes/user/userProfileRoutes.service';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']
 })
-export class UserProfileComponent {
+export class UserProfileComponent implements OnInit {
   userName: string = '';
   userProfile: any;
 
-  constructor(private route: ActivatedRoute, private userRoutes: UserRoutesService) {}
+  constructor(private route: ActivatedRoute, private userRoutes: UserProfileRoutesService) {}
 
   ngOnInit(): void {
-    // Get the username from the route
-    this.userName = this.route.snapshot.paramMap.get('userName') || '';
+    // Extract the 'username' parameter from the URL
+    this.route.paramMap.subscribe(params => {
+      this.userName = params.get('userName') || '';
+      this.loadUserProfile(this.userName);
+    });
+  }
 
+  loadUserProfile(userName: string) {
     // Fetch the user profile
-    this.userRoutes.getUserProfile(this.userName).subscribe((data) => {
+    this.userRoutes.getUserProfile(userName).subscribe((data) => {
       this.userProfile = data.user;
       console.log(data);
     });
