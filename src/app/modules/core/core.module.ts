@@ -12,6 +12,8 @@ import { CommunityComponent } from '../../components/core/community/community.co
 import { HelpComponent } from '../../components/core/help/help.component';
 import { PageNotFoundComponent } from '../../components/page-not-found/page-not-found.component';
 
+import { ProfileImageUploaderTutorRegComponent } from '../../components/modals/profile-image-uploader-tutor-reg/profile-image-uploader-tutor-reg.component';
+
 @NgModule({
   declarations: [
     FindYourTutorComponent,
@@ -19,7 +21,8 @@ import { PageNotFoundComponent } from '../../components/page-not-found/page-not-
       TutorRegistrationComponent,
     CommunityComponent,
     HelpComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ProfileImageUploaderTutorRegComponent
   ],
   imports: [
     CommonModule,
