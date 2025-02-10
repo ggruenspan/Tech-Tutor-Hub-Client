@@ -208,19 +208,21 @@
         </div>
 
         <div *ngIf="currentStep === 3">
-          <div class="video-verification-container">
-            <h3>Record or Upload Your Video Introduction</h3>
+          <div class="video-verification-container container">
+            <h3>Upload Your Video Introduction</h3>
             <p>Please introduce yourself and explain what subjects you teach (30-60 seconds).</p>
-          
-            <div class="video-upload">
-              <input type="file" accept="video/*" (change)="onVideoUpload($event)" />
-            </div>
-          
+
             <div *ngIf="videoPreviewUrl">
-              <h4>Preview:</h4>
               <video [src]="videoPreviewUrl" controls></video>
             </div>
-          
+            
+            <div class="video-upload">
+              <label for="videoUpload" class="upload-btn">
+                {{ videoPreviewUrl ? 'Change Video' : 'Choose Video' }}
+              </label>
+              <input type="file" id="videoUpload" accept="video/*" formControlName="videoVerification" (change)="onVideoUpload($event)" hidden />
+            </div>
+
             <!-- <button class="upload-btn" (click)="uploadVideo()" [disabled]="!selectedVideo">
               Upload Video
             </button> -->

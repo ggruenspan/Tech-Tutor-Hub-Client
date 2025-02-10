@@ -21,5 +21,9 @@ export class TutorRegisterRoutes {
   getLanguages(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/get-languages`);
   }
+
+  upload(data: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/upload-verification-video`, data);
+  }
 }
  

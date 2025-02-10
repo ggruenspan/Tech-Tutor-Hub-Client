@@ -1,9 +1,9 @@
 import { Component, OnInit, Renderer2, HostListener, ElementRef, ViewChild } from '@angular/core';
-import { HandleDataService } from '../../../../services/handleData.service';
-import { PublicProfileRoutes } from '../../../../services/routes/settings/publicProfileRoutes.service';
-import { FormControl, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { FormControl, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
+import { HandleDataService } from '../../../../services/handleData.service';
+import { PublicProfileRoutes } from '../../../../services/routes/settings/publicProfileRoutes.service';
 import { TutorRegisterRoutes } from '../../../../services/routes/core/become-a-tutor/tutorRegisterRoutes.service';
 
 @Component({
@@ -40,18 +40,20 @@ export class TutorRegistrationComponent implements OnInit {
   filteredLanguages: string[] = [];
   selectedLanguages: string[] = []; // List of selected languges
   languageCurrentFocus = -1;
-  selectedVideo: File | null = null;
-  videoPreviewUrl: string | null = null;
-  uploadProgress: number = 0;
-  downloadUrl: string | null = null;
+  selectedVideo: File | null = null; // Store the selected video file
+  videoPreviewUrl: string | null = null; // URL for video preview
+  videoDuration: number = 0;
+
+  private readonly FILE_SIZE_LIMIT = 100 * 1024 * 1024; // 100MB in bytes
+  private readonly ALLOWED_FILE_TYPES = ['video/mp4', 'video/mov', 'video/avi'];
 
   @ViewChild('subjectInput') subjectInputElement!: ElementRef;
   @ViewChild('languageInput') languageInputElement!: ElementRef;
   @ViewChild('subjectsContainer') subjectsContainer!: ElementRef;  
   @ViewChild('languagesContainer') languagesContainer!: ElementRef;
 
-  constructor(private dataService: HandleDataService, private publicProfileRoutes: PublicProfileRoutes, private route: ActivatedRoute, private router: Router, 
-              private renderer: Renderer2, private toastr: ToastrService, private tutorRegService: TutorRegisterRoutes) {
+  constructor(private renderer: Renderer2, private route: ActivatedRoute, private router: Router, private toastr: ToastrService, private dataService: HandleDataService, 
+              private publicProfileRoutes: PublicProfileRoutes, private tutorRegService: TutorRegisterRoutes) {
   }
 
   ngOnInit() {
@@ -155,7 +157,8 @@ export class TutorRegistrationComponent implements OnInit {
       subjects: new FormControl('', [this.validateSubjectsSelected()]),
       hourlyRate: new FormControl('', [this.validateHourlyRate()]),
       teachingMode: new FormControl('', Validators.required),
-      languages: new FormControl('', [this.validateLanguagesSelected()])
+      languages: new FormControl('', [this.validateLanguagesSelected()]),
+      videoVerification: new FormControl('', Validators.required)
     }, { validators: this.validateTimeSlots() });
 
     this.subscribeToBioChanges();   // Ensure subscription is added after initializing the form
@@ -575,13 +578,77 @@ export class TutorRegistrationComponent implements OnInit {
 
   // -------------------------------- STEP 3 --------------------------------
 
-  // Handle Video Selection
-  onVideoUpload(event: any): void {}
+  // Triggered when the user selects a video file
+  onVideoUpload(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+  
+      // Check file size
+      if (file.size > this.FILE_SIZE_LIMIT) {
+        this.toastr.warning('File size exceeds 100MB limit. Please select a smaller file.');
+        return;
+      }
 
-  // Upload Video to Firebase Storage
-  uploadVideo(): void {}
+      // Check file type
+      if (!this.ALLOWED_FILE_TYPES.includes(file.type)) {
+        this.toastr.warning('Invalid file type. Please select an MP4, MOV, or AVI video.');
+        return;
+      }
+  
+      // Set selected video
+      this.selectedVideo = file;
+      this.videoPreviewUrl = URL.createObjectURL(file);
+
+      // Create a video element to check duration
+      const videoElement = document.createElement('video');
+      videoElement.src = this.videoPreviewUrl;
+      videoElement.preload = "metadata";
+
+      videoElement.onloadedmetadata = () => {
+        this.videoDuration = videoElement.duration;
+
+        // Update validator for videoVerification field
+        this.tutorRegisterForm.get('videoVerification')?.setValidators([this.validateVideoDuration()]);
+        this.tutorRegisterForm.get('videoVerification')?.updateValueAndValidity();
+      };
+    } else {
+      this.selectedVideo = null;
+      this.videoPreviewUrl = null;
+    }
+  }
+
+  // Custom validator to check the video duration
+  validateVideoDuration(): ValidatorFn {
+    return (): { [key: string]: any } | null => {
+      return this.videoDuration >= 30 && this.videoDuration <= 61 ? null : { durationRange: true };
+    };
+  }
 
   // -------------------------------- STEP 3 --------------------------------
+
+  // -------------------------------- STEP 4 --------------------------------
+
+  // // Upload the selected video
+  // uploadVideo(): void {
+  //   if (!this.selectedVideo) {
+  //     this.toastr.error('No video selected!');
+  //     return;
+  //   }
+
+  //   const formData = new FormData();
+  //   formData.append('video', this.selectedVideo, this.selectedVideo.name);
+
+  //   this.tutorRegService.upload(formData).subscribe((response) => {
+  //       this.toastr.success(response.message);
+  //     },
+  //     (error) => {
+  //       this.toastr.error(error.error.message || 'File upload failed.');
+  //     }
+  //   );
+  // }
+
+  // -------------------------------- STEP 4 --------------------------------
 
   // Validates the fields for the current step and shows error messages if invalid
   validateCurrentStep(): boolean {
@@ -650,6 +717,11 @@ export class TutorRegistrationComponent implements OnInit {
               }
             }
             break;
+          case 3:
+            if (key === 'videoVerification') {
+              showError(key, 'required', 'Please upload a verification video');
+              showWarning(key, 'durationRange', 'Please upload a video that is between 30 and 60 seconds long.');
+            }
         }
       }
     });
@@ -657,8 +729,8 @@ export class TutorRegistrationComponent implements OnInit {
     const stepValidation: { [key: number]: () => boolean } = {
       0: () => formControls['fullName'].valid && formControls['password'].valid,
       1: () => formControls['userProfileBio'].valid && (formControls['userProfilePronouns'].valid || formControls['userProfileCustomPronouns'].valid),
-      2: () => formControls['days'].valid && formControls['subjects'].valid && formControls['hourlyRate'].valid && formControls['teachingMode'].valid && formControls['languges'].valid,
-      3: () => true, // Add specific validations for step 3 if required
+      2: () => formControls['days'].valid && formControls['subjects'].valid && formControls['hourlyRate'].valid && formControls['teachingMode'].valid && formControls['languages'].valid,
+      3: () => formControls['videoVerification'].valid,
       4: () => true, // Add specific validations for step 4 if required
     };
     
