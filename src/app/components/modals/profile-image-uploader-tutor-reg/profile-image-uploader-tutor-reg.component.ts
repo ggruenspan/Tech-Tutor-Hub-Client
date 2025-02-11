@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ProfileImageUploaderTutorRegComponent implements OnInit {
   @Input() profileImage: string | ArrayBuffer | null = null;
   file: File | null = null;
-  @Output() imageSelected = new EventEmitter<string>();
+  @Output() imageSelected = new EventEmitter<File>();
   @Output() closeModal = new EventEmitter<void>();
   @Output() imageRemoved = new EventEmitter<void>();
 
@@ -68,8 +68,7 @@ export class ProfileImageUploaderTutorRegComponent implements OnInit {
       formData.append('profileImage', this.file);
 
       // Simulate server response with the image URL
-      const imageUrl = URL.createObjectURL(this.file);
-      this.imageSelected.emit(imageUrl);
+      this.imageSelected.emit(this.file);
 
       this.toastr.success('Profile image uploaded successfully!');
 
