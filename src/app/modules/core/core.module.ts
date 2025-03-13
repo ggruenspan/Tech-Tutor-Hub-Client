@@ -14,6 +14,8 @@ import { PageNotFoundComponent } from '../../components/page-not-found/page-not-
 
 import { ProfileImageUploaderTutorRegComponent } from '../../components/modals/profile-image-uploader-tutor-reg/profile-image-uploader-tutor-reg.component';
 
+import { CapitalizeFirstPipe } from '../../pipes/capitalize-first.pipe';
+
 @NgModule({
   declarations: [
     FindYourTutorComponent,
@@ -22,7 +24,8 @@ import { ProfileImageUploaderTutorRegComponent } from '../../components/modals/p
     CommunityComponent,
     HelpComponent,
     PageNotFoundComponent,
-    ProfileImageUploaderTutorRegComponent
+    ProfileImageUploaderTutorRegComponent,
+    CapitalizeFirstPipe
   ],
   imports: [
     CommonModule,
