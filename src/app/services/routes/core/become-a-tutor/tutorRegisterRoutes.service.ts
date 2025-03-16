@@ -25,5 +25,9 @@ export class TutorRegisterRoutes {
   upload(data: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/upload-verification-video`, data);
   }
+
+  createNewTutor(data: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/create-new-tutor`, data);
+  }
 }
  

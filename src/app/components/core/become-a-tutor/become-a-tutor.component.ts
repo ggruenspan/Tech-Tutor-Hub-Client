@@ -6,8 +6,6 @@ import { HandleDataService } from '../../../services/handleData.service';
 import { TutorRegisterRoutes } from '../../../services/routes/core/become-a-tutor/tutorRegisterRoutes.service';
 import { AccessGuardService } from '../../../guards/access.guard';
 
-
-
 @Component({
   selector: 'app-become-a-tutor',
   templateUrl: './become-a-tutor.component.html',
@@ -16,10 +14,11 @@ import { AccessGuardService } from '../../../guards/access.guard';
 export class BecomeATutorComponent implements OnInit {
   becomeATutorForm: FormGroup = new FormGroup({});
   isScreenLess = false;
+  validSession = false;
+  email: string | null = null;
   role: string | null = null;
   isTutor = false;
-  validSession = false;
-
+  
   constructor(private toastr: ToastrService, private router: Router, private dataService: HandleDataService, private tutorRegService: TutorRegisterRoutes, private accessGuard: AccessGuardService) {}
 
   ngOnInit(): void {
@@ -84,6 +83,7 @@ export class BecomeATutorComponent implements OnInit {
     const userData = this.dataService.decodedToken();
     if (userData) {
       this.validSession = localStorage.getItem('session') !== null;
+      this.email = userData.email;
       this.role = localStorage.getItem('role');
 
       // Update boolean flags
@@ -101,22 +101,23 @@ export class BecomeATutorComponent implements OnInit {
   // Handles form submission
   onSubmit() {
     if (this.becomeATutorForm.valid) {
-      const email = this.becomeATutorForm.get('email')?.value;
-      if (this.validSession === false) {
-        this.tutorRegService.checkUserByEmail(this.becomeATutorForm.value).subscribe((response) => {
-          this.toastr.success(response.message);
-          this.accessGuard.allowNavigation();
-          this.router.navigate(['/become-a-tutor/register'], { queryParams: { email } });
-        }, (error) => {
-          this.toastr.error(error.error.message);
+      const email = this.becomeATutorForm.get('email')?.value?.trim() ? this.becomeATutorForm.get('email')?.value : this.email;
+      const sessionStatus = this.validSession;
+      this.tutorRegService.checkUserByEmail({ email, sessionStatus }).subscribe((response) => {
+        this.toastr.success(response.message);
+        this.accessGuard.allowNavigation();
+        this.router.navigate(['/become-a-tutor/register'], { queryParams: { email } });
+      },
+      (error) => {
+        this.toastr.error(error.error.message);      
+        if (error.status === 403 && !this.validSession) {
           setTimeout(() => {
             window.location.replace('/sign-in');
           }, 5000);
-        });
-      } else {
-        this.accessGuard.allowNavigation();
-        this.router.navigate(['/become-a-tutor/register'], { queryParams: { email } });
-      }
+        } else {
+          this.becomeATutorForm.reset();
+        }    
+      });
     } else {
       const formControls = this.becomeATutorForm.controls;
 

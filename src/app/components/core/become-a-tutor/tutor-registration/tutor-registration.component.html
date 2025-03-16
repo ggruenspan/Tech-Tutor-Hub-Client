@@ -35,8 +35,9 @@
           </div>
   
           <div class="button-container">
-            <button type="button" class="action-button previous_button" (click)="cancel()">Cancel</button>
-            <button type="button" class="action-button" (click)="next()">Continue</button>
+            <button *ngIf="!isEditable" type="button" class="action-button previous_button" (click)="cancel()">Cancel</button>
+            <button *ngIf="!isEditable" type="button" class="action-button" (click)="next()">Continue</button>
+            <button *ngIf="isEditable" type="button" class="action-button" (click)="goToStep(4)">Continue</button>
           </div>
         </div>
 
@@ -70,9 +71,9 @@
               <div class="col-12 col-md-4">
                 <dt><label class="d-flex justify-content-left mb-2 mt-2">Profile picture</label></dt>
                 <div class="avatar-upload-container">
-                  <img class="avatar avatar-user" *ngIf="profileImage" [src]="profileImage" width="200" height="200">
+                  <img class="avatar avatar-user" *ngIf="profileImageUrl" [src]="profileImageUrl" width="200" height="200">
                   <div class="editPhoto rounded" (click)="editPhoto()"><i class="fa fa-pencil icon"></i> Edit</div>
-                  <app-profile-image-uploader-tutor-reg *ngIf="photoEditability" [profileImage]="profileImage" (imageSelected)="onImageSelected($event)" (closeModal)="editPhoto()"></app-profile-image-uploader-tutor-reg>
+                  <app-profile-image-uploader-tutor-reg *ngIf="photoEditability" [profileImage]="profileImageUrl" (imageSelected)="onImageSelected($event)" (closeModal)="editPhoto()"></app-profile-image-uploader-tutor-reg>
                 </div>
               </div>
 
@@ -80,8 +81,9 @@
           </div>
   
           <div class="button-container">
-            <button type="button" class="action-button previous_button" *ngIf="!validSession" (click)="previous()">Back</button>
-            <button type="button" class="action-button" (click)="next()">Continue</button>
+            <button *ngIf="!isEditable && !validSession" type="button" class="action-button previous_button" (click)="previous()">Back</button>
+            <button *ngIf="!isEditable" type="button" class="action-button" (click)="next()">Continue</button>
+            <button *ngIf="isEditable" type="button" class="action-button" (click)="goToStep(4)">Continue</button>
           </div>
         </div>
 
@@ -119,91 +121,94 @@
                   </div>
                 </div>
               </div>
-                <div class="col-12 col-md-6">
-                  <div class="subjects-container" #subjectsContainer>
-                    <h3>Select Your Subjects:</h3>
-                    <p>Please choose the subjects you are comfortable teaching. (At Least 2)</p>
+              <div class="col-12 col-md-6">
+                <div class="subjects-container" #subjectsContainer>
+                  <h3>Select Your Subjects:</h3>
+                  <p>Please choose the subjects you are comfortable teaching. (At Least 2)</p>
 
-                    <div class="input-group">
-                      <input class="form-control" id="subjects" placeholder="Enter subjects you can teach" formControlName="subjects" #subjectInput  (input)="onSubjectInput($event)" (keydown)="onSubjectKeyDown($event)" autocomplete="off">
-                      <span class="clear-btn" (click)="clearSubjectInput()"><i class="fa fa-times"></i></span>
-                    </div>
+                  <div class="input-group">
+                    <input class="form-control" id="subjects" placeholder="Enter subjects you can teach" formControlName="subjects" #subjectInput  (input)="onSubjectInput($event)" (keydown)="onSubjectKeyDown($event)" (focus)="onSubjectFocus()" autocomplete="off">
+                    <span class="clear-btn" (click)="clearSubjectInput()"><i class="fa fa-times"></i></span>
+                  </div>
 
-                    <div class="autocomplete-items" *ngIf="filteredSubjects.length > 0" [ngStyle]="{ 'margin-top': selectedSubjects.length >= 1 ? '20px' : '0' }">
-                      <div *ngFor="let subject of filteredSubjects; let i = index" class="autocomplete-item" [class.autocomplete-active]="i === subjectCurrentFocus" [class.already-selected]="selectedSubjects.includes(subject)" (click)="selectSubject(subject)">
-                        {{ subject}}
-                        <span *ngIf="selectedSubjects.includes(subject)">(Already selected)</span>
-                      </div>
-                    </div>
-
-                    <div class="selected-list" *ngIf="selectedSubjects.length > 0">
-                      <ul>
-                        <li *ngFor="let subject of selectedSubjects">
-                          {{ subject }}
-                          <span class="remove-btn" (click)="removeSubject(subject)"><i class="fa fa-times"></i></span>
-                        </li>
-                      </ul>
+                  <div class="autocomplete-items" *ngIf="filteredSubjects.length > 0">
+                    <div *ngFor="let subject of filteredSubjects; let i = index" class="autocomplete-item" [class.autocomplete-active]="i === subjectCurrentFocus" [class.already-selected]="selectedSubjects.includes(subject)" (click)="selectSubject(subject)">
+                      {{ subject}}
+                      <span *ngIf="selectedSubjects.includes(subject)">(Already selected)</span>
                     </div>
                   </div>
 
-                  <div class="price-container mt-2 mb-2">
-                    <h3>Select Your Price:</h3>
-                    <p>Set your hourly rate for tutoring sessions.</p>
-                    <div class="input-group">
-                      <input type="number" class="form-control" id="hourlyRate" placeholder="Enter your hourly rate" formControlName="hourlyRate" min="5" max="999">
-                    </div>
+                  <div class="selected-list" *ngIf="selectedSubjects.length > 0">
+                    <ul>
+                      <li *ngFor="let subject of selectedSubjects">
+                        {{ subject }}
+                        <span class="remove-btn" (click)="removeSubject(subject)"><i class="fa fa-times"></i></span>
+                      </li>
+                    </ul>
                   </div>
-                  <div class="teching-model-container mt-2 mb-2">
-                    <h3>Select Your Teaching Mode:</h3>
-                    <p>Choose whether you prefer online, in-person or hybrid sessions.</p>
-                    <div class="radio-group">
-                      <div class="radio-option">
-                        <input type="radio" id="online" name="teachingMode" value="online" formControlName="teachingMode">
-                        <label for="online">Online</label>
-                      </div>
-                      <div class="radio-option">
-                        <input type="radio" id="inPerson" name="teachingMode" value="inPerson" formControlName="teachingMode">
-                        <label for="inPerson">In-Person</label>
-                      </div>
-                      <div class="radio-option">
-                        <input type="radio" id="hybrid" name="teachingMode" value="hybrid" formControlName="teachingMode">
-                        <label for="hybrid">Hybrid</label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="select-language-container mt-2 mb-2" #languagesContainer>
-                    <h3>Select Your Language(s):</h3>
-                    <p>Indicate the languages you are comfortable teaching in (At Least 1).</p>
-                  
-                    <div class="input-group">
-                      <input class="form-control" id="languages" placeholder="Enter languages you can teach in" formControlName="languages" #languageInput (input)="onLanguageInput($event)" (keydown)="onLanguageKeyDown($event)" autocomplete="off">
-                      <span class="clear-btn" (click)="clearLanguageInput()"><i class="fa fa-times"></i></span>
-                    </div>
-                  
-                    <div class="autocomplete-items" *ngIf="filteredLanguages.length > 0" [ngStyle]="{ 'margin-top': selectedLanguages.length >= 1 ? '20px' : '0' }">
-                      <div *ngFor="let language of filteredLanguages; let i = index" class="autocomplete-item" [class.autocomplete-active]="i === languageCurrentFocus" [class.already-selected]="selectedLanguages.includes(language)" (click)="selectLanguage(language)">
-                        {{ language }}
-                        <span *ngIf="selectedLanguages.includes(language)">(Already selected)</span>
-                      </div>
-                    </div>
-                  
-                    <div class="selected-list" *ngIf="selectedLanguages.length > 0">
-                      <ul>
-                        <li *ngFor="let language of selectedLanguages">
-                          {{ language }}
-                          <span class="remove-btn" (click)="removeLanguage(language)"><i class="fa fa-times"></i></span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                                   
                 </div>
+
+                <div class="price-container mt-2 mb-2">
+                  <h3>Select Your Price:</h3>
+                  <p>Set your hourly rate for tutoring sessions.</p>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="hourlyRate" placeholder="Enter your hourly rate" formControlName="hourlyRate" min="5" max="999">
+                  </div>
+                </div>
+
+                <div class="teching-model-container mt-2 mb-2">
+                  <h3>Select Your Teaching Mode:</h3>
+                  <p>Choose whether you prefer online, in-person or hybrid sessions.</p>
+                  <div class="radio-group">
+                    <div class="radio-option">
+                      <input type="radio" id="online" name="teachingMode" value="online" formControlName="teachingMode">
+                      <label for="online">Online</label>
+                    </div>
+                    <div class="radio-option">
+                      <input type="radio" id="inPerson" name="teachingMode" value="inPerson" formControlName="teachingMode">
+                      <label for="inPerson">In-Person</label>
+                    </div>
+                    <div class="radio-option">
+                      <input type="radio" id="hybrid" name="teachingMode" value="hybrid" formControlName="teachingMode">
+                      <label for="hybrid">Hybrid</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="language-container mt-2 mb-2" #languagesContainer>
+                  <h3>Select Your Language(s):</h3>
+                  <p>Indicate the languages you are comfortable teaching in (At Least 1).</p>
+                
+                  <div class="input-group">
+                    <input class="form-control" id="languages" placeholder="Enter languages you can teach in" formControlName="languages" #languageInput (input)="onLanguageInput($event)" (keydown)="onLanguageKeyDown($event)" (input)="onLanguageInput($event)" (focus)="onLanguageFocus()" autocomplete="off">
+                    <span class="clear-btn" (click)="clearLanguageInput()"><i class="fa fa-times"></i></span>
+                  </div>
+                
+                  <div class="autocomplete-items" *ngIf="filteredLanguages.length > 0">
+                    <div *ngFor="let language of filteredLanguages; let i = index" class="autocomplete-item" [class.autocomplete-active]="i === languageCurrentFocus" [class.already-selected]="selectedLanguages.includes(language)" (click)="selectLanguage(language)">
+                      {{ language }}
+                      <span *ngIf="selectedLanguages.includes(language)">(Already selected)</span>
+                    </div>
+                  </div>
+                
+                  <div class="selected-list" *ngIf="selectedLanguages.length > 0">
+                    <ul>
+                      <li *ngFor="let language of selectedLanguages">
+                        {{ language }}
+                        <span class="remove-btn" (click)="removeLanguage(language)"><i class="fa fa-times"></i></span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                                  
+              </div>
             </div>
           </div>
 
           <div class="button-container">
-            <button type="button" class="action-button previous_button" (click)="previous()">Back</button>
-            <button type="button" class="action-button" (click)="next()">Continue</button>
+            <button *ngIf="!isEditable" type="button" class="action-button previous_button" (click)="previous()">Back</button>
+            <button *ngIf="!isEditable" type="button" class="action-button" (click)="next()">Continue</button>
+            <button *ngIf="isEditable" type="button" class="action-button" (click)="goToStep(4)">Continue</button>
           </div>
         </div>
 
@@ -222,18 +227,74 @@
               </label>
               <input type="file" id="videoUpload" accept="video/*" formControlName="videoVerification" (change)="onVideoUpload($event)" hidden />
             </div>
-
-            <!-- <button class="upload-btn" (click)="uploadVideo()" [disabled]="!selectedVideo">
-              Upload Video
-            </button> -->
           </div>
           <div class="button-container">
-            <button type="button" class="action-button previous_button" (click)="previous()">Back</button>
-            <button type="button" class="action-button" (click)="next()">Continue</button>
+            <button *ngIf="!isEditable" type="button" class="action-button previous_button" (click)="previous()">Back</button>
+            <button *ngIf="!isEditable" type="button" class="action-button" (click)="next()">Continue</button>
+            <button *ngIf="isEditable" type="button" class="action-button" (click)="goToStep(4)">Continue</button>
           </div>
         </div>
 
         <div *ngIf="currentStep === 4">
+          <div class="review-submit-container container">
+            <h3>Review Your Details</h3>
+            <p>Please review your details before submitting.</p>
+        
+            <div class="review-section" id="accountDetails">
+                <div class="section-header">
+                    <h4>Account Details</h4>
+                    <a class="edit-link" (click)="goToStep(0)">Edit</a>
+                </div>
+
+                <p><strong>Full Name:</strong> {{ tutorRegisterForm.get('fullName')?.value }}</p>
+                <p><strong>Email:</strong> {{ tutorRegisterForm.get('email')?.value }}</p>
+                <span class="password-wrapper">
+                  <p *ngIf="!validSession"><strong>Password:</strong> 
+                    {{ reviewPasswordVisible ? tutorRegisterForm.get('password')?.value : '••••••••' }}
+                    <i class="fa {{ reviewShowPasswordIcon }} toggle-eye" (click)="toggleReviewPasswordVisibility()"></i>
+                  </p>
+                </span>
+            </div>
+        
+            <div class="review-section" id="profileSetup">
+                <div class="section-header">
+                    <h4>Profile Information</h4>
+                    <a class="edit-link" (click)="goToStep(1)">Edit</a>
+                </div>
+                
+                <p><strong>Profile Picture:</strong></p>
+                <div class="profile-image-container"><img *ngIf="profileImageUrl" [src]="profileImageUrl" class="profile-image" /></div>
+                <p><strong>Bio:</strong> {{ tutorRegisterForm.get('userProfileBio')?.value }}</p>
+                <p><strong>Pronouns:</strong> {{ tutorRegisterForm.get('userProfilePronouns')?.value | titlecase }}</p>
+            </div>
+        
+            <div class="review-section" id="tutorialDetails">
+                <div class="section-header">
+                    <h4>Tutoring Details</h4>
+                    <a class="edit-link" (click)="goToStep(2)">Edit</a>
+                </div>
+
+                <p><strong>Availability:</strong></p>
+                <div class="availability-table">
+                  <div *ngFor="let day of selectedDays">
+                    <p><strong>{{ day }}:</strong> {{ tutorRegisterForm.get(day + 'Start')?.value }} - {{ tutorRegisterForm.get(day + 'End')?.value }}</p>
+                  </div>
+                </div>
+                <p><strong>Subjects:</strong> {{ selectedSubjects.join(', ') }}</p>
+                <p><strong>Hourly Rate:</strong> ${{ tutorRegisterForm.get('hourlyRate')?.value }}</p>
+                <p><strong>Teaching Mode:</strong> {{ tutorRegisterForm.get('teachingMode')?.value | capitalizeFirst }}</p>
+                <p><strong>Languages:</strong> {{ selectedLanguages.join(', ') }}</p>
+            </div>
+        
+            <div class="review-section" id="verificationVideo">
+                <div class="section-header">
+                    <h4>Verification Video</h4>
+                    <a class="edit-link" (click)="goToStep(3)">Edit</a>
+                </div>
+                <video *ngIf="videoPreviewUrl" [src]="videoPreviewUrl" controls></video>
+            </div>
+        </div>
+        
           <div class="button-container">
             <button type="button" class="action-button previous_button" (click)="previous()">Back</button>
             <button type="button" class="action-button" (click)="onSubmit()">Finish</button>

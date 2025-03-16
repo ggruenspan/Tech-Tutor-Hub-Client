@@ -26,9 +26,10 @@ export class TutorRegistrationComponent implements OnInit {
   maxWords: number = 50; // Define the maximum word count
   minWords: number = 5;// Define the minimum word count
   showCustomPronounsInput: boolean = false;
-  profileImage: string | null = null;
+  profileImage: File | null = null;
+  profileImageUrl: string | null = null;
   photoEditability = false;
-  daysOfWeek = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  daysOfWeek = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
   selectedDays: string[] = []; // List of selected days
   timeSlots: string[] = []; // List of selected times
   debounceTimer: any;
@@ -43,7 +44,10 @@ export class TutorRegistrationComponent implements OnInit {
   selectedVideo: File | null = null; // Store the selected video file
   videoPreviewUrl: string | null = null; // URL for video preview
   videoDuration: number = 0;
-
+  isEditable: boolean = false;
+  reviewPasswordVisible: boolean = false;
+  reviewShowPasswordIcon: string = 'fa-eye-slash';
+  
   private readonly FILE_SIZE_LIMIT = 100 * 1024 * 1024; // 100MB in bytes
   private readonly ALLOWED_FILE_TYPES = ['video/mp4', 'video/mov', 'video/avi'];
 
@@ -60,11 +64,11 @@ export class TutorRegistrationComponent implements OnInit {
     this.handleUserData();
     this.initializeForm();
     this.initializeTimeSlots();
-    window.addEventListener('beforeunload', this.handleBeforeUnload);
+    // window.addEventListener('beforeunload', this.handleBeforeUnload);
   }
 
   ngOnDestroy(): void {
-    window.removeEventListener('beforeunload', this.handleBeforeUnload);
+    // window.removeEventListener('beforeunload', this.handleBeforeUnload);
   }
 
   private handleBeforeUnload = (event: BeforeUnloadEvent): void => {
@@ -99,7 +103,11 @@ export class TutorRegistrationComponent implements OnInit {
         }
 
         // Load profile image from local storage
-        this.profileImage = localStorage.getItem('profileImage');
+        const storedImage = localStorage.getItem('profileImage');
+        if (storedImage) {
+          this.profileImage = this.dataURLtoFile(storedImage, 'profile.png');
+          this.profileImageUrl = storedImage; // Use base64 directly for rendering
+        }
         
         this.validSession = localStorage.getItem('session') !== null;
         if (this.validSession) { this.currentStep++; }
@@ -107,7 +115,7 @@ export class TutorRegistrationComponent implements OnInit {
         this.initializeForm();          // Initialize the form after userData is available
       },
       (error) => {
-        this.profileImage = "../../../assets/default-profile.png";
+        this.profileImageUrl = "../../../assets/default-profile.png";
       }
     );
 
@@ -249,9 +257,19 @@ export class TutorRegistrationComponent implements OnInit {
   }
 
   // Method to handle the selected image
-  onImageSelected(imageUrl: string) {
-    this.profileImage = imageUrl;
-    this.tutorRegisterForm.patchValue({ profileImage: imageUrl });
+  onImageSelected(file: File) {
+    this.profileImage = file;
+    
+    // Convert file to object URL for display
+    this.profileImageUrl = URL.createObjectURL(file);
+    this.tutorRegisterForm.patchValue({ profileImage: file });
+
+    // Convert to base64 and store in local storage
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      localStorage.setItem('profileImage', reader.result as string);
+    };
   }
 
   // Toggles the edit mode for the profile image
@@ -259,6 +277,21 @@ export class TutorRegistrationComponent implements OnInit {
     this.photoEditability = !this.photoEditability;
     this.renderer.setStyle(document.body, 'overflow', this.photoEditability ? 'hidden' : '');
     this.renderer.setAttribute(document.body, 'scroll', this.photoEditability ? 'no' : '');
+  }
+
+  // Helper function to convert base64 to File object
+  dataURLtoFile(dataUrl: string, filename: string): File {
+    const arr = dataUrl.split(','), 
+          mime = arr[0].match(/:(.*?);/)![1],
+          bstr = atob(arr[1]), 
+          n = bstr.length, 
+          u8arr = new Uint8Array(n);
+
+    for (let i = 0; i < n; i++) {
+      u8arr[i] = bstr.charCodeAt(i);
+    }
+    
+    return new File([u8arr], filename, { type: mime });
   }
 
   // -------------------------------- STEP 1 --------------------------------
@@ -366,15 +399,21 @@ export class TutorRegistrationComponent implements OnInit {
   // Handles user input with a debounce timer for better performance
   onSubjectInput(event: any): void {
     clearTimeout(this.debounceTimer); // Clear the previous timer
-    const value = event.target.value;
+    const value = event.target.value.trim().toLowerCase();
     this.debounceTimer = setTimeout(() => { // Start a new timer
       this.filteredSubjects = value
         ? this.subjects.filter((subject) =>
-            subject.toLowerCase().includes(value.toLowerCase())
+            subject.toLowerCase().includes(value)
           )
         : [];
       this.subjectCurrentFocus = -1;
     }, 300); // Delay of 300ms
+  }
+
+  // Show the autocomplete menu when the input field is focused
+  onSubjectFocus(): void {
+    this.filteredSubjects = this.subjects.slice().sort((a, b) => a.localeCompare(b)); // Show all subjects initially in alphabetical order
+    this.subjectCurrentFocus = -1;
   }
 
   // Handles keyboard navigation for the autocomplete dropdown
@@ -394,20 +433,17 @@ export class TutorRegistrationComponent implements OnInit {
           this.clearSubjectInput();
         }
       }
-    } else if (event.key === 'ArrowDown') {
-      this.subjectCurrentFocus = (this.subjectCurrentFocus + 1) % this.filteredSubjects.length;
-      this.setActiveSubjectItem();
-    } else if (event.key === 'ArrowUp') {
-      this.subjectCurrentFocus = (this.subjectCurrentFocus - 1 + this.filteredSubjects.length) % this.filteredSubjects.length;
-      this.setActiveSubjectItem();
     }
   }
 
-  // Highlights the currently focused autocomplete item
+  // Highlights the currently focused autocomplete item and scrolls it into view
   setActiveSubjectItem(): void {
     const items = this.subjectInputElement.nativeElement.parentElement.querySelectorAll('.autocomplete-item');
     items.forEach((item: HTMLElement, index: number) => {
       item.classList.toggle('autocomplete-active', index === this.subjectCurrentFocus);
+      if (index === this.subjectCurrentFocus) {
+        item.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      }
     });
   }
 
@@ -464,10 +500,10 @@ export class TutorRegistrationComponent implements OnInit {
     }
   }
 
-  // Custom validator to check that at least 4 subjects are selected
+  // Custom validator to check that at least 2 subjects are selected
   validateSubjectsSelected(): ValidatorFn {
     return (): { [key: string]: any } | null => {
-      return this.selectedSubjects.length >= 4 ? null : { minSubjects: true };
+      return this.selectedSubjects.length >= 2 ? null : { minSubjects: true };
     };
   }
 
@@ -489,11 +525,17 @@ export class TutorRegistrationComponent implements OnInit {
     this.debounceTimer = setTimeout(() => { // Start a new timer
       this.filteredLanguages = value
         ? this.languages.filter((language) =>
-            language.toLowerCase().includes(value.toLowerCase())
+            language.toLowerCase().includes(value)
           )
         : [];
       this.languageCurrentFocus = -1;
     }, 300); // Delay of 300ms
+  }
+
+  // Show the autocomplete menu when the input field is focused
+  onLanguageFocus(): void {
+    this.filteredLanguages = this.languages.slice().sort((a, b) => a.localeCompare(b)); // Show all languages initially in alphabetical order
+    this.languageCurrentFocus = -1;
   }
 
   // Handles keyboard navigation for the autocomplete dropdown
@@ -513,20 +555,17 @@ export class TutorRegistrationComponent implements OnInit {
           this.clearLanguageInput();
         }
       }
-    } else if (event.key === 'ArrowDown') {
-      this.languageCurrentFocus = (this.languageCurrentFocus + 1) % this.filteredLanguages.length;
-      this.setActiveLanguageItem();
-    } else if (event.key === 'ArrowUp') {
-      this.languageCurrentFocus = (this.languageCurrentFocus - 1 + this.filteredLanguages.length) % this.filteredLanguages.length;
-      this.setActiveLanguageItem();
     }
   }
 
-  // Highlights the currently focused autocomplete item
+  // Highlights the currently focused autocomplete item and scrolls it into view
   setActiveLanguageItem(): void {
     const items = this.languageInputElement.nativeElement.parentElement.querySelectorAll('.autocomplete-item');
     items.forEach((item: HTMLElement, index: number) => {
       item.classList.toggle('autocomplete-active', index === this.languageCurrentFocus);
+      if (index === this.languageCurrentFocus) {
+        item.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      }
     });
   }
 
@@ -572,6 +611,26 @@ export class TutorRegistrationComponent implements OnInit {
     return (): { [key: string]: any } | null => {
       return this.selectedLanguages.length >= 1 ? null : { minLanguages: true };
     };
+  }
+
+  // Handles global keydown events for both subjects and languages
+  @HostListener('window:keydown', ['$event'])
+  handleGlobalKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+
+      if (this.currentStep === 2) {
+        // Check if the user is currently typing in either the subject or language input field
+        const isTypingInSubject = document.activeElement === this.subjectInputElement?.nativeElement;
+        const isTypingInLanguage = document.activeElement === this.languageInputElement?.nativeElement;
+
+        if (!isTypingInSubject && !isTypingInLanguage) {
+          this.next(); // Proceed to the next step if not typing
+        }
+      } else {
+        this.next();
+      }
+    }
   }
 
   // -------------------------------- STEP 2 --------------------------------
@@ -629,24 +688,23 @@ export class TutorRegistrationComponent implements OnInit {
 
   // -------------------------------- STEP 4 --------------------------------
 
-  // // Upload the selected video
-  // uploadVideo(): void {
-  //   if (!this.selectedVideo) {
-  //     this.toastr.error('No video selected!');
-  //     return;
-  //   }
+  // Navigates to a specific step in the registration process if the current step is valid.
+  goToStep(step: number) {
+    if (this.validateCurrentStep()) {
+      if (this.currentStep < 4 || step < 4) {
+        this.currentStep = step;
+        this.isEditable = true;
+      }
+    } else {
+      this.toastr.warning('Please ensure all required fields are correctly filled out before proceeding to the next step.');
+    }
+  }  
 
-  //   const formData = new FormData();
-  //   formData.append('video', this.selectedVideo, this.selectedVideo.name);
-
-  //   this.tutorRegService.upload(formData).subscribe((response) => {
-  //       this.toastr.success(response.message);
-  //     },
-  //     (error) => {
-  //       this.toastr.error(error.error.message || 'File upload failed.');
-  //     }
-  //   );
-  // }
+  // Toggles the visibility of the review password field.
+  toggleReviewPasswordVisibility() {
+    this.reviewPasswordVisible = !this.reviewPasswordVisible;
+    this.reviewShowPasswordIcon = this.reviewPasswordVisible ? 'fa-eye-slash' : 'fa-eye';
+  }
 
   // -------------------------------- STEP 4 --------------------------------
 
@@ -750,26 +808,6 @@ export class TutorRegistrationComponent implements OnInit {
     return displayNames[key] || key;
   }
 
-  // Handles global keydown events for both subjects and languages
-  @HostListener('window:keydown', ['$event'])
-  handleGlobalKeydown(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-
-      if (this.currentStep === 2) {
-        // Check if the user is currently typing in either the subject or language input field
-        const isTypingInSubject = document.activeElement === this.subjectInputElement?.nativeElement;
-        const isTypingInLanguage = document.activeElement === this.languageInputElement?.nativeElement;
-
-        if (!isTypingInSubject && !isTypingInLanguage) {
-          this.next(); // Proceed to the next step if not typing
-        }
-      } else {
-        this.next();
-      }
-    }
-  }
-
   // Cancels the registration process and navigates to the "become a tutor" page.
   cancel() {
     this.toastr.warning('Registration process has been cancelled.');
@@ -792,6 +830,46 @@ export class TutorRegistrationComponent implements OnInit {
 
   // Submits the form and triggers the registration process.
   onSubmit() {
-    console.log('Form Submitted:', this.tutorRegisterForm.value);
+    const formData = new FormData();
+    const formValues = this.tutorRegisterForm.value;
+
+    const availability: { [key: string]: { start: string; end: string } } = {};
+    this.selectedDays.forEach(day => {
+      availability[day] = {
+        start: formValues[day + 'Start'] || '',
+        end: formValues[day + 'End'] || ''
+      };
+    });
+
+    formData.append('fullName', formValues.fullName || '');
+    formData.append('email', this.email || '');
+    formData.append('password', formValues.password || '');
+    formData.append('bio', formValues.userProfileBio || '');
+    formData.append('pronouns', formValues.userProfilePronouns === 'custom' ? formValues.userProfileCustomPronouns : formValues.userProfilePronouns || '');
+    formData.append('file', this.profileImage as File);
+    formData.append('availability', JSON.stringify(availability));
+    formData.append('subjects', JSON.stringify(this.selectedSubjects));
+    formData.append('hourlyRate', formValues.hourlyRate);
+    formData.append('teachingMode', formValues.teachingMode);
+    formData.append('languages', JSON.stringify(this.selectedLanguages));
+    formData.append('video', this.selectedVideo as File);
+
+    this.tutorRegService.upload(formData).subscribe((response) => {
+        this.toastr.success(response.message + ' Please don’t reload or leave the page. You will be redirected once the process is complete.');
+        this.tutorRegService.createNewTutor(formData).subscribe((response) => {
+            this.toastr.success(response.message);
+            setTimeout(() => {
+              window.location.replace('/sign-in');
+            }, 5000);
+          },
+          (error) => {
+            this.toastr.error(error.error.message || 'File upload failed.');
+          }
+        );
+      },
+      (error) => {
+        this.toastr.error(error.error.message || 'File upload failed.');
+      }
+    );
   }
 }
