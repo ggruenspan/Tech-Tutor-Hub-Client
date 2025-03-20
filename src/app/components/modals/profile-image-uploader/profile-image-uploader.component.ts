@@ -13,7 +13,7 @@ export class ProfileImageUploaderComponent implements OnInit {
   @Output() closeModal = new EventEmitter<void>();
 
   private readonly FILE_SIZE_LIMIT = 2 * 1024 * 1024; // 2MB in bytes
-  private readonly ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png'];
+  private readonly ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
 
   constructor(private toastr: ToastrService, private publicProfileRoutes: PublicProfileRoutes) {}
 

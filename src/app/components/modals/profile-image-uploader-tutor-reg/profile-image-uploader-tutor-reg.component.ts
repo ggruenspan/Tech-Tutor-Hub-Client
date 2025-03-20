@@ -14,7 +14,7 @@ export class ProfileImageUploaderTutorRegComponent implements OnInit {
   @Output() imageRemoved = new EventEmitter<void>();
 
   private readonly FILE_SIZE_LIMIT = 2 * 1024 * 1024; // 2MB in bytes
-  private readonly ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png'];
+  private readonly ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
   private readonly DEFAULT_IMAGE = "../../../assets/default-profile.png";
 
   constructor(private toastr: ToastrService) {}
