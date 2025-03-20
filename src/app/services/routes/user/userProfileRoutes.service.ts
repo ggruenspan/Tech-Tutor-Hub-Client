@@ -9,9 +9,6 @@ export class UserProfileRoutesService {
   constructor(private http: HttpClient) {}
 
   getUserProfile(userName: string): Observable<any> {
-    console.log("getUserProfile", userName);
-
-
     return this.http.get(`${this.baseUrl}/${userName}`);
   }
 }
