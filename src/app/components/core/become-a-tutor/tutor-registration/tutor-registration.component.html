@@ -152,7 +152,7 @@
                   <h3>Select Your Price:</h3>
                   <p>Set your hourly rate for tutoring sessions.</p>
                   <div class="input-group">
-                    <input type="number" class="form-control" id="hourlyRate" placeholder="Enter your hourly rate" formControlName="hourlyRate" min="5" max="999">
+                    <input type="number" class="form-control" id="hourlyRate" placeholder="Enter your hourly rate" formControlName="hourlyRate" min="20" max="999">
                   </div>
                 </div>
 
@@ -240,7 +240,7 @@
             <h3>Review Your Details</h3>
             <p>Please review your details before submitting.</p>
         
-            <div class="review-section" id="accountDetails">
+            <div class="review-section" id="accountDetails"  *ngIf="!validSession">
                 <div class="section-header">
                     <h4>Account Details</h4>
                     <a class="edit-link" (click)="goToStep(0)">Edit</a>
@@ -249,7 +249,7 @@
                 <p><strong>Full Name:</strong> {{ tutorRegisterForm.get('fullName')?.value }}</p>
                 <p><strong>Email:</strong> {{ tutorRegisterForm.get('email')?.value }}</p>
                 <span class="password-wrapper">
-                  <p *ngIf="!validSession"><strong>Password:</strong> 
+                  <p><strong>Password:</strong> 
                     {{ reviewPasswordVisible ? tutorRegisterForm.get('password')?.value : '••••••••' }}
                     <i class="fa {{ reviewShowPasswordIcon }} toggle-eye" (click)="toggleReviewPasswordVisibility()"></i>
                   </p>

@@ -15,6 +15,7 @@ export class TutorRegistrationComponent implements OnInit {
   currentStep = 0;
   validSession = false;
   tutorRegisterForm: FormGroup = new FormGroup({});
+  fullName: string = '';
   email: string = '';
   passwordVisible: boolean = false;
   showPasswordIcon: string = 'fa-eye-slash';
@@ -64,11 +65,11 @@ export class TutorRegistrationComponent implements OnInit {
     this.handleUserData();
     this.initializeForm();
     this.initializeTimeSlots();
-    // window.addEventListener('beforeunload', this.handleBeforeUnload);
+    window.addEventListener('beforeunload', this.handleBeforeUnload);
   }
 
   ngOnDestroy(): void {
-    // window.removeEventListener('beforeunload', this.handleBeforeUnload);
+    window.removeEventListener('beforeunload', this.handleBeforeUnload);
   }
 
   private handleBeforeUnload = (event: BeforeUnloadEvent): void => {
@@ -82,6 +83,11 @@ export class TutorRegistrationComponent implements OnInit {
   handleUserData() {
     this.publicProfileRoutes.getPublicProfile().subscribe((response) => {
         this.userData = this.dataService.decodedToken(response);
+
+        const profileData = this.dataService.decodedToken();
+        if (profileData) {
+          this.fullName = profileData.fullName;
+        }
 
         // Initialize fields with user data or default empty values
         const fields: { [key: string]: string } = { 
@@ -108,7 +114,7 @@ export class TutorRegistrationComponent implements OnInit {
           this.profileImage = this.dataURLtoFile(storedImage, 'profile.png');
           this.profileImageUrl = storedImage; // Use base64 directly for rendering
         }
-        
+
         this.validSession = localStorage.getItem('session') !== null;
         if (this.validSession) { this.currentStep++; }
 
@@ -511,7 +517,7 @@ export class TutorRegistrationComponent implements OnInit {
   validateHourlyRate(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const value = control.value;
-      if (value !== null && (isNaN(value) || value < 5 || value > 999)) {
+      if (value !== null && (isNaN(value) || value < 20 || value > 999)) {
         return { notInRange: true }; // Error key
       }
       return null; // Valid input
@@ -764,7 +770,7 @@ export class TutorRegistrationComponent implements OnInit {
               }
             }
             if (key === 'hourlyRate') {
-              showError(key, 'notInRange', 'Hourly rate must be between 5 and 999.');
+              showError(key, 'notInRange', 'Hourly rate must be between 20 and 999.');
             }
             if (key === 'teachingMode') {
               showError(key, 'required', 'Please select a teaching mode.');
@@ -830,6 +836,11 @@ export class TutorRegistrationComponent implements OnInit {
 
   // Submits the form and triggers the registration process.
   onSubmit() {
+    // Remove the beforeunload event listener
+    window.removeEventListener('beforeunload', this.handleBeforeUnload);
+    
+    this.toastr.warning(' Please don’t reload or leave the page. You will be redirected once the process is complete.');
+
     const formData = new FormData();
     const formValues = this.tutorRegisterForm.value;
 
@@ -840,8 +851,8 @@ export class TutorRegistrationComponent implements OnInit {
         end: formValues[day + 'End'] || ''
       };
     });
-
-    formData.append('fullName', formValues.fullName || '');
+    
+    formData.append('fullName', formValues.fullName || this.fullName);
     formData.append('email', this.email || '');
     formData.append('password', formValues.password || '');
     formData.append('bio', formValues.userProfileBio || '');
@@ -854,13 +865,20 @@ export class TutorRegistrationComponent implements OnInit {
     formData.append('languages', JSON.stringify(this.selectedLanguages));
     formData.append('video', this.selectedVideo as File);
 
+
     this.tutorRegService.upload(formData).subscribe((response) => {
-        this.toastr.success(response.message + ' Please don’t reload or leave the page. You will be redirected once the process is complete.');
+        this.toastr.success(response.message);
         this.tutorRegService.createNewTutor(formData).subscribe((response) => {
             this.toastr.success(response.message);
-            setTimeout(() => {
-              window.location.replace('/sign-in');
-            }, 5000);
+            if(response.status === 202) {
+              setTimeout(() => {
+                window.location.replace('/sign-in');
+              }, 3000);
+            } else {
+              setTimeout(() => {
+                this.router.navigate(['/']);
+              }, 3000);
+            }
           },
           (error) => {
             this.toastr.error(error.error.message || 'File upload failed.');
