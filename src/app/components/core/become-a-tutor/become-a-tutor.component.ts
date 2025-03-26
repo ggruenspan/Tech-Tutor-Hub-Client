@@ -18,6 +18,7 @@ export class BecomeATutorComponent implements OnInit {
   email: string | null = null;
   role: string | null = null;
   isTutor = false;
+  testimonials: { name: string; testimonial: string; image: string; }[] = [];
   
   constructor(private toastr: ToastrService, private router: Router, private dataService: HandleDataService, private tutorRegService: TutorRegisterRoutes, private accessGuard: AccessGuardService) {}
 
@@ -26,6 +27,12 @@ export class BecomeATutorComponent implements OnInit {
     this.generateBlobs();
     this.handleUserData();
     this.initializeForm();
+    this.testimonials = this.getRandomTestimonials(3);
+  }
+
+  getRandomTestimonials(count: number) {
+    const shuffled = this.testimonials.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
   }
 
   // Listens to window resize event to handle changes in screen width
@@ -43,6 +50,7 @@ export class BecomeATutorComponent implements OnInit {
     }
   }
 
+
   private generateBlobs() {
     // Select the blobs
     const blobs = document.querySelectorAll('.blob') as NodeListOf<HTMLElement>;
@@ -50,7 +58,13 @@ export class BecomeATutorComponent implements OnInit {
     // Loop through each blob and apply transformations
     blobs.forEach((blob) => {
         // Select the container
-        const container = document.querySelector('.main-container') as HTMLElement;
+        const container = document.querySelector('.tutor-signup-container') as HTMLElement;
+
+        // Check if container exists
+        if (!container) {
+          console.error('Container element not found');
+          return;
+        }
 
         // Get container dimensions
         const containerWidth = container.offsetWidth;
@@ -89,6 +103,18 @@ export class BecomeATutorComponent implements OnInit {
       // Update boolean flags
       this.isTutor = this.role?.includes('Tutor') ?? false;
     }
+
+    this.tutorRegService.getTestimonials().subscribe((response) => {
+      if (Array.isArray(response.testimonials)) {
+        this.testimonials = response.testimonials.map((testimonial: any) => ({
+          name: testimonial.tutorName,
+          testimonial: testimonial.testimonial,
+          image: `data:${testimonial.profileImage.contentType};base64,${testimonial.profileImage.data}`
+        }));
+      } else {
+        console.error('Response does not contain an array of testimonials:', response);
+      }
+    });
   };
 
   // Initializes the form based on the current mode

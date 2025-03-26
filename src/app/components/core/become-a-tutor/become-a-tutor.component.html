@@ -1,5 +1,5 @@
 <div class="become-a-tutor-container">
-    <div class="main-container">
+    <div class="tutor-signup-container">
         <div class="blob-container">
             <div class="blob">
                 <!-- This SVG is from https://codepen.io/Ali_Farooq_/pen/gKOJqx -->
@@ -21,7 +21,7 @@
                     <p>🌟 &nbsp;<strong>Teach a wide range of tech topics</strong> coding, web development, cybersecurity, IT support, and more</p>
                     <p>🗓️ &nbsp;<strong>Set your schedule</strong> and teach when it’s convenient for you</p>
                     <p>💻 Offer lessons <strong>online or in-person</strong>, your choice</p>
-                    <p>💸 &nbsp;<strong>Set your rates </strong>starting as low as $5 per hour!</p>
+                    <p>💸 &nbsp;<strong>Set your rates</strong> starting as low as $20 per hour!</p>
                     <p>Whether you're a tech professional, educator, or self-taught expert, your knowledge can make a difference.</p>
                     <p><strong>Join Tech Tutor Hub today and inspire the next generation of tech talent!</strong></p>
                 </div>
@@ -34,7 +34,7 @@
 
                 <div class="container rounded text-center">
                     <div class="logo-text">
-                        <img src="../assets/TechTutorHubLogoImage.png" width="110" height="120" alt="Tech Tutor Hub">
+                        <img *ngIf="!isTutor" src="../assets/TechTutorHubLogoImage.png" width="110" height="120" alt="Tech Tutor Hub">
                         <h3 *ngIf="!isTutor">Join Our Team!</h3>
                         <h3 *ngIf="isTutor">Thank You, for becoming a Tutor!</h3>
                     </div>
@@ -56,7 +56,7 @@
                     <p>🌟 &nbsp;<strong>Teach a wide range of tech topics</strong> coding, web development, cybersecurity, IT support, and more</p>
                     <p>🗓️ &nbsp;<strong>Set your schedule</strong> and teach when it’s convenient for you</p>
                     <p>💻 Offer lessons <strong>online or in-person</strong>, your choice</p>
-                    <p>💸 &nbsp;<strong>Set your rates </strong>starting as low as $5 per hour!</p>
+                    <p>💸 &nbsp;<strong>Set your rates</strong> starting as low as $20 per hour!</p>
                     <p>Whether you're a tech professional, educator, or self-taught expert, your knowledge can make a difference.</p>
                     <p><strong>Join Tech Tutor Hub today and inspire the next generation of tech talent!</strong></p>
                 </div>
@@ -64,19 +64,129 @@
             </div>
         </div>
     </div>
+
     <div class="how-to-become-a-tutor-container">
-        <p>how-to-become-a-tutor-container work!</p>
+        <p class="slogan">Become a tutor in 5 easy steps!</p>
+        <h2>How to Become a Tutor</h2>
+        <div class="steps">
+            <div class="step">
+                <img src="../../../../assets/illustrations/illustration_001.png" alt="Step 1 Illustration">
+                <div class="step-text">
+                    <h3>Create Your Account</h3>
+                    <h6>Start your journey by creating an account.</h6>
+                    <p>Enter your email to start. If you have an account, log in. If not, you'll be guided to register.</p>
+                </div>
+            </div>
+            <div class="step reverse">
+                <div class="step-text">
+                    <h3>Profile Setup</h3>
+                    <h6>Set up your profile with all the necessary details.</h6>
+                    <p>Fill in your personal information, upload a profile picture, and write a brief bio about yourself. This helps students get to know you better.</p>
+                </div>
+                <img src="../../../../assets/illustrations/illustration_002.png" alt="Step 2 Illustration">
+            </div>
+            <div class="step">
+                <img src="../../../../assets/illustrations/illustration_003.png" alt="Step 3 Illustration">
+                <div class="step-text">
+                    <h3>Tutor Details</h3>
+                    <h6>Provide your tutoring details and preferences.</h6>
+                    <p>Specify the subjects you want to teach, your availability, and your preferred teaching methods. You can also set your hourly rate here.</p>
+                </div>
+            </div>
+            <div class="step reverse">
+                <div class="step-text">
+                    <h3>Verification</h3>
+                    <h6>Submit a short clip of yourself explaining who you are and your experience.</h6>
+                    <p>This video helps us verify your identity and qualifications. Make sure to highlight your teaching experience and any relevant certifications.</p>
+                </div>
+                <img src="../../../../assets/illustrations/illustration_004.png" alt="Step 4 Illustration">
+            </div>
+            <div class="step">
+                <img src="../../../../assets/illustrations/illustration_005.png" alt="Step 5 Illustration">
+                <div class="step-text">
+                    <h3>Review & Submit</h3>
+                    <h6>Review your information and submit your application.</h6>
+                    <p>Double-check all the details you have provided. Once you are satisfied, submit your application. Our team will review it and get back to you within a few days.</p>
+                </div>
+            </div>
+        </div>
     </div>
+
     <div class="tutor-community-container">
-        <p>tutor-community-container works!</p>
+        <h2>Join Our Tutor Community</h2>
+        <p>As a member of the Tech Tutor Hub community, you'll have access to:</p>
+
+        <div class="tutor-content">
+            <div class="tutor-benefits">
+                <ul>
+                    <li>Exclusive resources and materials to enhance your teaching skills</li>
+                    <li>Networking opportunities with other tech tutors</li>
+                    <li>Support from our dedicated team to help you succeed</li>
+                    <li>Flexible teaching schedules to fit your lifestyle</li>
+                    <li>Access to a wide range of students eager to learn from your expertise</li>
+                    <!-- <li>Opportunities for professional development and certifications</li> -->
+                    <!-- <li>Regular feedback and performance reviews to help you grow</li> -->
+                    <li>Access to a community forum for sharing tips and advice</li>
+                    <li>And more...</li>
+                </ul>
+            </div>
+            <p>Become a part of our vibrant community and make a difference in the lives of learners everywhere!</p>
+    
+            <h3>What Our Tutors Say</h3>
+            <div class="testimonials">
+                <div class="testimonial" *ngFor="let testimonial of testimonials">
+                    <img [src]="testimonial.image" alt="{{testimonial.name}}" class="testimonial-image">
+                    <p>"{{testimonial.testimonial}}" - <strong>{{testimonial.name}}</strong></p>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="tutor-privacy-container">
-        <p>tutor-privacy-container works!</p>
-    </div>
-    <div class="tutor-topics-container">
-        <p>tutor-topics-container works!</p>
-    </div>
+
     <div class="common-questions-container">
-        <p>common-questions-container works!</p>
+        <h2>Common Questions</h2>
+        <div class="faq">
+            <div class="question">
+                <h3>What qualifications do I need to become a tutor?</h3>
+                <p>We welcome tech professionals, educators, and self-taught experts. You should have a strong understanding of the subjects you wish to teach and a passion for helping others learn.</p>
+            </div>
+            <div class="question">
+                <h3>How do I set my rates?</h3>
+                <p>You can set your rates starting as low as $20 per hour. You have the flexibility to adjust your rates based on your experience and the demand for your expertise.</p>
+            </div>
+            <div class="question">
+                <h3>Can I teach both online and in-person?</h3>
+                <p>Yes, you can offer lessons online, in-person, or both. You have the flexibility to choose the mode of teaching that suits you best.</p>
+            </div>
+            <div class="question">
+                <h3>How do I get paid?</h3>
+                <p>Payments are processed through our secure platform. You will receive payments directly to your bank account or preferred payment method.</p>
+            </div>
+            <div class="question">
+                <h3>What support do I get as a tutor?</h3>
+                <p>As a member of the Tech Tutor Hub community, you'll have access to exclusive resources, networking opportunities, and support from our dedicated team to help you succeed.</p>
+            </div>
+        </div>
     </div>
+
+    <!-- <div class="tutor-privacy-container">
+        <h2>Tutor Privacy Policy</h2>
+        <div class="privacy-content">
+            <p>At Tech Tutor Hub, we are committed to protecting your privacy. This privacy policy outlines how we collect, use, and safeguard your personal information.</p>
+            
+            <h3>Information We Collect</h3>
+            <p>We collect personal information that you provide to us when you create an account, set up your profile, and use our services. This may include your name, email address, phone number, and payment information.</p>
+            
+            <h3>How We Use Your Information</h3>
+            <p>We use your personal information to provide and improve our services, process payments, communicate with you, and ensure the security of our platform.</p>
+            
+            <h3>Sharing Your Information</h3>
+            <p>We do not share your personal information with third parties except as necessary to provide our services, comply with legal obligations, or protect our rights.</p>
+            
+            <h3>Your Rights</h3>
+            <p>You have the right to access, update, and delete your personal information. You can manage your privacy settings through your account dashboard.</p>
+            
+            <h3>Contact Us</h3>
+            <p>If you have any questions or concerns about our privacy policy, please contact us at <a href="mailto:privacy&#64;techtutorhub.com">privacy&#64;techtutorhub.com</a>.</p>
+        </div>
+    </div> -->
 </div>

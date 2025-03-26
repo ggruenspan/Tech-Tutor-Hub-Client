@@ -18,16 +18,24 @@ export class TutorRegisterRoutes {
     return this.http.get<any>(`${this.baseUrl}/get-subjects`);
   }
 
+  // Route for getting the languages
   getLanguages(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/get-languages`);
   }
 
+  // Route for uploading the verification video for the tutor
   upload(data: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/upload-verification-video`, data);
   }
 
+  // Route for creating a new tutor profile for the user
   createNewTutor(data: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/create-new-tutor`, data);
+  }
+
+  // Route for getting the tutor testimonials
+  getTestimonials(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/get-testimonials`);
   }
 }
  
