@@ -93,7 +93,7 @@
               <div class="col-12 col-md-6">
                 <div class="days-of-week">
                   <h3>Select Your Availability:</h3>
-                  <p>Please select at least 2 days of availability</p>
+                  <p>Please select the days and time slots you are available.</p>
                   <div formGroupName="days" class="availability-grid">
                     <div *ngFor="let day of daysOfWeek" class="day-checkbox">
                       <label [ngClass]="{'checked': tutorRegisterForm.get('days')?.get(day)?.value}">
@@ -105,7 +105,7 @@
                 </div>
                 <div class="hours-of-day" *ngIf="isAnyDaySelected()">
                   <h3>Select Your Hours:</h3>
-                  <p>Please ensure you have at least 4 hours of availability per day</p>
+                  <p>Specify your availability for each selected day.</p>
                   <div *ngFor="let day of selectedDays" class="day-hours">
                     <h5>{{ day }}:</h5>
                     <div class="time-inputs">
@@ -123,8 +123,9 @@
               </div>
               <div class="col-12 col-md-6">
                 <div class="subjects-container" #subjectsContainer>
-                  <h3>Select Your Subjects:</h3>
-                  <p>Please choose the subjects you are comfortable teaching. (At Least 2)</p>
+                  <h3>Select Your Subject(s)</h3>
+                  <p style="margin-bottom: 0px;">Choose the subjects you are comfortable teaching. (At least one is required.)</p>
+                  <p>Note: New subjects will require approval.</p>
 
                   <div class="input-group">
                     <input class="form-control" id="subjects" placeholder="Enter subjects you can teach" formControlName="subjects" #subjectInput  (input)="onSubjectInput($event)" (keydown)="onSubjectKeyDown($event)" (focus)="onSubjectFocus()" autocomplete="off" style="text-transform: lowercase">
@@ -177,7 +178,8 @@
 
                 <div class="language-container mt-2 mb-2" #languagesContainer>
                   <h3>Select Your Language(s):</h3>
-                  <p>Indicate the languages you are comfortable teaching in (At Least 1).</p>
+                  <p style="margin-bottom: 0px;">Choose the languages you are comfortable teaching. (At least one is required.)</p>
+                  <p>Note: New languages will require approval.</p>
                 
                   <div class="input-group">
                     <input class="form-control" id="languages" placeholder="Enter languages you can teach in" formControlName="languages" #languageInput (input)="onLanguageInput($event)" (keydown)="onLanguageKeyDown($event)" (input)="onLanguageInput($event)" (focus)="onLanguageFocus()" autocomplete="off" style="text-transform: lowercase">
@@ -199,8 +201,7 @@
                       </li>
                     </ul>
                   </div>
-                </div>
-                                  
+                </div>                 
               </div>
             </div>
           </div>

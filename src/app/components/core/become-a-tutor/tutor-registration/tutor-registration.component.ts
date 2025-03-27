@@ -329,7 +329,7 @@ export class TutorRegistrationComponent implements OnInit {
     return (group: AbstractControl): { [key: string]: any } | null => {
       const daysGroup = group.value;
       const selectedDays = Object.values(daysGroup).filter(selected => selected === true).length;
-      return selectedDays >= 2 ? null : { noDaysSelected: true };
+      return selectedDays >= 1 ? null : { noDaysSelected: true };
     };
   }
 
@@ -384,15 +384,8 @@ export class TutorRegistrationComponent implements OnInit {
               startControl.setErrors({ invalidTime: true });
               endControl.setErrors({ invalidTime: true });
             } else {
-              const selectedHours = (endMinutes - startMinutes) / 60;
-              if (selectedHours < 4) {
-                isValid = false;
-                startControl.setErrors({ minHours: true });
-                endControl.setErrors({ minHours: true });
-              } else {
-                startControl.setErrors(null);
-                endControl.setErrors(null);
-              }
+              startControl.setErrors(null);
+              endControl.setErrors(null);
             }
           }
         }
@@ -509,7 +502,7 @@ export class TutorRegistrationComponent implements OnInit {
   // Custom validator to check that at least 2 subjects are selected
   validateSubjectsSelected(): ValidatorFn {
     return (): { [key: string]: any } | null => {
-      return this.selectedSubjects.length >= 2 ? null : { minSubjects: true };
+      return this.selectedSubjects.length >= 1 ? null : { minSubjects: true };
     };
   }
 
@@ -757,16 +750,15 @@ export class TutorRegistrationComponent implements OnInit {
             break;
           case 2:
             if (key === 'days') {
-              showError(key, 'noDaysSelected', 'Please select at least two day for your availability.');
+              showError(key, 'noDaysSelected', 'Please select at least 1 day for your availability.');
             }
             if (key.endsWith('Start') || key.endsWith('End')) {
               showError(key, 'required', 'Both start and end times are required.');
               showWarning(key, 'invalidTime', 'End time must be later than start time.');
-              showWarning(key, 'minHours', 'You must select at least 4 hours.');
             }
             if (key === 'subjects') {
-              if (this.selectedSubjects.length < 2) {
-                showError(key, 'minSubjects', 'Please select at least 2 subjects.');
+              if (this.selectedSubjects.length < 1) {
+                showError(key, 'minSubjects', 'Please select at least 1 subjects.');
               }
             }
             if (key === 'hourlyRate') {
