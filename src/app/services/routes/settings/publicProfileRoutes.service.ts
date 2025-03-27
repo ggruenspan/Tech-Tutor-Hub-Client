@@ -9,8 +9,6 @@ export class PublicProfileRoutes {
 
   constructor(private http: HttpClient) {}
 
-  // ----------------------------------------- Public Profile Page Start -------------------------------------------------------
-
   // Method for getting the users profile data from the API
   getPublicProfile(): Observable<any> {
     return this.http.get<{ token: string }>(`${this.baseUrl}/get-public-profile`)
@@ -46,6 +44,4 @@ export class PublicProfileRoutes {
   removeProfileImage(): Observable<any> {
     return this.http.delete(`${this.baseUrl}/remove-profile-image`);
   }
-
-  // ----------------------------------------- Public Profile Page End -------------------------------------------------------
 }

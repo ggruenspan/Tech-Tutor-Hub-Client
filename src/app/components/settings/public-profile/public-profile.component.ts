@@ -1,6 +1,5 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
-import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { PublicProfileRoutes } from '../../../services/routes/settings/publicProfileRoutes.service';
 import { HandleDataService } from '../../../services/handleData.service';
@@ -47,7 +46,7 @@ export class PublicProfileComponent implements OnInit {
     default: 'fa-solid fa-link'
   };
 
-  constructor(private location: Location, private publicProfileRoutes: PublicProfileRoutes, private dataService: HandleDataService, 
+  constructor(private publicProfileRoutes: PublicProfileRoutes, private dataService: HandleDataService, 
               private renderer: Renderer2, private toastr: ToastrService) {}
 
   ngOnInit() {
