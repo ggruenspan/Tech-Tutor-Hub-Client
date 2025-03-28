@@ -291,16 +291,16 @@
             margin: 0 auto;
             padding: 20px;
 
-            h3 {
-                text-align: center;
-            }
-
             p {
                 font-weight: 500;
                 color: #5f6771;
             }
 
             .days-of-week {
+                p {
+                    margin-bottom: 40px;
+                }
+
                 .availability-grid {
                     display: flex;
                     justify-content: space-between;
@@ -355,15 +355,6 @@
             .hours-of-day {
                 margin-top: 20px;
 
-                h3 {
-                    text-align: center;
-                }
-    
-                p {
-                    font-weight: 500;
-                    color: #5f6771;
-                }
-
                 .day-hours {
                     display: flex;
                     align-items: center;
@@ -392,7 +383,7 @@
                 }
             }
 
-            .subjects-container {
+            .subjects-container, .language-container {
                 position: relative;
 
                 .input-group {
@@ -480,6 +471,10 @@
                         color: red;
                         cursor: pointer;
                         font-size: 16px;
+
+                        &:hover {
+                            color: var(--site-color2);
+                        }
                     }
                 }
 
@@ -516,102 +511,6 @@
                 label {
                     font-size: larger;
                     font-weight: 500;
-                }
-            }
-
-            .language-container {
-                position: relative;
-
-                .input-group {
-                    position: relative;
-                    display: flex;
-                    align-items: center;
-                }
-                
-                input {
-                    padding-right: 2rem; /* Space for the clear button */
-                }
-                
-                .clear-btn {
-                    position: absolute;
-                    right: 10px;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    font-size: 1.2rem;
-                    color: #ccc;
-                    cursor: pointer;
-                    z-index: 99; 
-
-                    &:hover {
-                        color: #000; /* Darker color when hovered */
-                    }
-
-                    @media (max-width: 768px) {
-                        right: 8px;
-                        font-size: 1rem;
-                    }
-                }
-                
-                .autocomplete-items {
-                    position: absolute;
-                    z-index: 999;
-                    left: 0;
-                    right: 0;
-                    background-color: #fff;
-                    max-height: 200px;
-                    overflow-y: auto;
-                    border: 1px solid #d4d4d4;
-                    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-                }
-                
-                .autocomplete-item {
-                    padding: 10px;
-                    cursor: pointer;
-                    background-color: #fff;
-                    border-bottom: 1px solid #d4d4d4;
-                }
-                
-                .autocomplete-item:hover, .autocomplete-item.autocomplete-active {
-                    background-color: var(--site-color2);
-                    color: #ffffff;
-                }
-                
-                .already-selected {
-                    background-color: var(--site-color);
-                    color: #ffffff;
-                }
-
-                .selected-list { 
-                    margin-top: 20px;
-
-
-                    ul {
-                        list-style-type: none;
-                        padding: 0;
-                    }
-                    
-                    li {
-                        padding: 5px 10px;
-                        border: 1px solid #d4d4d4;
-                        border-radius: 4px;
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        margin-bottom: 5px;
-                        background-color: #f9f9f9;
-                    }
-                    
-                    .remove-btn {
-                        border: none;
-                        background: none;
-                        color: red;
-                        cursor: pointer;
-                        font-size: 16px;
-                    }
-                }
-
-                @media (max-width: 768px) {
-                    margin-top: 50px;
                 }
             }
         }
