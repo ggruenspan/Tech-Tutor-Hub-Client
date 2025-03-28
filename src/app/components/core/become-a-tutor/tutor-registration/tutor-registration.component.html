@@ -128,7 +128,7 @@
                   <p>Note: New subjects will require approval.</p>
 
                   <div class="input-group">
-                    <input class="form-control" id="subjects" placeholder="Enter subjects you can teach" formControlName="subjects" #subjectInput  (input)="onSubjectInput($event)" (keydown)="onSubjectKeyDown($event)" (focus)="onSubjectFocus()" autocomplete="off" style="text-transform: lowercase">
+                    <input class="form-control" id="subjects" placeholder="Enter subjects you can teach" formControlName="subjects" #subjectInput  (input)="onSubjectInput($event)" (keydown)="onSubjectKeyDown($event)" (focus)="onSubjectFocus()"  oninput="this.value = this.value.toLowerCase()" autocomplete="off">
                     <span class="clear-btn" (click)="clearSubjectInput()"><i class="fa fa-times"></i></span>
                   </div>
 
@@ -182,7 +182,7 @@
                   <p>Note: New languages will require approval.</p>
                 
                   <div class="input-group">
-                    <input class="form-control" id="languages" placeholder="Enter languages you can teach in" formControlName="languages" #languageInput (input)="onLanguageInput($event)" (keydown)="onLanguageKeyDown($event)" (input)="onLanguageInput($event)" (focus)="onLanguageFocus()" autocomplete="off" style="text-transform: lowercase">
+                    <input class="form-control" id="languages" placeholder="Enter languages you can teach in" formControlName="languages" #languageInput (input)="onLanguageInput($event)" (keydown)="onLanguageKeyDown($event)" (input)="onLanguageInput($event)" (focus)="onLanguageFocus()"  oninput="this.value = this.value.toLowerCase()" autocomplete="off" style="text-transform: lowercase">
                     <span class="clear-btn" (click)="clearLanguageInput()"><i class="fa fa-times"></i></span>
                   </div>
                 
